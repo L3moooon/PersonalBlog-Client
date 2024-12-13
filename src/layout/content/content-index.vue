@@ -1,5 +1,6 @@
 <template>
-  <div>我是login</div>
+  <!-- <div>CONTENT</div> -->
+  <router-view></router-view>
 </template>
 
 <script setup></script>
