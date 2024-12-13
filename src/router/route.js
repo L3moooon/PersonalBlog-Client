@@ -27,7 +27,7 @@ export const routes = [
         component: HomeView,
         meta: {
           title: '首页',
-          icon: ''
+          icon: 'House'
         }
       },
     ]
@@ -38,7 +38,7 @@ export const routes = [
     redirect: '/program',
     meta: {
       title: '技术相关',
-      icon: ''
+      icon: 'Monitor'
     },
     children: [
       {
@@ -46,7 +46,7 @@ export const routes = [
         component: ProgramIndex,
         meta: {
           title: '程序设计',
-          icon: ''
+          icon: 'Mouse'
         }
       },
       {
@@ -54,7 +54,7 @@ export const routes = [
         component: NoteIndex,
         meta: {
           title: '学习笔记',
-          icon: ''
+          icon: 'Notebook'
         }
       },
     ]
@@ -65,7 +65,7 @@ export const routes = [
     redirect: '/game',
     meta: {
       title: '生活相关',
-      icon: ''
+      icon: 'OfficeBuilding'
     },
     children: [
       {
@@ -73,7 +73,7 @@ export const routes = [
         component: GameIndex,
         meta: {
           title: '游戏攻略',
-          icon: ''
+          icon: 'SwitchFilled'
         }
       },
       {
@@ -81,43 +81,88 @@ export const routes = [
         component: ExprienceIndex,
         meta: {
           title: '生活经历',
-          icon: ''
+          icon: 'Mug'
         }
       },
     ]
   },
   {
-    path: '/log',
-    component: LogIndex,
+    path: '/catagroy',
+    component: layoutIndex,
     meta: {
-      title: '建站日志',
-      icon: ''
-    }
+      title: '',
+      icon: '',
+      hidden: true
+    },
+    children: [
+      {
+        path: '/log',
+        component: LogIndex,
+        meta: {
+          title: '建站日志',
+          icon: 'EditPen'
+        }
+      },
+    ]
   },
   {
-    path: '/aboutme',
-    component: AboutmeIndex,
+    path: '/catagroy',
+    component: layoutIndex,
     meta: {
-      title: '关于我',
-      icon: ''
-    }
+      title: '',
+      icon: '',
+      hidden: true
+    },
+    children: [
+      {
+        path: '/aboutme',
+        component: AboutmeIndex,
+        meta: {
+          title: '关于我',
+          icon: 'User'
+        }
+      },
+    ]
   },
   {
-    path: '/message',
-    component: MessageIndex,
+    path: '/catagroy',
+    component: layoutIndex,
     meta: {
-      title: '留言板',
-      icon: ''
-    }
+      title: '',
+      icon: '',
+      hidden: true
+    },
+    children: [
+      {
+        path: '/message',
+        component: MessageIndex,
+        meta: {
+          title: '留言板',
+          icon: 'Message'
+        }
+      },
+    ]
   },
   {
-    path: '/link',
-    component: LinkIndex,
+    path: '/catagroy',
+    component: layoutIndex,
     meta: {
-      title: '友情链接',
-      icon: ''
-    }
+      title: '',
+      icon: '',
+      hidden: true
+    },
+    children: [
+      {
+        path: '/link',
+        component: LinkIndex,
+        meta: {
+          title: '友情链接',
+          icon: 'Link'
+        }
+      },
+    ]
   },
+
   {
     path: '/404',
     component: NotFoundView,
