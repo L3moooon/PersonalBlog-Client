@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import MenuList from "@/components/Menu/menu-list.vue";
+import MenuList from "@/components/menu/menu-list.vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["menuList"]);

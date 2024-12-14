@@ -11,7 +11,7 @@
 
 <script setup>
 import { routes } from "@/router/route";
-import MenuList from "@/components/Menu/menu-list.vue";
+import MenuList from "@/components/menu/menu-list.vue";
 </script>
 
 <style lang="scss" scoped>
@@ -19,6 +19,6 @@ import MenuList from "@/components/Menu/menu-list.vue";
 //   background-color: red;
 // }
 .container {
-  width: 10rem;
+  width: 15%;
 }
 </style>

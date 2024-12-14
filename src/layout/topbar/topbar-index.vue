@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="wrapper">
     <div class="left">
       <img src="../../assets/portrait.jpg" />
       <span>宵时雨</span>
@@ -13,22 +13,67 @@
   </div>
   <div class="main">
     <div class="title">欢迎来到我的博客</div>
-    <button>Let's Begin</button>
+    <button @click="turnDownPage($event)">Let's Begin</button>
   </div>
 </template>
 
 <script setup>
 import "@/styles/scrollbar.scss";
+const turnDownPage = () => {
+  // console.log(window.innerHeight);
+  window.scrollTo({
+    top: window.innerHeight,
+    behavior: "smooth", // 平滑滚动效果
+  });
+  // document.documentElement.scrollTop = window.innerHeight;
+};
+
+// TODO 往下滚动时隐藏，往上滚动时显示
+
+// window.addEventListener("wheel", function (event) {
+//   const wrapper = document.getElementsByClassName("wrapper")[0];
+//   if (event.deltaY > 0) {
+//     console.log("滚轮向下滚动");
+//     wrapper.style.animation = "fold 0.5s ease-out forwards";
+//   } else {
+//     console.log("滚轮向上滚动");
+//     wrapper.style.animation = "unfold 0.5s ease-out forwards";
+//   }
+// });
 </script>
 
 <style lang="scss" scoped>
-.container {
+// @keyframes unfold {
+//   from {
+//     transform: translateY(0);
+//   }
+//   to {
+//     transform: translateY(100%);
+//   }
+// }
+
+// @keyframes fold {
+//   from {
+//     transform: translateY(100%);
+//   }
+//   to {
+//     transform: translateY(0);
+//   }
+// }
+.wrapper {
   width: 100%;
-  position: absolute;
+  position: fixed;
   top: 0;
+  z-index: 999;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  // overflow: hidden;
+  // height: 0;
+  // padding: 0;
+  // transition: all 0.5s ease-out;
   .left {
     margin: 1rem;
     display: flex;
@@ -53,16 +98,27 @@ import "@/styles/scrollbar.scss";
     justify-content: space-evenly;
   }
 }
+// .wrapper:hover {
+//   background-color: rgba($color: #e0e8ea, $alpha: 0.8);
+//   transition: 0.8s;
+// }
 .main {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100vh;
+  padding: 0 auto;
+  // position: absolute;
+  // left: 50%;
+  // top: 50%;
+  // transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 50px;
   font-weight: 500;
-  width: 500px;
-  height: 200px;
+  // width: 500px;
+  // height: 200px;
   // backdrop-filter: blur(3px);
   border-radius: 30px;
   .title {
