@@ -20,46 +20,14 @@
 <script setup>
 import "@/styles/scrollbar.scss";
 const turnDownPage = () => {
-  // console.log(window.innerHeight);
   window.scrollTo({
     top: window.innerHeight,
     behavior: "smooth", // 平滑滚动效果
   });
-  // document.documentElement.scrollTop = window.innerHeight;
 };
-
-// TODO 往下滚动时隐藏，往上滚动时显示
-
-// window.addEventListener("wheel", function (event) {
-//   const wrapper = document.getElementsByClassName("wrapper")[0];
-//   if (event.deltaY > 0) {
-//     console.log("滚轮向下滚动");
-//     wrapper.style.animation = "fold 0.5s ease-out forwards";
-//   } else {
-//     console.log("滚轮向上滚动");
-//     wrapper.style.animation = "unfold 0.5s ease-out forwards";
-//   }
-// });
 </script>
 
 <style lang="scss" scoped>
-// @keyframes unfold {
-//   from {
-//     transform: translateY(0);
-//   }
-//   to {
-//     transform: translateY(100%);
-//   }
-// }
-
-// @keyframes fold {
-//   from {
-//     transform: translateY(100%);
-//   }
-//   to {
-//     transform: translateY(0);
-//   }
-// }
 .wrapper {
   width: 100%;
   position: fixed;

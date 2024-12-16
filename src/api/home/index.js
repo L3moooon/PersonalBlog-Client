@@ -1,8 +1,7 @@
 import request from "@/utils/request";
-export const getHomeData = (data) => {
+export const getHomeData = () => {
   return request({
-    url: '/home',
+    url: '/home/article',
     method: 'get',
-    data,
   })
 }

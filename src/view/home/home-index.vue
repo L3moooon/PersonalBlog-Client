@@ -2,7 +2,7 @@
   <div class="container">
     <div
       class="card"
-      v-for="item in data"
+      v-for="item in articleList"
       :key="item.id"
     >
       <div class="title">{{ item.title }}</div>
@@ -10,15 +10,15 @@
       <div class="detail">
         <div class="time">
           <el-icon> <Clock /> </el-icon>
-          {{ item.time }}
+          {{ item.publish_date }}
         </div>
-        <div class="read">{{ item.read }}</div>
-        <span
+        <div class="read">{{ item.view }}</div>
+        <!-- <span
           v-for="(v, k) in item.tag"
           :key="k"
         >
           {{ v }}|
-        </span>
+        </span> -->
       </div>
     </div>
   </div>
@@ -27,66 +27,13 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { getHomeData } from "@/api/home";
-const data = ref([
-  {
-    id: Number,
-    title: String,
-    content: String,
-    time: Number,
-    tag: String,
-    author: String,
-    read: Number,
-    img: String,
-  },
-]);
+
+const articleList = ref([]);
 onMounted(async () => {
-  const data = await getHomeData();
-  console.log(1111, data);
+  const { data } = await getHomeData();
+  articleList.value = data;
+  console.log(data, 111, articleList.value);
 });
-// const data = ref([
-//   {
-//     id: 1,
-//     title: "我的骄傲大魔王看",
-//     content:
-//       "发v骄傲能触发我i了你发来你发论文你疯啦南非我擦了你出发了你吃饭挖了吃饭了发你妇女擦了你发物流发你",
-//     time: "2139014821",
-//     tag: ["memo", "game"],
-//     author: "willi",
-//     comment: { username: "张", content: "21313", reply: "" },
-//     read: 2000,
-//     img: "/",
-//   },
-//   {
-//     id: 2,
-//     title: "的看非常平稳",
-//     time: "2139014821",
-//     tag: ["memo", "game"],
-//     author: "willi",
-//     comment: { username: "张", content: "21313", reply: "" },
-//     read: 2000,
-//     img: "/",
-//   },
-//   {
-//     id: 3,
-//     title: "放大我啊澳门看",
-//     time: "2139014821",
-//     tag: ["memo", "game"],
-//     author: "willi",
-//     comment: { username: "张", content: "21313", reply: "" },
-//     read: 2000,
-//     img: "/",
-//   },
-//   {
-//     id: 4,
-//     title: "吃辣节目的卡我",
-//     time: "2139014821",
-//     tag: ["memo", "game"],
-//     author: "willi",
-//     comment: { username: "张", content: "21313", reply: "" },
-//     read: 2000,
-//     img: "/",
-//   },
-// ]);
 </script>
 
 <style lang="scss" scoped>
