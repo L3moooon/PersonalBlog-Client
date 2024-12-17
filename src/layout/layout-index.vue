@@ -17,23 +17,34 @@ import TopbarIndex from "./topbar/topbar-index.vue";
 import LeftIndex from "./left/left-index.vue";
 import ContentIndex from "./content/content-index.vue";
 import RightIndex from "./right/right-index.vue";
+
+import { onMounted } from "vue";
+import { getUserInfo } from "@/api/user/index.js";
+import { useUserStore } from "@/store/user";
+//请求用户信息并放到pinia仓库
+const useStore = useUserStore();
+onMounted(async () => {
+  const { data } = await getUserInfo();
+  // console.log(data);
+  useStore.$patch((state) => {
+    state.nickname = data.nickname;
+    state.portrait = data.portrait;
+    state.saying = data.saying;
+    state.url = data.url;
+  });
+});
 </script>
 
 <style lang="scss" scoped>
 .container {
-  background-image: url("../assets/night.png");
+  // background-image: url("../assets/night.png");
+  // background-image: url("../assets/CrayonShinchan.png");
+  background-image: url("../assets/bamboo.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-.top {
-  // position: relative;
-  // img {
-  //   width: 100%;
-  //   height: 100vh;
-  //   object-fit: cover;
-  // }
-}
+
 .down {
   // height: 200px;
   display: flex;

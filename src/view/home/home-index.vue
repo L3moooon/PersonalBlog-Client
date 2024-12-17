@@ -32,7 +32,7 @@ const articleList = ref([]);
 onMounted(async () => {
   const { data } = await getHomeData();
   articleList.value = data;
-  console.log(data, 111, articleList.value);
+  // console.log(data, 111, articleList.value);
 });
 </script>
 

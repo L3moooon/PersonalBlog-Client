@@ -1,19 +1,13 @@
 <template>
   <div class="author">
     <img src="../../assets/微信图片_20241216162400.jpg" />
-    宵时雨
+    {{ useStore.nickname }}
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
-import { getUserInfo } from "@/api/user/index.js";
-const user = ref([]);
-onMounted(async () => {
-  const { data } = await getUserInfo();
-  user.value = data;
-  console.log(data);
-});
+import { useUserStore } from "@/store/user";
+const useStore = useUserStore();
 </script>
 
 <style lang="scss" scoped>

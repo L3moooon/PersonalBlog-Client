@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="left">
       <img src="../../assets/portrait.jpg" />
-      <span>宵时雨</span>
+      <span>{{ useStore.nickname }}</span>
     </div>
     <div class="right">
       <div>主题切换</div>
@@ -12,13 +12,18 @@
     </div>
   </div>
   <div class="main">
-    <div class="title">欢迎来到我的博客</div>
-    <button @click="turnDownPage($event)">Let's Begin</button>
+    <div class="name">{{ useStore.nickname }}</div>
+    <TypeText :text="useStore.saying"></TypeText>
+    <!-- <div class="saying">欢迎来到我的博客</div> -->
+    <button @click="turnDownPage">Let's Begin</button>
   </div>
 </template>
 
 <script setup>
 import "@/styles/scrollbar.scss";
+import { useUserStore } from "@/store/user";
+import TypeText from "@/components/typed/type-text.vue";
+const useStore = useUserStore();
 const turnDownPage = () => {
   window.scrollTo({
     top: window.innerHeight,
@@ -89,7 +94,7 @@ const turnDownPage = () => {
   // height: 200px;
   // backdrop-filter: blur(3px);
   border-radius: 30px;
-  .title {
+  .saying {
     width: fit-content;
     margin: 1rem auto;
   }
