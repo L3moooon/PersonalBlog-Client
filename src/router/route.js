@@ -27,7 +27,7 @@ export const routes = [
         component: HomeView,
         meta: {
           title: '首页',
-          icon: 'House'
+          icon: '#icon-home'
         }
       },
     ]
@@ -38,7 +38,7 @@ export const routes = [
     redirect: '/program',
     meta: {
       title: '技术相关',
-      icon: 'Monitor'
+      icon: '#icon-banshou'
     },
     children: [
       {
@@ -46,7 +46,7 @@ export const routes = [
         component: ProgramIndex,
         meta: {
           title: '程序设计',
-          icon: 'Mouse'
+          icon: '#icon-chengxuprogram1'
         }
       },
       {
@@ -54,7 +54,7 @@ export const routes = [
         component: NoteIndex,
         meta: {
           title: '学习笔记',
-          icon: 'Notebook'
+          icon: '#icon-note'
         }
       },
     ]
@@ -65,7 +65,7 @@ export const routes = [
     redirect: '/game',
     meta: {
       title: '生活相关',
-      icon: 'OfficeBuilding'
+      icon: '#icon-icon'
     },
     children: [
       {
@@ -73,7 +73,7 @@ export const routes = [
         component: GameIndex,
         meta: {
           title: '游戏攻略',
-          icon: 'SwitchFilled'
+          icon: '#icon-game'
         }
       },
       {
@@ -81,7 +81,7 @@ export const routes = [
         component: ExprienceIndex,
         meta: {
           title: '生活经历',
-          icon: 'Mug'
+          icon: '#icon-daifasong'
         }
       },
     ]
@@ -100,69 +100,35 @@ export const routes = [
         component: LogIndex,
         meta: {
           title: '建站日志',
-          icon: 'EditPen'
+          icon: '#icon-rizhi'
         }
       },
     ]
   },
   {
-    path: '/catagroy',
-    component: layoutIndex,
+    path: '/aboutme',
+    component: AboutmeIndex,
     meta: {
-      title: '',
-      icon: '',
-      hidden: true
-    },
-    children: [
-      {
-        path: '/aboutme',
-        component: AboutmeIndex,
-        meta: {
-          title: '关于我',
-          icon: 'User'
-        }
-      },
-    ]
+      title: '关于我',
+      icon: '#icon-aboutMe'
+    }
   },
   {
-    path: '/catagroy',
-    component: layoutIndex,
+    path: '/message',
+    component: MessageIndex,
     meta: {
-      title: '',
-      icon: '',
-      hidden: true
-    },
-    children: [
-      {
-        path: '/message',
-        component: MessageIndex,
-        meta: {
-          title: '留言板',
-          icon: 'Message'
-        }
-      },
-    ]
+      title: '留言板',
+      icon: '#icon-message'
+    }
   },
   {
-    path: '/catagroy',
-    component: layoutIndex,
+    path: '/link',
+    component: LinkIndex,
     meta: {
-      title: '',
-      icon: '',
-      hidden: true
-    },
-    children: [
-      {
-        path: '/link',
-        component: LinkIndex,
-        meta: {
-          title: '友情链接',
-          icon: 'Link'
-        }
-      },
-    ]
+      title: '友情链接',
+      icon: '#icon-link1'
+    }
   },
-
   {
     path: '/404',
     component: NotFoundView,

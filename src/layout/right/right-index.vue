@@ -1,26 +1,19 @@
 <template>
-  <div class="author">
-    <img src="../../assets/微信图片_20241216162400.jpg" />
-    {{ useStore.nickname }}
+  <div class="container">
+    <AuthorCard></AuthorCard>
+    <WebsiteInfo></WebsiteInfo>
+    <!-- TODO 访客信息 -->
+    <!-- TODO 标签 -->
   </div>
 </template>
 
 <script setup>
-import { useUserStore } from "@/store/user";
-const useStore = useUserStore();
+import AuthorCard from "@/components/author/author-card.vue";
+import WebsiteInfo from "@/components/website/website-info.vue";
 </script>
 
 <style lang="scss" scoped>
-.author {
+.container {
   width: 20%;
-  height: 20rem;
-  background-color: blanchedalmond;
-  border-radius: 10px;
-  img {
-    display: block;
-    width: 8rem;
-    border-radius: 50%;
-    margin: 1.5rem auto;
-  }
 }
 </style>

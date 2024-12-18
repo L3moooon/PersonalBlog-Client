@@ -1,17 +1,11 @@
 <template>
-  <template
-    v-for="item in props.menuList"
-    :key="item.path"
-  >
+  <template v-for="item in props.menuList" :key="item.path">
     <!-- 展示&&有子路由 -->
-    <el-sub-menu
-      v-if="!item.meta.hidden && item.children"
-      :index="item.path"
-    >
+    <el-sub-menu v-if="!item.meta.hidden && item.children" :index="item.path">
       <template #title>
-        <el-icon>
-          <component :is="item.meta.icon"></component>
-        </el-icon>
+        <svg class="icon" aria-hidden="true">
+          <use :xlink:href="item.meta.icon"></use>
+        </svg>
         <span>{{ item.meta.title }}</span>
       </template>
       <MenuList :menuList="item.children"></MenuList>
@@ -29,9 +23,9 @@
       @click="goRoute"
     >
       <template #title>
-        <el-icon>
-          <component :is="item.meta.icon"></component>
-        </el-icon>
+        <svg class="icon" aria-hidden="true">
+          <use :xlink:href="item.meta.icon"></use>
+        </svg>
         <span>{{ item.meta.title }}</span>
       </template>
     </el-menu-item>
@@ -49,4 +43,11 @@ const goRoute = (vc) => {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.icon {
+  margin-right: 0.8rem;
+}
+// .el-menu-item:active {
+//   color: #409eff;
+// }
+</style>

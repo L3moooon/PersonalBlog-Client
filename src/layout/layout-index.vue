@@ -49,7 +49,7 @@ onMounted(async () => {
   // height: 200px;
   display: flex;
   width: 70%;
-  margin: 0 auto;
+  margin: 4rem auto;
   justify-content: space-between;
   // align-items: center;
   flex-grow: 1 2 1;

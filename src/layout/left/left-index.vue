@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <el-menu>
-      <MenuList
-        :menuList="routes"
-        router="true"
-      ></MenuList>
+      <MenuList :menuList="routes" router="true"></MenuList>
     </el-menu>
   </div>
 </template>
@@ -20,5 +17,8 @@ import MenuList from "@/components/menu/menu-list.vue";
 // }
 .container {
   width: 15%;
+}
+.el-menu {
+  border-radius: 10px;
 }
 </style>

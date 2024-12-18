@@ -6,7 +6,7 @@ import { ElMessage } from "element-plus";
 const BASE_API = 'http://localhost:3001'
 let request = axios.create({
   baseURL: BASE_API,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 request.interceptors.request.use((config) => {
