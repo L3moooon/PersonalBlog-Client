@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import TopbarIndex from "./topbar/topbar-index.vue";
+import TopbarIndex from "./topbar/top-index.vue";
 import LeftIndex from "./left/left-index.vue";
 import ContentIndex from "./content/content-index.vue";
 import RightIndex from "./right/right-index.vue";

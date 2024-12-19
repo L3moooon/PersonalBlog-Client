@@ -1,9 +1,6 @@
 <template>
   <div class="text-box">
-    <span
-      id="type-list"
-      class="text"
-    ></span>
+    <span id="type-list" class="text"></span>
     <span class="line">|</span>
   </div>
 </template>

@@ -1,16 +1,15 @@
 <template>
-  <div
-    class="author"
-    @mousemove="cardTransform($event)"
-    @mouseleave="resetCardTransform($event)"
-  >
-    <img
-      src="../../assets/微信图片_20241216162400.jpg"
-      id="card-img"
-      class="card__shine"
-    />
-    <div class="name">{{ useStore.nickname }}</div>
-    <div class="greeting">心中有方向，脚步有力量</div>
+  <div class="author">
+    <div
+      class="info"
+      @mousemove="cardTransform($event)"
+      @mouseleave="resetCardTransform($event)"
+    >
+      <img src="../../assets/portrait.jpg" id="card-img" class="card__shine" />
+      <div class="name">{{ useStore.nickname }}</div>
+      <div class="greeting">心中有方向，脚步有力量</div>
+    </div>
+
     <div class="link">
       <div class="url" v-for="(item, index) in useStore.url" :key="index">
         <a :href="item.address" target="_blank">
@@ -66,21 +65,23 @@ const getIconLink = (urlName) => iconLinks[urlName] || "";
 <style lang="scss" scoped>
 .author {
   width: 100%;
-  height: 20rem;
+  height: 13rem;
   // background-color: rgba(241, 204, 143, 0.9);
   // background-color: rgba(235, 224, 224, 0.9);
   background: linear-gradient(135deg, #83a4d4, #b6fbff);
   opacity: 0.9;
   border-radius: 10px;
-  // overflow: hidden;
-  display: table;
-
+  overflow: hidden;
+  margin-bottom: 1rem;
+  .info {
+    overflow: hidden;
+  }
   img {
     display: block;
-    width: 8rem;
+    width: 6rem;
     // border-radius: 50%;
     border-radius: 10px;
-    margin: 1.5rem auto;
+    margin: 1rem auto;
     transition: 0.5s;
     transform-style: preserve-3d;
   }
@@ -90,46 +91,35 @@ const getIconLink = (urlName) => iconLinks[urlName] || "";
     // box-shadow: #83a4d4 solid 2px;
   }
   .name {
-    font-size: 1.8rem;
+    font-size: 1rem;
     text-align: center;
-    margin: 1.2rem;
+    margin: 0.5rem;
+    overflow: hidden;
   }
   .greeting {
-    font-size: 1.2rem;
-    // color: #87c5ee;
+    // font-family: SiJiYuNi;
+    font-size: 0.8rem;
+    font-weight: 500;
     text-align: center;
-    margin: 1rem;
+    margin: 0.3rem;
   }
   .link {
-    height: 3rem;
+    height: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     svg {
-      color: black;
+      color: #303133;
       margin: 0 0.5rem;
       width: 1.5rem;
       height: 1.5rem;
       transition: 0.3s;
     }
     svg:hover {
-      width: 2.4rem;
-      height: 2.4rem;
-      color: gray;
+      width: 2.2rem;
+      height: 2.2rem;
+      color: #20b0e3;
     }
   }
-}
-.card__shine {
-  --grain: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCI+CjxmaWx0ZXIgaWQ9Im4iPgo8ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjciIG51bU9jdGF2ZXM9IjEwIiBzdGl0Y2hUaWxlcz0ic3RpdGNoIj48L2ZlVHVyYnVsZW5jZT4KPC9maWx0ZXI+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWxsPSIjMDAwIj48L3JlY3Q+CjxyZWN0IHdpZHRoPSI1MDAiIGhlaWdodD0iNTAwIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMyI+PC9yZWN0Pgo8L3N2Zz4=");
-
-  --space: 5%;
-  --angle: 133deg;
-  --imgsize: 500px;
-
-  --red: #f80e7b;
-  --yel: #eedf10;
-  --gre: #21e985;
-  --blu: #0dbde9;
-  --vio: #c929f1;
 }
 </style>
