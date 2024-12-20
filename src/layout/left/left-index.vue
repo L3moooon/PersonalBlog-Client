@@ -1,8 +1,12 @@
 <template>
   <div class="container">
-    <el-menu popper-class="menu">
-      <MenuList :menuList="routes" router="true"></MenuList>
-    </el-menu>
+    <el-affix :offset="20">
+      <el-menu popper-class="menu">
+        <MenuList
+          :menuList="routes"
+          router="true"></MenuList>
+      </el-menu>
+    </el-affix>
   </div>
 </template>
 

@@ -3,7 +3,11 @@
   <div class="main">
     <div class="name">{{ useStore.nickname }}</div>
     <TypeText :text="useStore.saying"></TypeText>
-    <button @click="turnDownPage" class="button">初章</button>
+    <button
+      @click="turnDownPage"
+      class="button">
+      初章
+    </button>
   </div>
 </template>
 

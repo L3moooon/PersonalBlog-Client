@@ -1,14 +1,11 @@
 <template>
   <div class="container">
-    <div class="card">
-      <GitCalendar></GitCalendar>
-    </div>
+    <GitCalendar></GitCalendar>
     <div
       class="card"
       v-for="item in articleList"
       :key="item.id"
-      @click="goRoute"
-    >
+      @click="goRoute">
       <div class="title">{{ item.title }}</div>
       <div class="content">{{ item.content }}</div>
       <div class="detail">
