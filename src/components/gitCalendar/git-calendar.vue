@@ -2,38 +2,90 @@
   <div class="slideshow">
     <div class="top-title">GitHub贡献日历</div>
     <div class="content">
-      <div class="left-title"></div>
-      <div id="git-calendar"></div>
+      <div class="month">
+        <span
+          v-for="i in 12"
+          :key="i"
+          >{{ gitMounth[(i + commitRecord.startMonth - 1) % 12] }}</span
+        >
+      </div>
+      <div class="week">
+        <span>日</span>
+        <span>二</span>
+        <span>四</span>
+        <span>六</span>
+      </div>
+
+      <div id="git-calendar">
+        <div
+          v-for="item in gitContributions"
+          :key="item.date"
+          class="block"
+          :style="{ backgroundColor: gitColor[item.intensity] }"
+          @mouseover="moveInBlock($event, item)"
+          @mouseleave="visible = false"
+        ></div>
+        <el-tooltip
+          placement="top"
+          ref="tooltipRef"
+          :visible="visible"
+          :popper-options="tooltipOptions"
+          :virtual-ref="blockRef"
+          virtual-triggering
+        >
+          <template #content>
+            <span
+              >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}次提交
+            </span>
+          </template>
+        </el-tooltip>
+      </div>
     </div>
-    <div class="bottom"></div>
+    <div class="bottom">
+      <div class="example">
+        <span style="margin-right: 0.2rem">Less</span>
+        <span
+          v-for="i in 5"
+          :key="i"
+          :style="{ backgroundColor: gitColor[i - 1] }"
+          class="example-block"
+        ></span>
+        <span style="margin-left: 0.2rem">More</span>
+      </div>
+      <div class="commit-record">
+        <div class="last-year">{{ gitContributions.total }}</div>
+        <div class="last-month"></div>
+        <div class="last-week"></div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { ref, reactive, watch, onMounted } from "vue";
 import { useUserStore } from "@/store/user";
 import { getGitCalendar } from "@/api/home";
+
 const useStore = useUserStore();
 
-const gitContributions = ref([]);
-// onMounted(() => {
-//   getUserName();
-//   GenerateBlock();
-// });
-watch(
-  () => useStore.url,
-  async () => {
-    await getUserName();
-    GenerateBlock();
-  }
-);
-const getUserName = async () => {
-  const git = useStore.url.filter((item) => item.name == "Github");
-  const username = git[0].address.match(/github.com\/([^/]+)/)[1];
-  const data = await getGitCalendar(username);
-  gitContributions.value = data;
-  // console.log(gitContributions.value);
+//tootip单例模式触发
+const blockRef = ref();
+const tooltipRef = ref();
+const visible = ref(false);
+const tooltipContent = ref();
+const tooltipOptions = {
+  modifiers: [
+    {
+      name: "computeStyles",
+      options: {
+        adaptive: false,
+        enabled: false,
+      },
+    },
+  ],
 };
+//存储接口数据
+const gitContributions = ref([]);
 const gitColor = {
   0: "#ebedf0",
   1: "#dbedff",
@@ -41,52 +93,111 @@ const gitColor = {
   3: "#0366d6",
   4: "#044289",
 };
-const GenerateBlock = () => {
-  const box = document.getElementById("git-calendar");
-  const week = gitContributions.value.contributions;
-  // console.log(gitContributions.value.contributions.length);
-  for (let i = 0; i < week.length; i++) {
-    for (let j = 0; j < week[i].length; j++) {
-      const block = document.createElement("div");
-      block.className = "block";
-      block.style.backgroundColor =
-        week[i][j].count >= 4 ? gitColor[4] : gitColor[week[i][j].count];
-      block.style.borderRadius = "4px";
-      box.appendChild(block);
-    }
+const commitRecord = reactive({
+  startMonth: Number,
+  startDay: Number,
+  LastYearCommit: Number,
+  YearTimeRange: String,
+  LastMonthCommit: Number,
+  MonthTimeRange: String,
+  LastWeekCommit: Number,
+  WeekTimeRange: String,
+});
+const gitMounth = [
+  "十二月",
+  "一月",
+  "二月",
+  "三月",
+  "四月",
+  "五月",
+  "六月",
+  "七月",
+  "八月",
+  "九月",
+  "十月",
+  "十一月",
+];
+watch(
+  () => useStore.url,
+  async () => {
+    await getUserName();
+    const degree = commitRecord.startDay / 30;
+    // console.log(degree);
+    const month = document.getElementsByClassName("month")[0];
+    month.style.marginLeft = 4.5 - 4.5 * degree + "rem";
   }
+);
+const getUserName = async () => {
+  const git = useStore.url.filter((item) => item.name == "Github");
+  const username = git[0].address.match(/github.com\/([^/]+)/)[1];
+  const data = await getGitCalendar(username);
+  gitContributions.value = data.contributions.flat();
+  // console.log(gitContributions.value[0].date.slice(5, 7));
+  commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7));
+  commitRecord.startDay = Number(gitContributions.value[0].date.slice(8, 10));
+  commitRecord.LastYearCommit = data.total;
+  commitRecord.YearTimeRange =
+    gitContributions.value[0].date +
+    "~" +
+    gitContributions.value[gitContributions.value.length - 1].date;
+  let count = 0;
+  gitContributions.value.slice(-30).forEach((item) => {
+    count += item.count;
+  });
+  commitRecord.LastYearCommit = count;
+  console.log(commitRecord.value);
 };
-// const setGitColor = (num, total) => {
-//   const commitDegree = total / 5;
-//   const colorDegree = [
-//     0,
-//     commitDegree,
-//     commitDegree * 2,
-//     commitDegree * 4,
-//     total,
-//   ];
-// };
+
+//移入block时记录相关信息，然后在tooltip展示
+const moveInBlock = (e, item) => {
+  blockRef.value = e.currentTarget;
+  visible.value = true;
+  tooltipContent.value = { ...item };
+};
+onMounted(() => {});
 </script>
 
 <style lang="scss" scoped>
 .slideshow {
-  height: 13rem;
+  height: 15rem;
   overflow: hidden;
   background-color: wheat;
   margin: 0 1rem 1rem 1rem;
   border-radius: 10px;
-
+  position: relative;
   .top-title {
+    color: #555555;
+    font-weight: 700;
     margin: 0.5rem auto;
     text-align: center;
   }
   .content {
     display: flex;
-    justify-content: space-evenly;
-    .left-title {
+    flex-wrap: wrap;
+    justify-items: center;
+    justify-content: center;
+    color: #a0a0a0;
+    font-size: 0.5rem;
+    .month {
+      text-align: center;
+      width: 44rem;
+      margin: 0.4rem 2.5rem 0.4rem 4.15rem;
+      span {
+        display: inline-block;
+        width: 1.5rem;
+        margin: 0 1.05rem;
+      }
+    }
+    .week {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       width: 2rem;
-      height: 5rem;
-      background-color: black;
+      text-align: center;
+      span:not(:nth-child(1)) {
+        display: block;
+        margin-top: 1.2rem;
+      }
     }
     #git-calendar {
       display: grid;
@@ -100,10 +211,31 @@ const GenerateBlock = () => {
   .bottom {
     width: 100%;
     height: 5rem;
+    .example {
+      position: absolute;
+      right: 2rem;
+      bottom: 4.5rem;
+      font-size: 0.5rem;
+      color: #a0a0a0;
+      line-height: 1rem;
+      .example-block {
+        display: inline-block;
+        width: 0.75rem;
+        height: 0.75rem;
+        vertical-align: middle;
+      }
+    }
+    .commit-record {
+      width: 100%;
+
+      height: 4rem;
+      display: flex;
+    }
   }
 }
 .block {
-  background-color: #ebedf0;
+  border-radius: 3px;
+  transition: 0.5s;
 }
 .block:hover {
   border: 1px solid black;
