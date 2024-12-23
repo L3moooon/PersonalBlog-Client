@@ -9,36 +9,37 @@
           >{{ gitMounth[(i + commitRecord.startMonth - 1) % 12] }}</span
         >
       </div>
-      <div class="week">
-        <span>日</span>
-        <span>二</span>
-        <span>四</span>
-        <span>六</span>
-      </div>
-
-      <div id="git-calendar">
-        <div
-          v-for="item in gitContributions"
-          :key="item.date"
-          class="block"
-          :style="{ backgroundColor: gitColor[item.intensity] }"
-          @mouseover="moveInBlock($event, item)"
-          @mouseleave="visible = false"
-        ></div>
-        <el-tooltip
-          placement="top"
-          ref="tooltipRef"
-          :visible="visible"
-          :popper-options="tooltipOptions"
-          :virtual-ref="blockRef"
-          virtual-triggering
-        >
-          <template #content>
-            <span
-              >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}次提交
-            </span>
-          </template>
-        </el-tooltip>
+      <div class="middle">
+        <div class="week">
+          <span>日</span>
+          <span>二</span>
+          <span>四</span>
+          <span>六</span>
+        </div>
+        <div id="git-calendar">
+          <div
+            v-for="item in gitContributions"
+            :key="item.date"
+            class="block"
+            :style="{ backgroundColor: gitColor[item.intensity] }"
+            @mouseover="moveInBlock($event, item)"
+            @mouseleave="visible = false"
+          ></div>
+          <el-tooltip
+            placement="top"
+            ref="tooltipRef"
+            :visible="visible"
+            :popper-options="tooltipOptions"
+            :virtual-ref="blockRef"
+            virtual-triggering
+          >
+            <template #content>
+              <span
+                >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}次提交
+              </span>
+            </template>
+          </el-tooltip>
+        </div>
       </div>
     </div>
     <div class="bottom">
@@ -188,24 +189,27 @@ onMounted(() => {});
         margin: 0 1.05rem;
       }
     }
-    .week {
+    .middle {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      width: 2rem;
-      text-align: center;
-      span:not(:nth-child(1)) {
-        display: block;
-        margin-top: 1.2rem;
+      .week {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 2rem;
+        text-align: center;
+        span:not(:nth-child(1)) {
+          display: block;
+          margin-top: 1.2rem;
+        }
       }
-    }
-    #git-calendar {
-      display: grid;
-      grid-auto-flow: column;
-      grid-template-columns: repeat(53, 0.75rem);
-      grid-template-rows: repeat(7, 0.75rem);
-      gap: 2px;
-      border-radius: 10px;
+      #git-calendar {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-columns: repeat(53, 0.75rem);
+        grid-template-rows: repeat(7, 0.75rem);
+        gap: 2px;
+        border-radius: 10px;
+      }
     }
   }
   .bottom {
@@ -227,7 +231,6 @@ onMounted(() => {});
     }
     .commit-record {
       width: 100%;
-
       height: 4rem;
       display: flex;
     }
