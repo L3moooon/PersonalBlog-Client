@@ -35,7 +35,10 @@
           >
             <template #content>
               <span
-                >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}次提交
+                >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}
+                {{
+                  tooltipContent.count > 1 ? "contributions" : "contribution"
+                }}
               </span>
             </template>
           </el-tooltip>
@@ -54,9 +57,21 @@
         <span style="margin-left: 0.2rem">More</span>
       </div>
       <div class="commit-record">
-        <div class="last-year">{{ gitContributions.total }}</div>
-        <div class="last-month"></div>
-        <div class="last-week"></div>
+        <div class="last-year">
+          <span> 最近一年提交</span>
+          <span>{{ commitRecord.LastYearCommit }}</span>
+          <span>{{ commitRecord.YearTimeRange }}</span>
+        </div>
+        <div class="last-month">
+          <span>最近一月提交</span>
+          <span>{{ commitRecord.LastMonthCommit }}</span>
+          <span>{{ commitRecord.MonthTimeRange }}</span>
+        </div>
+        <div class="last-week">
+          <span>最近一周提交</span>
+          <span>{{ commitRecord.LastWeekCommit }}</span>
+          <span>{{ commitRecord.WeekTimeRange }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -134,19 +149,31 @@ const getUserName = async () => {
   const data = await getGitCalendar(username);
   gitContributions.value = data.contributions.flat();
   // console.log(gitContributions.value[0].date.slice(5, 7));
-  commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7));
-  commitRecord.startDay = Number(gitContributions.value[0].date.slice(8, 10));
+  commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7)); //月
+  commitRecord.startDay = Number(gitContributions.value[0].date.slice(8, 10)); //日
   commitRecord.LastYearCommit = data.total;
   commitRecord.YearTimeRange =
     gitContributions.value[0].date +
     "~" +
     gitContributions.value[gitContributions.value.length - 1].date;
+
   let count = 0;
-  gitContributions.value.slice(-30).forEach((item) => {
+  const monthArr = gitContributions.value.slice(-30);
+  commitRecord.MonthTimeRange =
+    monthArr[0].date + "~" + monthArr[monthArr.length - 1].date;
+  monthArr.forEach((item) => {
     count += item.count;
   });
-  commitRecord.LastYearCommit = count;
-  console.log(commitRecord.value);
+  commitRecord.LastMonthCommit = count;
+  count = 0;
+  const weekArr = gitContributions.value.slice(-7);
+  commitRecord.WeekTimeRange =
+    weekArr[0].date + "~" + weekArr[weekArr.length - 1].date;
+  gitContributions.value.slice(-7).forEach((item) => {
+    count += item.count;
+  });
+  commitRecord.LastWeekCommit = count;
+  // console.log(commitRecord);
 };
 
 //移入block时记录相关信息，然后在tooltip展示
@@ -231,8 +258,28 @@ onMounted(() => {});
     }
     .commit-record {
       width: 100%;
-      height: 4rem;
+      height: 90px;
       display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      margin-top: 35px;
+      .last-year,
+      .last-month,
+      .last-week {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        font-weight: 500;
+        color: #555555;
+        font-size: 12px;
+        span {
+          margin-bottom: 8px;
+        }
+        span:nth-child(2) {
+          font-size: 15px;
+        }
+      }
     }
   }
 }
