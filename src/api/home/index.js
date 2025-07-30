@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 export const getHomeData = () => {
   return request({
-    url: '/public/article',
+    url: '/public/getAllArticle',
     method: 'post',
   })
 }

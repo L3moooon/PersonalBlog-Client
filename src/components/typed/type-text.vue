@@ -12,57 +12,67 @@
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 const props = defineProps(["text"]);
-watch(
-  () => props.text,
-  async () => {
-    for (let i = 0; i < props.text.length; i++) {
-      const arr = props.text[i].split("");
-      // console.log(stringArr);
-      const type = new Promise((resolve, reject) => {
-        const container = document.getElementById("type-list");
-        //设置一个定时器
-        let i = 0;
-        //等待1s后持续添加文字
-        setTimeout(() => {
-          blinkLine.value = false;
-          const timer = setInterval(() => {
-            if (i < arr.length) {
-              // console.log(container.innerHTML);
-              container.innerHTML += arr[i];
-              i++;
-            }
-            //如果添加完成
-            else {
-              clearInterval(timer);
-              //等待1s后持续删除文字
-              // console.log(container.innerHTML);
-              blinkLine.value = true;
-              setTimeout(() => {
-                blinkLine.value = false;
-                // console.log(i);
-                const timer = setInterval(() => {
-                  // console.log(container.innerHTML, i);
-                  if (i > 0) {
-                    container.innerHTML = container.innerHTML.slice(0, i - 1);
-                    i--;
-                  } else {
-                    clearInterval(timer);
-                    blinkLine.value = true;
-                    resolve();
-                  }
-                }, 90);
-              }, 1500);
-            }
-          }, 350);
-        }, 1500);
-      });
-      await type;
-      if (i == props.text.length - 1) i = 0;
-    }
+const waitAddTimer = ref(null);
+const addTimer = ref(null);
+const waitDelTimer = ref(null);
+const delTimer = ref(null);
+async function typePoem() {
+  for (let i = 0; i < props.text.length; i++) {
+    const arr = props.text[i].split("");
+    // console.log(stringArr);
+    const type = new Promise((resolve, reject) => {
+      const container = document.getElementById("type-list");
+      //设置一个定时器
+      let i = 0;
+      //等待1.5s后持续添加文字
+      waitAddTimer.value = setTimeout(() => {
+        blinkLine.value = false;
+        addTimer.value = setInterval(() => {
+          if (i < arr.length) {
+            // console.log(container.innerHTML);
+            container.innerHTML += arr[i];
+            i++;
+          }
+          //如果添加完成
+          else {
+            clearInterval(addTimer.value);
+            //等待1s后持续删除文字
+            // console.log(container.innerHTML);
+            blinkLine.value = true;
+            waitDelTimer.value = setTimeout(() => {
+              blinkLine.value = false;
+              // console.log(i);
+              delTimer.value = setInterval(() => {
+                // console.log(container.innerHTML, i);
+                if (i > 0) {
+                  container.innerHTML = container.innerHTML.slice(0, i - 1);
+                  i--;
+                } else {
+                  clearInterval(delTimer.value);
+                  blinkLine.value = true;
+                  resolve();
+                }
+              }, 90);
+            }, 1500);
+          }
+        }, 350);
+      }, 1500);
+    });
+    await type;
+    if (i == props.text.length - 1) i = 0;
   }
-);
+}
+onMounted(() => {
+  typePoem();
+});
+onUnmounted(() => {
+  clearTimeout(waitAddTimer.value);
+  clearTimeout(waitDelTimer.value);
+  clearInterval(addTimer.value);
+  clearInterval(delTimer.value);
+});
 const blinkLine = ref("false");
 </script>
 
