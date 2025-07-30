@@ -12,3 +12,10 @@ export const getGitCalendar = (user) => {
     method: 'get',
   })
 }
+export const getRandomPoem = () => {
+  return request({
+    url: 'https://v1.jinrishici.com/all.txt',
+    baseURL: '', // 这里将baseURL设为空字符串，这样会使用绝对路径
+    method: 'get',
+  })
+}

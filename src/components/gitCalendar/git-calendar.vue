@@ -23,16 +23,14 @@
             class="block"
             :style="{ backgroundColor: gitColor[item.intensity] }"
             @mouseover="moveInBlock($event, item)"
-            @mouseleave="visible = false"
-          ></div>
+            @mouseleave="visible = false"></div>
           <el-tooltip
             placement="top"
             ref="tooltipRef"
             :visible="visible"
             :popper-options="tooltipOptions"
             :virtual-ref="blockRef"
-            virtual-triggering
-          >
+            virtual-triggering>
             <template #content>
               <span
                 >{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}
@@ -52,8 +50,7 @@
           v-for="i in 5"
           :key="i"
           :style="{ backgroundColor: gitColor[i - 1] }"
-          class="example-block"
-        ></span>
+          class="example-block"></span>
         <span style="margin-left: 0.2rem">More</span>
       </div>
       <div class="commit-record">

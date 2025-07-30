@@ -2,8 +2,7 @@
   <div class="text-box">
     <span
       id="type-list"
-      class="text"
-    ></span>
+      class="text"></span>
     <span
       class="line"
       :class="{ blink: blinkLine }"
@@ -17,10 +16,9 @@ import { ref, watch } from "vue";
 const props = defineProps(["text"]);
 watch(
   () => props.text,
-
   async () => {
-    for (const item of props.text) {
-      const arr = item.split("");
+    for (let i = 0; i < props.text.length; i++) {
+      const arr = props.text[i].split("");
       // console.log(stringArr);
       const type = new Promise((resolve, reject) => {
         const container = document.getElementById("type-list");
@@ -61,6 +59,7 @@ watch(
         }, 1500);
       });
       await type;
+      if (i == props.text.length - 1) i = 0;
     }
   }
 );
