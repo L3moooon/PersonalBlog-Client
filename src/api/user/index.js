@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 export const getUserInfo = () => {
   return request({
-    url: '/user/info',
+    url: '/web/user/info',
     method: 'post'
   })
 }

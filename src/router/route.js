@@ -24,7 +24,7 @@ export const routes = [
     },
     children: [
       {
-        path: '/home',
+        path: 'home',
         component: HomeView,
         meta: {
           title: '首页',
@@ -43,7 +43,7 @@ export const routes = [
     },
     children: [
       {
-        path: '/program',
+        path: 'program',
         component: ProgramIndex,
         meta: {
           title: '程序设计',
@@ -51,7 +51,7 @@ export const routes = [
         }
       },
       {
-        path: '/note',
+        path: 'note',
         component: NoteIndex,
         meta: {
           title: '学习笔记',
@@ -63,14 +63,14 @@ export const routes = [
   {
     path: '/live',
     component: layoutIndex,
-    redirect: '/game',
+    redirect: 'game',
     meta: {
       title: '生活相关',
       icon: '#icon-icon'
     },
     children: [
       {
-        path: '/game',
+        path: 'game',
         component: GameIndex,
         meta: {
           title: '游戏攻略',
@@ -97,7 +97,7 @@ export const routes = [
     },
     children: [
       {
-        path: '/log',
+        path: 'log',
         component: LogIndex,
         meta: {
           title: '建站日志',

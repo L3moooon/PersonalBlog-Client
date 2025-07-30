@@ -3,17 +3,26 @@
     <div
       class="info"
       @mousemove="cardTransform($event)"
-      @mouseleave="resetCardTransform($event)"
-    >
-      <img src="../../assets/portrait.jpg" id="card-img" class="card__shine" />
+      @mouseleave="resetCardTransform($event)">
+      <img
+        :src="useStore.portrait"
+        id="card-img"
+        class="card__shine" />
       <div class="name">{{ useStore.nickname }}</div>
       <div class="greeting">心中有方向，脚步有力量</div>
     </div>
 
     <div class="link">
-      <div class="url" v-for="(item, index) in useStore.url" :key="index">
-        <a :href="item.address" target="_blank">
-          <svg class="icon" aria-hidden="true">
+      <div
+        class="url"
+        v-for="(item, index) in useStore.url"
+        :key="index">
+        <a
+          :href="item.address"
+          target="_blank">
+          <svg
+            class="icon"
+            aria-hidden="true">
             <use :xlink:href="getIconLink(item.name)"></use>
           </svg>
         </a>

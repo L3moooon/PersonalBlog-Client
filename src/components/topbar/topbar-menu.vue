@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="left">
-      <img src="../../assets/portrait.jpg" />
+      <img :src="useStore.portrait" />
       <span>{{ useStore.nickname }}</span>
     </div>
     <div class="right">

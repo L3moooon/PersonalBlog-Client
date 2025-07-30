@@ -1,8 +1,8 @@
 import request from "@/utils/request";
 export const getHomeData = () => {
   return request({
-    url: '/home/article',
-    method: 'get',
+    url: '/public/article',
+    method: 'post',
   })
 }
 export const getGitCalendar = (user) => {

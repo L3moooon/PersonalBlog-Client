@@ -17,4 +17,9 @@ const router = createRouter({
   // }
 })
 
+//全局前置守卫
+router.beforeEach((to, from, next) => {
+  next()
+})
+
 export default router
