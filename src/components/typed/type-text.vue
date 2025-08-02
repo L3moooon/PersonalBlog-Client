@@ -106,7 +106,7 @@ const blinkLine = ref("false");
     display: inline-block;
     height: 2rem;
     line-height: 2rem;
-    font-size: 40px;
+    font-size: 35px;
     vertical-align: top;
   }
   .blink {

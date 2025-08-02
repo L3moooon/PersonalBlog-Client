@@ -1,28 +1,57 @@
 <template>
   <div class="container">
-    <GitCalendar></GitCalendar>
+    <!-- <GitCalendar></GitCalendar> -->
     <div
       class="card"
       v-for="item in articleList"
       :key="item.id"
-      @click="goRoute">
-      <div class="title">{{ item.title }}</div>
-      <div class="content">{{ item.content }}</div>
-      <div class="detail">
-        <!-- <div class="time">
-          <el-icon> <Clock /> </el-icon>
-          {{ item.publish_date }}
-        </div> -->
-        <div class="read">{{ item.view }}</div>
-        <!-- <span
-          v-for="(v, k) in item.tag"
-          :key="k"
-        >
-          {{ v }}|
-        </span> -->
+      @click="goRoute(item.id)">
+      <img
+        class="cover"
+        :src="item.cover_img"
+        alt="" />
+      <div class="content">
+        <div class="title">{{ item.title }}</div>
+        <div class="tag">
+          <img
+            src="@/assets/icons/tag.png"
+            alt="" />
+          <div
+            class="tag-item"
+            v-for="(tag, index) in item.tag"
+            :key="index">
+            {{ tag }}
+          </div>
+        </div>
+        <div class="abstract">{{ item.abstract }}</div>
+        <div class="detail">
+          <div class="time">
+            <img
+              src="@/assets/icons/time.png"
+              alt="" />
+            {{ timeFormatter(item.last_edit_date) }}
+          </div>
+          <div class="like">
+            <img
+              src="@/assets/icons/star.png"
+              alt="" />
+            {{ item.like }}
+          </div>
+          <div class="view">
+            <img
+              src="@/assets/icons/view.png"
+              alt="" />
+            {{ item.view }}
+          </div>
+          <div class="comments">
+            <img
+              src="@/assets/icons/评论.png"
+              alt="" />
+            {{ item.view }}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="nosense">nosense</div>
   </div>
 </template>
 
@@ -30,6 +59,7 @@
 import { ref, onMounted } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
+import { timeFormatter } from "@/utils/timeFormatter";
 import GitCalendar from "@/components/gitCalendar/git-calendar.vue";
 
 const articleList = ref([]);
@@ -39,8 +69,8 @@ onMounted(async () => {
 });
 
 const $router = useRouter();
-const goRoute = () => {
-  $router.push({ path: "/article", query: { id: articleList.value.id } });
+const goRoute = (id) => {
+  $router.push({ path: "/article", query: { id } });
 };
 </script>
 
@@ -52,39 +82,89 @@ const goRoute = () => {
   border-radius: 10px;
   overflow: hidden; //解决高度塌陷
   .card {
+    padding: 10px;
     margin: 1rem 1rem;
     height: 200px;
     background-color: white;
     border-radius: 10px;
+    display: flex;
     box-shadow: 18px 18px 30px rgba(0, 0, 0, 0.1),
       -18px -18px 30px rgba(255, 255, 255, 1);
     transition: box-shadow 0.2s ease-out;
     cursor: pointer;
-    .title {
-      height: 30px;
-      padding: 1.5rem 1rem;
-      font-size: 30px;
-      font-weight: 500;
-      color: #555555;
+    &:hover {
+      box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2),
+        0px 0px 0px rgba(255, 255, 255, 0.8),
+        inset 18px 18px 30px rgba(0, 0, 0, 0.1),
+        inset -18px -18px 30px rgba(255, 255, 255, 1);
+      transition: box-shadow 0.2s ease-out;
+    }
+    .cover {
+      width: 300px;
+      height: 200px;
+      border-radius: 10px;
     }
     .content {
-      font-size: 18px;
-      font-weight: 200;
-      color: #a0a0a0;
-    }
-    .detail {
+      width: calc(100% - 300px);
+      padding-left: 30px;
       display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .title {
+        height: 30px;
+        padding: 24px 0 10px 0;
+        font-size: 30px;
+        font-weight: 500;
+        color: #555555;
+      }
+      .tag {
+        width: 100%;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        img {
+          width: 15px;
+          height: 15px;
+        }
+        .tag-item {
+          background-color: antiquewhite;
+          height: 20px;
+          line-height: 20px;
+          padding: 0 10px;
+          border-radius: 5px;
+          text-align: center;
+        }
+      }
+      .abstract {
+        height: 60px;
+        font-size: 18px;
+        font-weight: 200;
+        color: #a0a0a0;
+      }
+      .detail {
+        height: 30px;
+        display: flex;
+        width: 100%;
+        // justify-content: space-between;
+        gap: 60px;
+        font-size: 14px;
+        font-weight: 200;
+        color: #a0a0a0;
+        .time,
+        .like,
+        .view,
+        .comments {
+          display: flex;
+          align-items: center;
+          img {
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+          }
+        }
+      }
     }
-  }
-  .card:hover {
-    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2),
-      0px 0px 0px rgba(255, 255, 255, 0.8),
-      inset 18px 18px 30px rgba(0, 0, 0, 0.1),
-      inset -18px -18px 30px rgba(255, 255, 255, 1);
-    transition: box-shadow 0.2s ease-out;
-  }
-  .nosense {
-    height: 100rem;
   }
 }
 </style>

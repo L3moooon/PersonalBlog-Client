@@ -76,10 +76,10 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted } from "vue";
-import { useUserStore } from "@/store/user";
+import { useThemeStore } from "@/store/theme";
 import { getGitCalendar } from "@/api/home";
 
-const useStore = useUserStore();
+const useStore = useThemeStore();
 
 //tootip单例模式触发
 const blockRef = ref();

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const useUserStore = defineStore('User', {
+export const useThemeStore = defineStore('Theme', {
   state: () => {
     return {
       nickname: '',

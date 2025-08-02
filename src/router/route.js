@@ -1,6 +1,5 @@
 import layoutIndex from '@/layout/layout-index.vue'
 import HomeView from '@/view/home/home-index.vue'
-import ArticlePage from '@/view/article/article-page.vue'
 import NotFoundView from '@/view/notFound/not-found-index.vue'
 import ProgramIndex from '@/view/tech/program/program-index.vue'
 import NoteIndex from '@/view/tech/note/note-index.vue'
@@ -132,7 +131,8 @@ export const routes = [
   },
   {
     path: '/article',
-    component: ArticlePage,
+    component: import('@/view/article-page.vue')
+    ,
     meta: {
       title: '',
       icon: '',

@@ -1,10 +1,12 @@
 import request from "@/utils/request";
+//获取首页文章
 export const getHomeData = () => {
   return request({
     url: '/public/getAllArticle',
     method: 'post',
   })
 }
+
 export const getGitCalendar = (user) => {
   return request({
     url: `https://gh-calendar.rschristian.dev/user/${user}`,
@@ -19,3 +21,4 @@ export const getRandomPoem = () => {
     method: 'get',
   })
 }
+

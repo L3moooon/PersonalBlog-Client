@@ -1,8 +1,8 @@
 <template>
   <TopbarMenu></TopbarMenu>
   <div class="main">
-    <div class="name">{{ useStore.nickname }}</div>
-    <TypeText :text="useStore.saying"></TypeText>
+    <div class="name">{{ themeStore.nickname }}</div>
+    <TypeText :text="themeStore.saying"></TypeText>
     <button
       @click="turnDownPage"
       class="button">
@@ -12,11 +12,11 @@
 </template>
 
 <script setup>
-import { useUserStore } from "@/store/user";
+import { useThemeStore } from "@/store/theme";
 import TypeText from "@/components/typed/type-text.vue";
 import TopbarMenu from "@/components/topbar/topbar-menu.vue";
 import "@/styles/poem-font.css";
-const useStore = useUserStore();
+const themeStore = useThemeStore();
 const turnDownPage = () => {
   window.scrollTo({
     top: window.innerHeight,

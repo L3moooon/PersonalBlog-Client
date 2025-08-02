@@ -5,14 +5,14 @@
       @mousemove="cardTransform($event)"
       @mouseleave="resetCardTransform($event)">
       <img
-        :src="useStore.portrait"
+        :src="computedPortrait"
         id="card-img"
         class="card__shine" />
-      <div class="name">{{ useStore.nickname }}</div>
-      <div class="greeting">心中有方向，脚步有力量</div>
+      <div class="name">游客 {{ visitor.name }}</div>
+      <div class="greeting">欢迎到访</div>
     </div>
 
-    <div class="link">
+    <!-- <div class="link">
       <div
         class="url"
         v-for="(item, index) in useStore.url"
@@ -27,16 +27,24 @@
           </svg>
         </a>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script setup>
-import { useUserStore } from "@/store/user";
-const useStore = useUserStore();
+import { onMounted, ref, reactive, computed } from "vue";
+import { throttle } from "@/utils/throttle";
+import { useThemeStore } from "@/store/theme";
+const useStore = useThemeStore();
+import anonymous from "@/assets/icons/personal.png";
 
+const visitor = reactive({});
+const computedPortrait = computed(() => {
+  console.log(visitor);
+  return visitor.portrait ? visitor.portrait : anonymous;
+});
 const cardTransform = (e) => {
-  window.requestAnimationFrame(function () {
+  function changePos() {
     const degree = 0.4;
     const img = document.getElementById("card-img");
     const box = img.getBoundingClientRect();
@@ -52,7 +60,8 @@ const cardTransform = (e) => {
       "rotateX(" +
       calcX * -degree +
       "deg) ";
-  });
+  }
+  window.requestAnimationFrame(throttle(changePos, 100));
 };
 const resetCardTransform = () => {
   window.requestAnimationFrame(function () {
@@ -69,6 +78,13 @@ const iconLinks = {
   Wechat: "#icon-github-fill",
 };
 const getIconLink = (urlName) => iconLinks[urlName] || "";
+
+onMounted(() => {
+  const info = JSON.parse(localStorage.getItem("visitor"));
+  // console.log(visitor.value);
+  Object.assign(visitor, info);
+  console.log(visitor);
+});
 </script>
 
 <style lang="scss" scoped>

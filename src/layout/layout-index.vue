@@ -3,7 +3,6 @@
     <div class="top">
       <TopbarIndex></TopbarIndex>
     </div>
-
     <div class="down">
       <LeftIndex></LeftIndex>
       <ContentIndex></ContentIndex>
@@ -19,19 +18,76 @@ import ContentIndex from "./content/content-index.vue";
 import RightIndex from "./right/right-index.vue";
 
 import { onMounted } from "vue";
-import { getUserInfo } from "@/api/user/index.js";
-import { useUserStore } from "@/store/user";
+import { getThemeInfo } from "@/api/website.js";
+import { sendUserInfo } from "@/api/user";
+import { useThemeStore } from "@/store/theme";
 //请求用户信息并放到pinia仓库
-const useStore = useUserStore();
-onMounted(async () => {
-  const { data } = await getUserInfo();
-  // console.log(data);
-  useStore.$patch((state) => {
+const themeStore = useThemeStore();
+// 生成简单的浏览器指纹
+function generateFingerprint() {
+  // 收集浏览器特征
+  const features = [
+    navigator.userAgent,
+    screen.width + "x" + screen.height,
+    new Date().getTimezoneOffset(),
+    navigator.language,
+    navigator.cookieEnabled ? "cookies" : "no-cookies",
+  ];
+  // 简单哈希处理生成唯一ID
+  return btoa(features.join("|")).substring(0, 20);
+}
+
+const sendInfo = async () => {
+  const STORAGE_KEY = "last_visit_stat";
+  const NOW = new Date().getTime();
+  const ONEHOUR = 60 * 60 * 1000; // 1小时的毫秒数
+
+  let uid = localStorage.getItem("comment_uid");
+  if (!uid) {
+    // 生成新标识并存储到local
+    uid = generateFingerprint();
+    localStorage.setItem("comment_uid", uid);
+  }
+
+  // 获取检查上次发送时间
+  const lastStats = JSON.parse(
+    localStorage.getItem(STORAGE_KEY) || '{"time": 0}'
+  );
+
+  // 如果超过1小时或从未发送过，则发送统计请求
+  if (NOW - lastStats.time > ONEHOUR) {
+    const { data, status } = await sendUserInfo({
+      identify: uid,
+      agent: navigator.userAgent,
+    });
+    if (status == 1) {
+      // 记录本次发送时间
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: NOW }));
+      localStorage.setItem(
+        "visitor",
+        JSON.stringify(
+          data || {
+            name: uid,
+            portrait: null,
+          }
+        )
+      );
+    }
+  }
+};
+//获取网站主题
+const getTheme = async () => {
+  const { data } = await getThemeInfo();
+  themeStore.$patch((state) => {
     state.nickname = data.nickname;
     state.portrait = data.portrait;
     state.saying = data.saying;
     state.url = data.url;
   });
+};
+onMounted(async () => {
+  sendInfo();
+  getTheme();
 });
 </script>
 

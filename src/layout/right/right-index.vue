@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <AuthorCard></AuthorCard>
+    <VisitorCard></VisitorCard>
     <el-affix :offset="20">
       <WebsiteInfo></WebsiteInfo>
       <RecommandArticle></RecommandArticle>
@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-import AuthorCard from "@/components/author/author-card.vue";
+import VisitorCard from "@/components/visitorCard.vue";
 import WebsiteInfo from "@/components/website/website-info.vue";
 import RecommandArticle from "@/components/recommand/recommand-article.vue";
 </script>

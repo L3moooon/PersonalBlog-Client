@@ -1,7 +1,10 @@
 <template>
   <div class="web-info">
     <div class="title">
-      <svg class="icon" id="web-icon" aria-hidden="true">
+      <svg
+        class="icon"
+        id="web-icon"
+        aria-hidden="true">
         <use xlink:href="#icon-fengche"></use>
       </svg>
       <span>网站信息</span>
