@@ -1,7 +1,7 @@
 <template>
   <TopbarMenu></TopbarMenu>
   <div class="main">
-    <div class="name">{{ themeStore.nickname }}</div>
+    <div class="name">{{ themeStore.themeData.welcome }}</div>
     <TypeText :text="themeStore.saying"></TypeText>
     <button
       @click="turnDownPage"

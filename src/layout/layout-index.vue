@@ -37,17 +37,11 @@ function generateFingerprint() {
   return btoa(features.join("|")).substring(0, 20);
 }
 
+//FIXME 如果清除缓存并且在后端时长没有到1h，数据就会为空
 const sendInfo = async () => {
   const STORAGE_KEY = "last_visit_stat";
   const NOW = new Date().getTime();
-  const ONEHOUR = 60 * 60 * 1000; // 1小时的毫秒数
-
-  let uid = localStorage.getItem("comment_uid");
-  if (!uid) {
-    // 生成新标识并存储到local
-    uid = generateFingerprint();
-    localStorage.setItem("comment_uid", uid);
-  }
+  const ONEHOUR = 60 * 60 * 1000;
 
   // 获取检查上次发送时间
   const lastStats = JSON.parse(
@@ -57,27 +51,22 @@ const sendInfo = async () => {
   // 如果超过1小时或从未发送过，则发送统计请求
   if (NOW - lastStats.time > ONEHOUR) {
     const { data, status } = await sendUserInfo({
-      identify: uid,
+      identify: generateFingerprint(),
       agent: navigator.userAgent,
     });
     if (status == 1) {
       // 记录本次发送时间
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: NOW }));
-      localStorage.setItem(
-        "visitor",
-        JSON.stringify(
-          data || {
-            name: uid,
-            portrait: null,
-          }
-        )
-      );
+      localStorage.setItem("visitor", JSON.stringify(data));
     }
   }
 };
 //获取网站主题
 const getTheme = async () => {
-  const { data } = await getThemeInfo();
+  const { data, status } = await getThemeInfo();
+  if (status == 1) {
+    themeStore.setThemeData(data);
+  }
   themeStore.$patch((state) => {
     state.nickname = data.nickname;
     state.portrait = data.portrait;

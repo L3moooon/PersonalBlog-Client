@@ -33,7 +33,7 @@
           </div>
           <div class="like">
             <img
-              src="@/assets/icons/star.png"
+              src="@/assets/icons/like.png"
               alt="" />
             {{ item.like }}
           </div>

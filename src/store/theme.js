@@ -7,8 +7,12 @@ export const useThemeStore = defineStore('Theme', {
       portrait: '',
       saying: [],
       url: [],
+      themeData: {}
     }
   },
-  getters: {},
-  actions: {},
+  actions: {
+    setThemeData(data) {
+      this.themeData = data
+    }
+  },
 })
