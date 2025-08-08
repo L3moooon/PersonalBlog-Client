@@ -5,6 +5,7 @@
     <TopbarMenu></TopbarMenu>
     <div class="banner">
       <img
+        class="banner-img"
         :src="article.cover_img"
         object-fit="contain" />
       <div class="mask"></div>
@@ -20,19 +21,19 @@
               alt="" />
             发表于:{{ timeFormatter(article.publish_date) }}
           </div>
-          |
+          <div>|</div>
           <div class="info">
             <img
               src="@/assets/icons/update.png"
               alt="" />更新于:{{ timeFormatter(article.last_edit_date) }}
           </div>
-          |
+          <div>|</div>
           <div class="info">
             <img
               src="@/assets/icons/字数.png"
               alt="" />字数统计:{{ article.contentLength }}
           </div>
-          |
+          <div>|</div>
           <div class="info">
             <img
               src="@/assets/icons/时间.png"
@@ -44,9 +45,9 @@
     <div class="article-content">
       <div class="tool">工具栏</div>
       <div class="placeholder"></div>
-      <div class="text-container">
+      <div class="text-container quill-content-wrapper">
         <div
-          class="text"
+          class="text quill-content"
           v-html="article.content"></div>
         <el-divider
           ><el-icon><star-filled /></el-icon
@@ -174,12 +175,18 @@ import { onMounted, ref, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getArticle, getComments, comment, delComment } from "@/api/article";
 import { StarFilled } from "@element-plus/icons-vue";
-import TopbarMenu from "@/components/topbar-menu.vue";
-import VisitorCard from "@/components/visitorCard.vue";
-import ReplyCard from "@/components/replyCard.vue";
 import { timeFormatter, timeFormatter2 } from "@/utils/timeFormatter";
 import { ElMessage } from "element-plus";
 import { useCommentStore } from "@/store/comment";
+
+import TopbarMenu from "@/components/topbar-menu.vue";
+import VisitorCard from "@/components/visitor-card.vue";
+import ReplyCard from "@/components/reply-card.vue";
+
+import hljs from "highlight.js";
+import "highlight.js/styles/atom-one-dark.css";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 const commentStore = useCommentStore();
 const route = useRoute();
 
@@ -211,9 +218,9 @@ const getArticleContent = async () => {
   const { data, status } = await getArticle({ id: route.query.id });
   if (status == 1) {
     Object.assign(article, data);
-    console.log(article);
+    // console.log(article);
     const res = computedInfo(article.content);
-    console.log(res);
+    // console.log(res);
     article.contentLength = res[0];
     article.readingTime = res[1];
   }
@@ -279,7 +286,7 @@ const unlikeComment = async (id) => {};
 //计算文章内容长度等信息
 function computedInfo(html, countSpaces = false) {
   // 1. 去除HTML标签
-  console.log(html, typeof html);
+  // console.log(html, typeof html);
   const plainText = html.replace(/<[^>]*>/g, "");
   // 2. 处理空白字符（可选：去除所有空格/保留空格）
   const text = countSpaces ? plainText : plainText.replace(/\s+/g, "");
@@ -294,6 +301,23 @@ onMounted(() => {
   visitorInfo.value = JSON.parse(localStorage.getItem("visitor"));
   getArticleContent();
   getArticleComments();
+
+  // // 对所有代码块重新应用高亮
+  // document.querySelectorAll("pre code").forEach((block) => {
+  //   hljs.highlightElement(block);
+  // });
+  // 遍历所有代码块，根据实际语言类型高亮
+  document.querySelectorAll("pre code").forEach((block) => {
+    // 从 class 中提取语言类型（Quill 会自动添加 language-xxx 类）
+    const langClass = Array.from(block.classList).find((cls) =>
+      cls.startsWith("language-")
+    );
+    const language = langClass
+      ? langClass.replace("language-", "")
+      : "plaintext";
+    // 按指定语言高亮（确保与后台编辑时选择的语言匹配）
+    hljs.highlightElement(block, { language });
+  });
 });
 </script>
 
@@ -312,9 +336,10 @@ onMounted(() => {
     width: 100%;
     height: 500px;
     position: relative;
-    img {
+    .banner-img {
       width: 100%;
       height: 100%;
+      margin: 0;
     }
     .mask {
       width: 100%;
@@ -337,7 +362,7 @@ onMounted(() => {
       background: #ffffff;
       padding: 30px 120px;
       border-radius: 10px;
-      opacity: 0.8;
+      opacity: 0.85;
     }
     .title {
       margin: 27px 0 50px 0;
@@ -360,6 +385,7 @@ onMounted(() => {
       margin-top: 50px;
 
       display: flex;
+      align-items: center;
       flex-wrap: wrap;
       gap: 10px;
       .info {
@@ -386,7 +412,7 @@ onMounted(() => {
     position: relative;
     background-color: #fff;
     padding: 10px;
-    opacity: 0.8;
+    opacity: 0.9;
     text-align: left;
     .text {
       margin-bottom: 100px;
@@ -421,6 +447,7 @@ onMounted(() => {
             img {
               width: 60px;
               height: 60px;
+              margin: 0;
             }
           }
           .comment-info {
@@ -513,7 +540,7 @@ onMounted(() => {
     position: fixed;
     left: 250px;
     bottom: 40px;
-    opacity: 0.8;
+    opacity: 0.9;
   }
   .placeholder {
     width: 350px;
@@ -524,7 +551,73 @@ onMounted(() => {
     min-height: 200px;
     border-radius: 10px;
     background-color: #fff;
-    opacity: 0.8;
+    opacity: 0.9;
   }
+}
+/* 确保Quill生成的对齐样式生效 */
+:deep(.ql-align-center) {
+  text-align: center !important;
+}
+:deep(.ql-align-right) {
+  text-align: right !important;
+}
+:deep(.ql-align-justify) {
+  text-align: justify !important;
+}
+
+/* 代码块样式增强（与编辑端保持视觉一致） */
+:deep(pre) {
+  margin: 1em 0;
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  background-color: #282c34 !important; /* 与atom-one-dark主题匹配的背景色 */
+}
+
+:deep(.ql-syntax) {
+  color: #abb2bf; /* 代码文本颜色 */
+  // font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 修复图片样式（避免图片溢出容器） */
+:deep(img) {
+  max-width: 100%;
+  height: auto;
+  margin: 1em 0;
+  border-radius: 4px;
+}
+
+/* 列表样式修复 */
+:deep(ul),
+:deep(ol) {
+  padding-left: 2em;
+  margin: 1em 0;
+}
+
+/* 标题样式调整 */
+:deep(h1),
+:deep(h2),
+:deep(h3) {
+  margin: 1.5em 0 1em;
+  font-weight: 600;
+}
+:deep(h1) {
+  font-size: 2em;
+}
+:deep(h2) {
+  font-size: 1.75em;
+}
+:deep(h3) {
+  font-size: 1.5em;
+}
+
+/* 引用样式 */
+:deep(blockquote) {
+  border-left: 4px solid #ccc;
+  padding-left: 1em;
+  margin: 1em 0;
+  color: #666;
 }
 </style>

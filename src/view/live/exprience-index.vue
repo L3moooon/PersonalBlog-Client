@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>生活</div>
 </template>
 
 <script setup></script>

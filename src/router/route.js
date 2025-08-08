@@ -11,8 +11,8 @@ export const routes = [
     },
     children: [
       {
-        path: 'home',
-        component: () => import('@/view/home-index.vue'),
+        path: '/home',
+        component: () => import('@/view/main-index.vue'),
         meta: {
           title: '首页',
           icon: '#icon-home'
@@ -23,14 +23,14 @@ export const routes = [
   {
     path: '/tech',
     component: () => import('@/layout/HomePage.vue'),
-    redirect: '/tech/program',  // 修正了原 redirect 路径错误
+    redirect: '/program',  // 修正了原 redirect 路径错误
     meta: {
       title: '技术相关',
       icon: '#icon-banshou'
     },
     children: [
       {
-        path: 'program',
+        path: '/program',
         component: () => import('@/view/tech/program-index.vue'),
         meta: {
           title: '程序设计',
@@ -38,7 +38,7 @@ export const routes = [
         }
       },
       {
-        path: 'note',
+        path: '/note',
         component: () => import('@/view/tech/note-index.vue'),
         meta: {
           title: '学习笔记',
@@ -50,14 +50,14 @@ export const routes = [
   {
     path: '/live',
     component: () => import('@/layout/HomePage.vue'),
-    redirect: '/live/game',  // 修正了原 redirect 路径错误
+    redirect: '/game',  // 修正了原 redirect 路径错误
     meta: {
       title: '生活相关',
       icon: '#icon-icon'
     },
     children: [
       {
-        path: 'game',
+        path: '/game',
         component: () => import('@/view/live/game-index.vue'),
         meta: {
           title: '游戏攻略',
@@ -65,7 +65,7 @@ export const routes = [
         }
       },
       {
-        path: 'exprience',  // 修正了原路径中的拼写错误和斜杠问题
+        path: '/exprience',
         component: () => import('@/view/live/exprience-index.vue'),
         meta: {
           title: '生活经历',
@@ -128,7 +128,7 @@ export const routes = [
     }
   },
   {
-    path: '/404',
+    path: '/notfound',
     component: () => import('@/layout/NotFoundPage.vue'),
     meta: {
       title: '',
@@ -138,7 +138,7 @@ export const routes = [
   },
   {
     path: '/:pathMatch(.*)*',  // 匹配所有未定义的路由
-    redirect: '/404',
+    redirect: '/notfound',
     meta: {
       hidden: true
     }

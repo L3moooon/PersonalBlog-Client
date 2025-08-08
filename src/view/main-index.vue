@@ -20,7 +20,7 @@
             class="tag-item"
             v-for="(tag, index) in item.tag"
             :key="index">
-            {{ tag }}
+            {{ tag.name }}
           </div>
         </div>
         <div class="abstract">{{ item.abstract }}</div>
@@ -145,10 +145,11 @@ const goRoute = (id) => {
       .detail {
         height: 30px;
         display: flex;
+        align-items: center;
         width: 100%;
         // justify-content: space-between;
         gap: 60px;
-        font-size: 14px;
+        font-size: 15px;
         font-weight: 200;
         color: #a0a0a0;
         .time,
@@ -156,7 +157,7 @@ const goRoute = (id) => {
         .view,
         .comments {
           display: flex;
-          align-items: center;
+          // align-items: center;
           img {
             width: 15px;
             height: 15px;

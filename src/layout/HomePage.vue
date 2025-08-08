@@ -48,7 +48,7 @@ import { getThemeInfo } from "@/api/website.js";
 import { sendUserInfo } from "@/api/user";
 import { useThemeStore } from "@/store/theme";
 import MenuList from "@/components/menu-list.vue";
-import VisitorCard from "@/components/visitorCard.vue";
+import VisitorCard from "@/components/visitor-card.vue";
 import WebsiteInfo from "@/components/website-info.vue";
 import RecommandArticle from "@/components/recommand-article.vue";
 import TypeText from "@/components/type-text.vue";
@@ -172,9 +172,11 @@ onMounted(async () => {
 
 .down {
   // height: 200px;
+  min-height: 100vh;
   display: flex;
   width: 70%;
   margin: 4rem auto;
+  margin-bottom: 20px;
   justify-content: space-between;
   // align-items: center;
   flex-grow: 1 2 1;

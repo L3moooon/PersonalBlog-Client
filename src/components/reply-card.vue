@@ -55,7 +55,7 @@
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { ElMessage } from "element-plus";
-import ReplyCard from "@/components/replyCard";
+import ReplyCard from "@/components/reply-card";
 import { timeFormatter2 } from "@/utils/timeFormatter";
 import { comment } from "@/api/article";
 import { useCommentStore } from "@/store/comment";

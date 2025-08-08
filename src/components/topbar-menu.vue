@@ -9,7 +9,8 @@
       class="left"
       @click="backHome">
       <img :src="useTheme.portrait" />
-      <span>{{ useTheme.nickname }}</span>
+      <!-- <span>{{ useTheme.nickname }}</span> -->
+      <div class="name">个人博客</div>
     </div>
     <div class="right">
       <div @click="mention">主题切换</div>
@@ -43,21 +44,30 @@ window.addEventListener(
   throttle((e) => {
     if (e.deltaY > 0) {
       showWrapper.value = false;
+      wrapperRef.value?.classList.add("hide");
+      wrapperRef.value?.classList.remove("show");
     } else {
       showWrapper.value = true;
+      wrapperRef.value?.classList.add("show");
+      wrapperRef.value?.classList.remove("hide");
     }
   }, 100)
 );
 const mouseenter = () => {
   showWrapper.value = true;
-  wrapperRef.value.classList.add("backdrop-filter");
+  wrapperRef.value?.classList.add("backdrop-filter");
+  wrapperRef.value?.classList.add("show");
+  wrapperRef.value?.classList.remove("hide");
 };
 const mouseLeave = () => {
   console.log(window.scrollY);
   if (window.scrollY > 80) {
     showWrapper.value = false;
+    // 触发隐藏动画
+    wrapperRef.value?.classList.add("hide");
+    wrapperRef.value?.classList.remove("show");
   }
-  wrapperRef.value.classList.remove("backdrop-filter");
+  wrapperRef.value?.classList.remove("backdrop-filter");
 };
 const mention = () => {
   ElMessage.info("敬请期待");
@@ -77,6 +87,7 @@ const mention = () => {
 .backdrop-filter {
   transition: 0.3s;
   backdrop-filter: blur(5px); /* 模糊半径，值越大越模糊 */
+  animation: fadeInBg 0.3s ease-out forwards;
 }
 .wrapper {
   width: 100%;
@@ -90,24 +101,31 @@ const mention = () => {
   justify-content: space-between;
   align-items: center;
 
-  // overflow: hidden;
-  // height: 0;
-  // padding: 0;
-  // transition: all 0.5s ease-out;
+  // 新增：默认加载动画
+  animation: slideDown 0.5s ease-out forwards;
+  background-color: rgba(0, 0, 0, 0);
+  &.show {
+    animation: slideDown 0.5s ease-out forwards;
+  }
+  &.hide {
+    animation: slideUp 0.5s ease-out forwards;
+  }
   .left {
     cursor: pointer;
     margin: 1rem;
     display: flex;
     align-items: center;
+    animation: fadeIn 0.6s ease-out;
+
     img {
-      width: 50px;
+      width: 80px;
       border-radius: 5px;
     }
-    span {
+    .name {
       color: white;
-      font-size: 30px;
-      font-weight: 500;
-      margin: 0 0.8rem;
+      font-size: 20px;
+      font-weight: 400;
+      margin: 35px 12px 0 18px;
     }
   }
   .right {
@@ -117,9 +135,55 @@ const mention = () => {
     font-size: 20px;
     font-weight: 500;
     justify-content: space-evenly;
+    animation: fadeIn 0.8s ease-out;
+
     div {
       cursor: pointer;
     }
+  }
+}
+
+// 新增关键帧动画
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%); // 从顶部隐藏位置滑入
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0); // 滑到正常位置
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0); // 从正常位置滑出
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100%); // 滑到顶部隐藏
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInBg {
+  from {
+    background-color: rgba(0, 0, 0, 0); // 完全透明背景
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0.3); // 半透明背景
+  }
+}
+
+// 补充子元素淡入动画
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 </style>

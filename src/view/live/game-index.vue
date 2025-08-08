@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>游戏</div>
 </template>
 
 <script setup></script>

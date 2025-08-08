@@ -8,7 +8,7 @@
         :src="computedPortrait"
         id="card-img"
         class="card__shine" />
-      <div class="name">游客 {{ visitor.name }}</div>
+      <div class="name">{{ visitor.name }}</div>
       <!-- 早上好，下午好，晚上好 -->
       <div class="greeting">欢迎到访</div>
     </div>
