@@ -190,6 +190,9 @@ onMounted(async () => {
   }
   .content-middle {
     width: 65%;
+    background-color: #efeeee;
+    border-radius: 10px;
+    margin: 0 1rem;
   }
   .right-container {
     width: 20%;

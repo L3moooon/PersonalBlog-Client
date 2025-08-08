@@ -58,17 +58,17 @@ export const routes = [
     children: [
       {
         path: '/game',
-        component: () => import('@/view/live/game-index.vue'),
+        component: () => import('@/view/live/live-index.vue'),
         meta: {
-          title: '游戏攻略',
+          title: '生活爱好',
           icon: '#icon-game'
         }
       },
       {
         path: '/exprience',
-        component: () => import('@/view/live/exprience-index.vue'),
+        component: () => import('@/view/live/think-index.vue'),
         meta: {
-          title: '生活经历',
+          title: '随想录',
           icon: '#icon-daifasong'
         }
       },

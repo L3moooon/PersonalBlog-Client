@@ -1,6 +1,5 @@
 <template>
   <div
-    v-show="showWrapper"
     class="wrapper"
     ref="wrapperRef"
     @mouseenter="mouseenter"

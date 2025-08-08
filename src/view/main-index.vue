@@ -76,11 +76,8 @@ const goRoute = (id) => {
 
 <style lang="scss" scoped>
 .home-container {
-  // background-color: #f1f3f4;
-  background-color: #efeeee;
-  margin: 0 1rem;
-  border-radius: 10px;
   overflow: hidden; //解决高度塌陷
+  height: 100%;
   .card {
     padding: 10px;
     margin: 1rem 1rem;
