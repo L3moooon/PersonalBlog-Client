@@ -1,20 +1,8 @@
-import layoutIndex from '@/layout/layout-index.vue'
-import HomeView from '@/view/home/home-index.vue'
-import NotFoundView from '@/view/notFound/not-found-index.vue'
-import ProgramIndex from '@/view/tech/program/program-index.vue'
-import NoteIndex from '@/view/tech/note/note-index.vue'
-import GameIndex from '@/view/live/game/game-index.vue'
-import ExprienceIndex from '@/view/live/exprience/exprience-index.vue'
-import LogIndex from '@/view/log/log-index.vue'
-import AboutmeIndex from '@/view/aboutme/aboutme-index.vue'
-import MessageIndex from '@/view/message/message-index.vue'
-import LinkIndex from '@/view/link/link-index.vue'
-
-
+// 路由配置 - 懒加载形式
 export const routes = [
   {
     path: '/',
-    component: layoutIndex,
+    component: () => import('@/layout/HomePage.vue'),
     redirect: '/home',
     meta: {
       title: '',
@@ -24,7 +12,7 @@ export const routes = [
     children: [
       {
         path: 'home',
-        component: HomeView,
+        component: () => import('@/view/home-index.vue'),
         meta: {
           title: '首页',
           icon: '#icon-home'
@@ -34,8 +22,8 @@ export const routes = [
   },
   {
     path: '/tech',
-    component: layoutIndex,
-    redirect: '/program',
+    component: () => import('@/layout/HomePage.vue'),
+    redirect: '/tech/program',  // 修正了原 redirect 路径错误
     meta: {
       title: '技术相关',
       icon: '#icon-banshou'
@@ -43,7 +31,7 @@ export const routes = [
     children: [
       {
         path: 'program',
-        component: ProgramIndex,
+        component: () => import('@/view/tech/program-index.vue'),
         meta: {
           title: '程序设计',
           icon: '#icon-chengxuprogram1'
@@ -51,7 +39,7 @@ export const routes = [
       },
       {
         path: 'note',
-        component: NoteIndex,
+        component: () => import('@/view/tech/note-index.vue'),
         meta: {
           title: '学习笔记',
           icon: '#icon-note'
@@ -61,8 +49,8 @@ export const routes = [
   },
   {
     path: '/live',
-    component: layoutIndex,
-    redirect: 'game',
+    component: () => import('@/layout/HomePage.vue'),
+    redirect: '/live/game',  // 修正了原 redirect 路径错误
     meta: {
       title: '生活相关',
       icon: '#icon-icon'
@@ -70,15 +58,15 @@ export const routes = [
     children: [
       {
         path: 'game',
-        component: GameIndex,
+        component: () => import('@/view/live/game-index.vue'),
         meta: {
           title: '游戏攻略',
           icon: '#icon-game'
         }
       },
       {
-        path: '/exprience',
-        component: ExprienceIndex,
+        path: 'exprience',  // 修正了原路径中的拼写错误和斜杠问题
+        component: () => import('@/view/live/exprience-index.vue'),
         meta: {
           title: '生活经历',
           icon: '#icon-daifasong'
@@ -88,7 +76,7 @@ export const routes = [
   },
   {
     path: '/catagroy',
-    component: layoutIndex,
+    component: () => import('@/layout/HomePage.vue'),
     meta: {
       title: '',
       icon: '',
@@ -97,7 +85,7 @@ export const routes = [
     children: [
       {
         path: 'log',
-        component: LogIndex,
+        component: () => import('@/view/log-index.vue'),
         meta: {
           title: '建站日志',
           icon: '#icon-rizhi'
@@ -107,7 +95,7 @@ export const routes = [
   },
   {
     path: '/aboutme',
-    component: AboutmeIndex,
+    component: () => import('@/view/aboutme-index.vue'),
     meta: {
       title: '关于我',
       icon: '#icon-aboutMe'
@@ -115,7 +103,7 @@ export const routes = [
   },
   {
     path: '/message',
-    component: MessageIndex,
+    component: () => import('@/view/message-index.vue'),
     meta: {
       title: '留言板',
       icon: '#icon-message'
@@ -123,7 +111,7 @@ export const routes = [
   },
   {
     path: '/link',
-    component: LinkIndex,
+    component: () => import('@/view/link-index.vue'),
     meta: {
       title: '友情链接',
       icon: '#icon-link1'
@@ -131,8 +119,7 @@ export const routes = [
   },
   {
     path: '/article',
-    component: import('@/view/article-page.vue')
-    ,
+    component: () => import('@/layout/ArticlePage.vue'),
     meta: {
       title: '',
       icon: '',
@@ -142,10 +129,17 @@ export const routes = [
   },
   {
     path: '/404',
-    component: NotFoundView,
+    component: () => import('@/layout/NotFoundPage.vue'),
     meta: {
       title: '',
       icon: '',
+      hidden: true
+    }
+  },
+  {
+    path: '/:pathMatch(.*)*',  // 匹配所有未定义的路由
+    redirect: '/404',
+    meta: {
       hidden: true
     }
   }

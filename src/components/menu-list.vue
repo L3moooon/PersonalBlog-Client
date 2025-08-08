@@ -1,9 +1,15 @@
 <template>
-  <template v-for="item in props.menuList" :key="item.path">
+  <template
+    v-for="item in props.menuList"
+    :key="item.path">
     <!-- 展示&&有子路由 -->
-    <el-sub-menu v-if="!item.meta.hidden && item.children" :index="item.path">
+    <el-sub-menu
+      v-if="!item.meta.hidden && item.children"
+      :index="item.path">
       <template #title>
-        <svg class="icon" aria-hidden="true">
+        <svg
+          class="icon"
+          aria-hidden="true">
           <use :xlink:href="item.meta.icon"></use>
         </svg>
         <span>{{ item.meta.title }}</span>
@@ -20,10 +26,11 @@
     <el-menu-item
       v-if="!item.meta.hidden && !item.children"
       :index="item.path"
-      @click="goRoute"
-    >
+      @click="goRoute">
       <template #title>
-        <svg class="icon" aria-hidden="true">
+        <svg
+          class="icon"
+          aria-hidden="true">
           <use :xlink:href="item.meta.icon"></use>
         </svg>
         <span>{{ item.meta.title }}</span>
@@ -33,7 +40,7 @@
 </template>
 
 <script setup>
-import MenuList from "@/components/menu/menu-list.vue";
+import MenuList from "@/components/menu-list.vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["menuList"]);

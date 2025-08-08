@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="home-container">
     <!-- <GitCalendar></GitCalendar> -->
     <div
       class="card"
@@ -60,7 +60,7 @@ import { ref, onMounted } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { timeFormatter } from "@/utils/timeFormatter";
-import GitCalendar from "@/components/gitCalendar/git-calendar.vue";
+import GitCalendar from "@/components/git-calendar.vue";
 
 const articleList = ref([]);
 onMounted(async () => {
@@ -75,7 +75,7 @@ const goRoute = (id) => {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.home-container {
   // background-color: #f1f3f4;
   background-color: #efeeee;
   margin: 0 1rem;

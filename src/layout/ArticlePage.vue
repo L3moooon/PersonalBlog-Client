@@ -174,7 +174,7 @@ import { onMounted, ref, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 import { getArticle, getComments, comment, delComment } from "@/api/article";
 import { StarFilled } from "@element-plus/icons-vue";
-import TopbarMenu from "@/components/topbar/topbar-menu.vue";
+import TopbarMenu from "@/components/topbar-menu.vue";
 import VisitorCard from "@/components/visitorCard.vue";
 import ReplyCard from "@/components/replyCard.vue";
 import { timeFormatter, timeFormatter2 } from "@/utils/timeFormatter";
