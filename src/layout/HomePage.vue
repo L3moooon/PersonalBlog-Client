@@ -8,7 +8,7 @@
         <button
           @click="turnDownPage"
           class="button">
-          初章
+          主页
         </button>
       </div>
     </div>
@@ -153,7 +153,7 @@ onMounted(async () => {
       }
       .button {
         font-family: SiJiYuNi;
-        font-size: 1rem;
+        font-size: 20px;
         color: white;
         display: block;
         height: 40px;

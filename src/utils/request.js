@@ -3,7 +3,7 @@ import { ElMessage } from "element-plus";
 // import useUserStore from "@/store/modules/user.js";
 //创建axios实例
 
-const BASE_API = 'http://localhost:3001'
+const BASE_API = '/'
 let request = axios.create({
   baseURL: BASE_API,
   timeout: 10000,

@@ -12,27 +12,27 @@
     <div class="detail">
       <div class="column">
         <div class="info-title">运行时间：</div>
-        <div class="content clock">{{ websiteData.run_time }}天</div>
+        <div class="content clock">{{ websiteData.run_days }}天</div>
       </div>
       <div class="column">
         <div class="info-title">今日访问：</div>
-        <div class="content">{{ websiteData.today_page_view }}</div>
+        <div class="content">{{ websiteData.today_visits }}次</div>
       </div>
       <div class="column">
         <div class="info-title">总计访问：</div>
-        <div class="content">{{ websiteData.total_page_view }}</div>
+        <div class="content">{{ websiteData.total_visits }}次</div>
       </div>
       <div class="column">
         <div class="info-title">文章数目：</div>
-        <div class="content">{{ websiteData.article_num }}</div>
+        <div class="content">{{ websiteData.article_count }}篇</div>
       </div>
       <div class="column">
         <div class="info-title">评论数目：</div>
-        <div class="content">{{ websiteData.common_num }}</div>
+        <div class="content">{{ websiteData.comment_count }}条</div>
       </div>
       <div class="column">
         <div class="info-title">最后活动：</div>
-        <div class="content">{{ websiteData.last_time }}天前</div>
+        <div class="content">{{ websiteData.last_activity }}天前</div>
       </div>
     </div>
   </div>
@@ -42,22 +42,21 @@
 import { onMounted, reactive } from "vue";
 import { getWebsiteInfo } from "@/api/website";
 const websiteData = reactive({
-  run_time: Number, //单位天
-  last_time: 1,
-  create_time: String,
-  today_page_view: Number,
-  total_page_view: Number,
-  article_num: Number,
-  common_num: Number,
-  last_activate: String,
+  run_days: Number, //单位天
+  today_visits: Number,
+  total_visits: Number,
+  article_count: Number,
+  comment_count: Number,
+  last_activity: String,
 });
 onMounted(async () => {
-  const { data } = await getWebsiteInfo();
-  if (data && data[0]) {
-    Object.assign(websiteData, data[0]);
+  const { data, status } = await getWebsiteInfo();
+  console.log(data);
+  if (status == 1) {
+    Object.assign(websiteData, data);
   }
   // console.log(websiteData);
-  websiteData.run_time = transformRuntime();
+  // websiteData.run_time = transformRuntime();
 });
 const transformRuntime = () => {
   const currentDate = new Date();
@@ -89,14 +88,7 @@ const transformActivateTime = () => {
   .title {
     margin: 0.5rem;
     font-size: 1rem;
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
-    }
+
     .icon {
       animation: rotate 2s linear infinite;
       // color: black;
@@ -110,6 +102,7 @@ const transformActivateTime = () => {
     flex-wrap: wrap;
     margin: 0 auto;
     .column {
+      cursor: pointer;
       // position: absolute;
       width: 28%;
       height: 3rem;
@@ -134,6 +127,14 @@ const transformActivateTime = () => {
       box-shadow: 2px 2px 5px #876a40;
       // font-size: 2em;
     }
+  }
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 .web-info:hover {
