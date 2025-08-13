@@ -18,20 +18,9 @@ export const routes = [
           icon: '#icon-home'
         }
       },
-    ]
-  },
-  {
-    path: '/tech',
-    component: () => import('@/layout/HomePage.vue'),
-    redirect: '/program',  // 修正了原 redirect 路径错误
-    meta: {
-      title: '技术相关',
-      icon: '#icon-banshou'
-    },
-    children: [
       {
         path: '/program',
-        component: () => import('@/view/tech/program-index.vue'),
+        component: () => import('@/view/program-index.vue'),
         meta: {
           title: '程序设计',
           icon: '#icon-chengxuprogram1'
@@ -39,26 +28,15 @@ export const routes = [
       },
       {
         path: '/note',
-        component: () => import('@/view/tech/note-index.vue'),
+        component: () => import('@/view/note-index.vue'),
         meta: {
           title: '学习笔记',
           icon: '#icon-note'
         }
       },
-    ]
-  },
-  {
-    path: '/live',
-    component: () => import('@/layout/HomePage.vue'),
-    redirect: '/game',  // 修正了原 redirect 路径错误
-    meta: {
-      title: '生活相关',
-      icon: '#icon-icon'
-    },
-    children: [
       {
         path: '/game',
-        component: () => import('@/view/live/live-index.vue'),
+        component: () => import('@/view/live-index.vue'),
         meta: {
           title: '生活爱好',
           icon: '#icon-game'
@@ -66,23 +44,12 @@ export const routes = [
       },
       {
         path: '/exprience',
-        component: () => import('@/view/live/think-index.vue'),
+        component: () => import('@/view/think-index.vue'),
         meta: {
           title: '随想录',
           icon: '#icon-daifasong'
         }
       },
-    ]
-  },
-  {
-    path: '/catagroy',
-    component: () => import('@/layout/HomePage.vue'),
-    meta: {
-      title: '',
-      icon: '',
-      hidden: true
-    },
-    children: [
       {
         path: 'log',
         component: () => import('@/view/log-index.vue'),
@@ -91,41 +58,41 @@ export const routes = [
           icon: '#icon-rizhi'
         }
       },
+      {
+        path: '/aboutme',
+        component: () => import('@/view/aboutme-index.vue'),
+        meta: {
+          title: '关于我',
+          icon: '#icon-aboutMe'
+        }
+      },
+      {
+        path: '/message',
+        component: () => import('@/view/message-index.vue'),
+        meta: {
+          title: '留言板',
+          icon: '#icon-message'
+        }
+      },
+      {
+        path: '/link',
+        component: () => import('@/view/link-index.vue'),
+        meta: {
+          title: '友情链接',
+          icon: '#icon-link1'
+        }
+      },
+      {
+        path: '/article',
+        component: () => import('@/view/ArticlePage.vue'),
+        meta: {
+          title: '',
+          icon: '',
+          hidden: true,
+          // transition: 'slide-fade'
+        }
+      },
     ]
-  },
-  {
-    path: '/aboutme',
-    component: () => import('@/view/aboutme-index.vue'),
-    meta: {
-      title: '关于我',
-      icon: '#icon-aboutMe'
-    }
-  },
-  {
-    path: '/message',
-    component: () => import('@/view/message-index.vue'),
-    meta: {
-      title: '留言板',
-      icon: '#icon-message'
-    }
-  },
-  {
-    path: '/link',
-    component: () => import('@/view/link-index.vue'),
-    meta: {
-      title: '友情链接',
-      icon: '#icon-link1'
-    }
-  },
-  {
-    path: '/article',
-    component: () => import('@/layout/ArticlePage.vue'),
-    meta: {
-      title: '',
-      icon: '',
-      hidden: true,
-      // transition: 'slide-fade'
-    }
   },
   {
     path: '/notfound',

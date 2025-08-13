@@ -2,49 +2,44 @@
   <div
     class="article-main"
     id="article-container">
-    <TopbarMenu></TopbarMenu>
-    <div class="banner">
-      <img
-        class="banner-img"
-        :src="article.cover_img"
-        object-fit="contain" />
-      <div class="mask"></div>
-    </div>
     <div class="banner-content">
-      <div class="box">
-        <div class="title">{{ article.title }}</div>
-        <div class="abstract">{{ article.abstract }}</div>
-        <div class="detail">
-          <div class="info">
-            <img
-              src="@/assets/icons/time.png"
-              alt="" />
-            发表于:{{ timeFormatter(article.publish_date) }}
-          </div>
-          <div>|</div>
-          <div class="info">
-            <img
-              src="@/assets/icons/update.png"
-              alt="" />更新于:{{ timeFormatter(article.last_edit_date) }}
-          </div>
-          <div>|</div>
-          <div class="info">
-            <img
-              src="@/assets/icons/字数.png"
-              alt="" />字数统计:{{ article.contentLength }}
-          </div>
-          <div>|</div>
-          <div class="info">
-            <img
-              src="@/assets/icons/时间.png"
-              alt="" />阅读时长:{{ article.readingTime }}分钟
-          </div>
+      <div class="title">{{ article.title }}</div>
+      <div class="abstract">{{ article.abstract }}</div>
+      <div class="detail">
+        <div class="info">
+          <img
+            src="@/assets/icons/time.png"
+            alt="" />
+          发表于:{{ timeFormatter(article.publish_date) }}
+        </div>
+        <div>|</div>
+        <div class="info">
+          <img
+            src="@/assets/icons/update.png"
+            alt="" />更新于:{{ timeFormatter(article.last_edit_date) }}
+        </div>
+        <div>|</div>
+        <div class="info">
+          <img
+            src="@/assets/icons/字数.png"
+            alt="" />字数统计:{{ article.contentLength }}
+        </div>
+        <div>|</div>
+        <div class="info">
+          <img
+            src="@/assets/icons/时间.png"
+            alt="" />阅读时长:{{ article.readingTime }}分钟
         </div>
       </div>
     </div>
+    <!-- 文章封面 -->
+    <img
+      class="banner-img"
+      :src="article.cover_img"
+      object-fit="contain" />
+    <!-- 正文 -->
     <div class="article-content">
-      <div class="tool">工具栏</div>
-      <div class="placeholder"></div>
+      <!-- <div class="tool">工具栏</div> -->
       <div class="text-container quill-content-wrapper">
         <div
           class="text quill-content"
@@ -161,11 +156,11 @@
           </div>
         </div>
       </div>
-      <el-affix
+      <!-- <el-affix
         :offset="0"
         position="top">
         <div class="catagory">目录</div>
-      </el-affix>
+      </el-affix> -->
     </div>
   </div>
 </template>
@@ -326,49 +321,13 @@ onMounted(() => {
   position: relative;
   text-align: center;
   width: 100%;
-  min-height: 100vh;
-  background-image: url("@/assets/bamboo.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   // overflow: hidden;
-  .banner {
-    width: 100%;
-    height: 500px;
-    position: relative;
-    .banner-img {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-    }
-    .mask {
-      width: 100%;
-      height: 100%;
-      // position: fixed;
-      position: absolute;
-      left: 0;
-      top: 0;
-      background-color: rgba($color: #222, $alpha: 0.5);
-    }
-  }
   .banner-content {
-    position: absolute;
-    left: 0;
-    top: 111px;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    .box {
-      background: #ffffff;
-      padding: 30px 120px;
-      border-radius: 10px;
-      opacity: 0.85;
-    }
     .title {
-      margin: 27px 0 50px 0;
+      margin: 27px 0;
       font-family: Alibaba PuHuiTi;
       font-weight: bold;
-      font-size: 64px;
+      font-size: 44px;
       span:first-child {
         color: #d13c31;
       }
@@ -378,14 +337,15 @@ onMounted(() => {
       max-height: 100px;
     }
     .detail {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       font-family: Alibaba PuHuiTi;
       font-weight: 500;
       font-size: 18px;
       color: #222222;
-      margin-top: 50px;
+      margin-top: 10px;
 
-      display: flex;
-      align-items: center;
       flex-wrap: wrap;
       gap: 10px;
       .info {
@@ -398,21 +358,23 @@ onMounted(() => {
       }
     }
   }
+  .banner-img {
+    width: 90%;
+  }
 }
 .article-content {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 40px 0;
+  padding: 40px 30px;
+  box-sizing: border-box;
   .text-container {
     min-height: 1000px;
-    width: 1000px;
+    width: 100%;
     border-radius: 10px;
     font-size: 20px;
     position: relative;
-    background-color: #fff;
     padding: 10px;
-    opacity: 0.9;
     text-align: left;
     .text {
       margin-bottom: 100px;

@@ -30,20 +30,20 @@
       <!-- 右-->
       <div class="right-container">
         <VisitorCard></VisitorCard>
+        <WebsiteInfo v-if="route.path != '/article'"></WebsiteInfo>
         <el-affix :offset="20">
-          <WebsiteInfo></WebsiteInfo>
           <RecommandArticle></RecommandArticle>
+          <!-- TODO 标签 -->
         </el-affix>
-        <!-- TODO 访客信息 -->
-        <!-- TODO 标签 -->
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { routes } from "@/router/route";
 import { onMounted } from "vue";
+import { routes } from "@/router/route";
+import { useRoute } from "vue-router";
 import { getThemeInfo } from "@/api/website.js";
 import { sendUserInfo } from "@/api/user";
 import { useThemeStore } from "@/store/theme";
@@ -56,6 +56,7 @@ import TopbarMenu from "@/components/topbar-menu.vue";
 import "@/styles/poem-font.css";
 //请求用户信息并放到pinia仓库
 const themeStore = useThemeStore();
+const route = useRoute();
 // 生成简单的浏览器指纹
 function generateFingerprint() {
   // 收集浏览器特征

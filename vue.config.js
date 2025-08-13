@@ -1,6 +1,11 @@
 const { defineConfig } = require('@vue/cli-service')
 const path = require('path')
+
+
 const target = 'http://182.92.105.35:3000'
+// const target = 'http://127.0.0.1:3000'
+
+
 module.exports = defineConfig({
   transpileDependencies: true,
   chainWebpack: (config) => {
@@ -10,17 +15,14 @@ module.exports = defineConfig({
   },
   devServer: {
     proxy: {
-      '/': {
+      '/web': {
         target,
         changeOrigin: true,
-        // pathRewrite: {
-        //   '^/web': ''
-        // }
       },
-      // '/public': {
-      //   target: 'http://182.92.105.35:3001',
-      //   changeOrigin: true,
-      // }
+      '/public': {
+        target,
+        changeOrigin: true,
+      }
     }
   }
 })
