@@ -17,14 +17,14 @@
       <div @click="mention">我的</div>
     </div>
   </div>
-  <div
+  <!-- <div
     v-show="!showWrapper"
     class="wrapper-placeholder"
-    @mouseenter="mouseenter"></div>
+    @mouseenter="mouseenter"></div> -->
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/store/theme";
 import { throttle } from "@/utils/throttle";
@@ -38,26 +38,34 @@ const backHome = () => {
   router.push("/");
 };
 const showWrapper = ref(true);
-window.addEventListener(
-  "wheel",
-  throttle((e) => {
-    if (e.deltaY > 0) {
-      showWrapper.value = false;
-      wrapperRef.value?.classList.add("hide");
-      wrapperRef.value?.classList.remove("show");
-    } else {
+function showOrHide(e) {
+  // 下滑
+  if (e.deltaY > 0) {
+    showWrapper.value = false;
+    wrapperRef.value?.classList.add("hide");
+    wrapperRef.value?.classList.remove("show");
+  }
+  // 上滑
+  else {
+    // showWrapper.value = true;
+    // wrapperRef.value?.classList.add("show");
+    // wrapperRef.value?.classList.remove("hide");
+    if (window.scrollY <= 80) {
       showWrapper.value = true;
       wrapperRef.value?.classList.add("show");
       wrapperRef.value?.classList.remove("hide");
     }
-  }, 100)
-);
+  }
+}
+const throttledShowOrHide = throttle(showOrHide, 100);
+//光标进入时显示并添加遮罩层
 const mouseenter = () => {
   showWrapper.value = true;
   wrapperRef.value?.classList.add("backdrop-filter");
   wrapperRef.value?.classList.add("show");
   wrapperRef.value?.classList.remove("hide");
 };
+//光标离开时关闭遮罩层，如果不在初屏位置就隐藏
 const mouseLeave = () => {
   console.log(window.scrollY);
   if (window.scrollY > 80) {
@@ -71,14 +79,19 @@ const mouseLeave = () => {
 const mention = () => {
   ElMessage.info("敬请期待");
 };
+onMounted(() => {
+  window.addEventListener("wheel", throttledShowOrHide);
+});
+onUnmounted(() => {
+  window.removeEventListener("wheel", throttledShowOrHide);
+});
 </script>
 
 <style lang="scss" scoped>
 .wrapper-placeholder {
   transition: 0.3s;
-
   width: 100%;
-  height: 80px;
+  height: 60px;
   position: fixed;
   top: 0;
   z-index: 999;
@@ -90,7 +103,7 @@ const mention = () => {
 }
 .wrapper {
   width: 100%;
-  height: 80px;
+  height: 60px;
   position: fixed;
   top: 0;
   z-index: 999;
@@ -111,28 +124,25 @@ const mention = () => {
   }
   .left {
     cursor: pointer;
-    margin: 1rem;
+    height: 100%;
+    margin-left: 20px;
     display: flex;
     align-items: center;
     animation: fadeIn 0.6s ease-out;
 
     img {
-      width: 80px;
+      width: 50px;
       border-radius: 5px;
     }
     .name {
       color: white;
-      font-size: 20px;
-      font-weight: 400;
-      margin: 35px 12px 0 18px;
+      margin: 5px 12px 0 18px;
     }
   }
   .right {
     display: flex;
     width: 400px;
     color: white;
-    font-size: 20px;
-    font-weight: 500;
     justify-content: space-evenly;
     animation: fadeIn 0.8s ease-out;
 

@@ -34,7 +34,7 @@
     </div>
     <!-- 文章封面 -->
     <img
-      class="banner-img"
+      class="banner-img flex-center"
       :src="article.cover_img"
       object-fit="contain" />
     <!-- 正文 -->
@@ -322,10 +322,10 @@ onMounted(() => {
 <style lang="scss" scoped>
 .article-main {
   position: relative;
-  text-align: center;
   width: 100%;
   // overflow: hidden;
   .banner-content {
+    text-align: center;
     .title {
       margin: 27px 0;
       font-family: Alibaba PuHuiTi;
@@ -363,6 +363,7 @@ onMounted(() => {
   }
   .banner-img {
     width: 90%;
+    margin: 0 auto;
   }
 }
 .article-content {
@@ -372,7 +373,6 @@ onMounted(() => {
   padding: 10px 40px 40px 40px;
   box-sizing: border-box;
   .text-container {
-    min-height: 1000px;
     width: 100%;
     border-radius: 10px;
     font-size: 20px;

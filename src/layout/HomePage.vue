@@ -17,7 +17,7 @@
     <div class="down">
       <!-- 左 -->
       <div class="left-container">
-        <el-affix :offset="80">
+        <el-affix :offset="20">
           <el-menu popper-class="menu">
             <MenuList
               :menuList="routes"
@@ -33,7 +33,7 @@
       <div class="right-container">
         <!-- 文章独有 -->
         <template v-if="route.path == '/article'">
-          <el-affix :offset="80">
+          <el-affix :offset="20">
             <ArticleCatagory
               contentSelector="article-content"></ArticleCatagory>
             <TagCloud></TagCloud>
@@ -43,7 +43,7 @@
         <template v-else>
           <VisitorCard></VisitorCard>
           <WebsiteInfo></WebsiteInfo>
-          <el-affix :offset="80">
+          <el-affix :offset="20">
             <RecommandArticle></RecommandArticle>
           </el-affix>
         </template>
@@ -129,7 +129,7 @@ const turnDownPage = () => {
     behavior: "smooth", // 平滑滚动效果
   });
 };
-// 定义滚动处理函数
+// 滚动到内容区时销毁上半屏
 const handleScroll = () => {
   // 获取top区域的高度
   const topElement = document.querySelector(".top");
@@ -221,8 +221,9 @@ onUnmounted(() => {
   }
   .el-menu {
     border-radius: 10px;
+    overflow: hidden;
     --el-font-family: Avenir, Helvetica, Arial, sans-serif;
-    --el-menu-item-font-size: 0.75rem;
+    --el-menu-item-font-size: 14px;
   }
   .content-middle {
     width: 65%;
@@ -230,6 +231,7 @@ onUnmounted(() => {
     border-radius: 10px;
     margin: 0 1rem;
     margin-bottom: 20px;
+    overflow: hidden;
   }
   .right-container {
     width: 20%;

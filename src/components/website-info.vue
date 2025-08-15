@@ -101,6 +101,8 @@ const transformActivateTime = () => {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
+    font-size: 12px;
+
     .column {
       cursor: pointer;
       // position: absolute;

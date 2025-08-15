@@ -7,9 +7,15 @@
       :key="item.id"
       @click="goRoute(item.id)">
       <img
-        class="cover"
+        v-if="item.cover_img"
+        class="home-cover"
         :src="item.cover_img"
         alt="" />
+      <div
+        v-else
+        class="home-cover">
+        暂无封面
+      </div>
       <div class="content">
         <div class="title">{{ item.title }}</div>
         <div class="tag">
@@ -81,7 +87,7 @@ const goRoute = (id) => {
   .card {
     padding: 10px;
     margin: 1rem 1rem;
-    height: 200px;
+    height: 180px;
     background-color: white;
     border-radius: 10px;
     display: flex;
@@ -96,11 +102,18 @@ const goRoute = (id) => {
         inset -18px -18px 30px rgba(255, 255, 255, 1);
       transition: box-shadow 0.2s ease-out;
     }
-    .cover {
-      width: 300px;
-      height: 200px;
+    .home-cover {
+      width: 280px;
+      height: 180px;
       border-radius: 10px;
+
+      font-size: 30px;
+      font-weight: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
     .content {
       width: calc(100% - 300px);
       padding-left: 30px;
@@ -110,11 +123,12 @@ const goRoute = (id) => {
       .title {
         height: 30px;
         padding: 24px 0 10px 0;
-        font-size: 30px;
+        font-size: 24px;
         font-weight: 500;
         color: #555555;
       }
       .tag {
+        font-size: 14px;
         width: 100%;
         height: 30px;
         display: flex;
@@ -135,9 +149,11 @@ const goRoute = (id) => {
       }
       .abstract {
         height: 60px;
-        font-size: 18px;
+        font-size: 14px;
         font-weight: 200;
         color: #a0a0a0;
+        display: flex;
+        align-items: center;
       }
       .detail {
         height: 30px;

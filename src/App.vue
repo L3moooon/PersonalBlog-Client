@@ -14,8 +14,9 @@ import "@/utils/rem";
 import "@/font/iconfont";
 import "element-plus/dist/index.css";
 import "@/styles/icon.css";
-import "@/styles/scrollbar.scss";
-import "@/styles/transitions.css";
+import "@/styles/scrollbar.scss"; //滚动条
+import "@/styles/transitions.css"; //路由跳转
+import "@/styles/public.scss";
 </script>
 
 <style>
@@ -25,6 +26,6 @@ import "@/styles/transitions.css";
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center; */
   color: #303133;
-  font-size: 0.75rem;
+  font-size: 16px;
 }
 </style>
