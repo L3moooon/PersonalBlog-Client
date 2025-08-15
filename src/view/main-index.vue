@@ -23,7 +23,7 @@
             {{ tag.name }}
           </div>
         </div>
-        <div class="abstract">{{ item.abstract }}</div>
+        <div class="abstract">{{ item.abstract || "暂无简介" }}</div>
         <div class="detail">
           <div class="time">
             <img

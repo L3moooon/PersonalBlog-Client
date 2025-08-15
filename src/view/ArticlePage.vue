@@ -4,7 +4,7 @@
     id="article-container">
     <div class="banner-content">
       <div class="title">{{ article.title }}</div>
-      <div class="abstract">{{ article.abstract }}</div>
+      <div class="abstract">{{ article.abstract || "暂无简介" }}</div>
       <div class="detail">
         <div class="info">
           <img
@@ -38,7 +38,9 @@
       :src="article.cover_img"
       object-fit="contain" />
     <!-- 正文 -->
-    <div class="article-content">
+    <div
+      class="article-content"
+      id="article-content">
       <!-- <div class="tool">工具栏</div> -->
       <div class="text-container quill-content-wrapper">
         <div
@@ -47,120 +49,121 @@
         <el-divider
           ><el-icon><star-filled /></el-icon
         ></el-divider>
-        <div class="comments">
-          <div class="pubCommnent">
-            <el-input
-              v-model="commentText"
-              type="textarea"
-              maxlength="400"
-              show-word-limit
-              rows="5"
-              placeholder="下面我简单说两句..."></el-input>
-            <div class="func">
-              <el-button
-                type="primary"
-                @click="pubComment(commentText)"
-                >发表评论</el-button
-              >
-            </div>
-          </div>
-          <div class="comment-title">
-            <img
-              src="@/assets/icons/评论.png"
-              alt="" />
-            <span>评论</span>
-            <span>|</span>
-            <span>当前共 {{ sum }} 条评论</span>
-          </div>
-          <div class="comment-content">
-            <div
-              class="comment-item"
-              v-for="item in commentList"
-              :key="item.id">
-              <div class="comment-card">
-                <div class="portrait">
-                  <img
-                    v-if="item.portrait"
-                    :src="item.portrait"
-                    alt="" />
-                  <img
-                    v-else
-                    src="@/assets/icons/personal.png"
-                    alt="" />
-                </div>
-                <div class="comment-info">
-                  <div class="name">{{ item.reply_name }}</div>
-                  <div class="content">{{ item.content }}</div>
-                  <div class="detail">
-                    <div class="time">
-                      {{ timeFormatter2(item.comment_date) }}
-                    </div>
-                    <div
-                      class="like"
-                      @click="likeComment">
-                      <div class="like-img"></div>
-                      {{ item.like_count > 0 ? item.like_count : "" }}
-                    </div>
-                    <div
-                      class="unlike"
-                      @click="unlikeComment">
-                      <div class="unlike-img"></div>
-                      {{ item.like_count > 0 ? item.like_count : "" }}
-                    </div>
-                    <div
-                      class="reply"
-                      @click="reply(item.id, item.reply_name)">
-                      回复
-                    </div>
-                  </div>
-                  <ReplyCard
-                    v-if="item.children.length"
-                    :data="item.children"
-                    :rootId="item.id"
-                    :articleId="route.query.id"
-                    :hideReplyName="true"></ReplyCard>
-                  <div
-                    v-if="showReplyBox == item.id"
-                    class="reply-box">
-                    <div class="reply-portrait">
-                      <img
-                        v-if="visitorInfo.portrait"
-                        :src="visitorInfo.portrait"
-                        alt="" />
-                      <img
-                        v-else
-                        src="@/assets/icons/personal.png"
-                        alt="" />
-                    </div>
-                    <div class="reply-text">
-                      <el-input
-                        class="reply-input"
-                        :placeholder="replyTextPlaceholder"
-                        v-model="replyText"
-                        type="textarea"
-                        maxlength="400"
-                        rows="2"></el-input>
-                      <div class="reply-pub">
-                        <el-button
-                          type="primary"
-                          @click="pubComment(replyText)">
-                          发布
-                        </el-button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <el-divider> </el-divider>
-            </div>
-          </div>
-        </div>
       </div>
       <!-- <el-affix
         :offset="0"
         position="top">
         <div class="catagory">目录</div>
       </el-affix> -->
+    </div>
+    <!-- 评论 -->
+    <div class="comments">
+      <div class="pubCommnent">
+        <el-input
+          v-model="commentText"
+          type="textarea"
+          maxlength="400"
+          show-word-limit
+          rows="5"
+          placeholder="下面我简单说两句..."></el-input>
+        <div class="func">
+          <el-button
+            type="primary"
+            @click="pubComment(commentText)"
+            >发表评论</el-button
+          >
+        </div>
+      </div>
+      <div class="comment-title">
+        <img
+          src="@/assets/icons/评论.png"
+          alt="" />
+        <span>评论</span>
+        <span>|</span>
+        <span>当前共 {{ sum }} 条评论</span>
+      </div>
+      <div class="comment-content">
+        <div
+          class="comment-item"
+          v-for="item in commentList"
+          :key="item.id">
+          <div class="comment-card">
+            <div class="portrait">
+              <img
+                v-if="item.portrait"
+                :src="item.portrait"
+                alt="" />
+              <img
+                v-else
+                src="@/assets/icons/personal.png"
+                alt="" />
+            </div>
+            <div class="comment-info">
+              <div class="name">{{ item.reply_name }}</div>
+              <div class="content">{{ item.content }}</div>
+              <div class="detail">
+                <div class="time">
+                  {{ timeFormatter2(item.comment_date) }}
+                </div>
+                <div
+                  class="like"
+                  @click="likeComment">
+                  <div class="like-img"></div>
+                  {{ item.like_count > 0 ? item.like_count : "" }}
+                </div>
+                <div
+                  class="unlike"
+                  @click="unlikeComment">
+                  <div class="unlike-img"></div>
+                  {{ item.like_count > 0 ? item.like_count : "" }}
+                </div>
+                <div
+                  class="reply"
+                  @click="reply(item.id, item.reply_name)">
+                  回复
+                </div>
+              </div>
+              <ReplyCard
+                v-if="item.children.length"
+                :data="item.children"
+                :rootId="item.id"
+                :articleId="route.query.id"
+                :hideReplyName="true"></ReplyCard>
+              <div
+                v-if="showReplyBox == item.id"
+                class="reply-box">
+                <div class="reply-portrait">
+                  <img
+                    v-if="visitorInfo.portrait"
+                    :src="visitorInfo.portrait"
+                    alt="" />
+                  <img
+                    v-else
+                    src="@/assets/icons/personal.png"
+                    alt="" />
+                </div>
+                <div class="reply-text">
+                  <el-input
+                    class="reply-input"
+                    :placeholder="replyTextPlaceholder"
+                    v-model="replyText"
+                    type="textarea"
+                    maxlength="400"
+                    rows="2"></el-input>
+                  <div class="reply-pub">
+                    <el-button
+                      type="primary"
+                      @click="pubComment(replyText)">
+                      发布
+                    </el-button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <el-divider> </el-divider>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -366,7 +369,7 @@ onMounted(() => {
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 40px 30px;
+  padding: 10px 40px 40px 40px;
   box-sizing: border-box;
   .text-container {
     min-height: 1000px;
@@ -374,123 +377,9 @@ onMounted(() => {
     border-radius: 10px;
     font-size: 20px;
     position: relative;
-    padding: 10px;
     text-align: left;
     .text {
       margin-bottom: 100px;
-    }
-    .comments {
-      .pubCommnent {
-        margin-bottom: 20px;
-        .func {
-          margin-top: 20px;
-          display: flex;
-          justify-content: flex-end;
-        }
-      }
-      .comment-title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 20px;
-        img {
-          width: 50px;
-        }
-      }
-      .comment-content {
-        .comment-card {
-          width: 100%;
-          display: flex;
-          .portrait {
-            flex-shrink: 0;
-            width: 100px;
-            display: flex;
-            justify-content: center;
-            img {
-              width: 60px;
-              height: 60px;
-              margin: 0;
-            }
-          }
-          .comment-info {
-            width: 100%;
-            padding-right: 10px;
-            .name {
-              font-size: 17px;
-              color: #515151;
-            }
-            .content {
-              margin-top: 10px;
-              font-size: 18px;
-              line-height: 25px;
-            }
-            .detail {
-              margin-top: 10px;
-              display: flex;
-              align-items: center;
-              color: #707070;
-              font-size: 16px;
-              gap: 20px;
-              .like {
-                cursor: pointer;
-                .like-img {
-                  width: 20px;
-                  height: 20px;
-                  margin-right: 10px;
-                  background-image: url("@/assets/icons/like.png");
-                  background-repeat: no-repeat;
-                  background-size: cover;
-                  &:hover {
-                    background-image: url("@/assets/icons/like-hover.png");
-                  }
-                }
-              }
-              .unlike {
-                cursor: pointer;
-                .unlike-img {
-                  width: 20px;
-                  height: 20px;
-                  margin-right: 10px;
-                  background-image: url("@/assets/icons/unlike.png");
-                  background-repeat: no-repeat;
-                  background-size: cover;
-                  &:hover {
-                    background-image: url("@/assets/icons/unlike-hover.png");
-                  }
-                }
-              }
-              .reply {
-                cursor: pointer;
-                &:hover {
-                  color: #00aeec;
-                }
-              }
-            }
-            .reply-box {
-              display: flex;
-              width: 100%;
-              margin-top: 15px;
-              .reply-portrait {
-                img {
-                  width: 60px;
-                  height: 60px;
-                  margin-right: 15px;
-                }
-              }
-              .reply-text {
-                width: 100%;
-                .reply-input {
-                  margin-bottom: 10px;
-                }
-                .reply-pub {
-                  display: flex;
-                  justify-content: flex-end;
-                }
-              }
-            }
-          }
-        }
-      }
     }
   }
 
@@ -514,6 +403,120 @@ onMounted(() => {
     border-radius: 10px;
     background-color: #fff;
     opacity: 0.9;
+  }
+}
+.comments {
+  padding: 10px 40px 40px 40px;
+  .pubCommnent {
+    margin-bottom: 20px;
+    .func {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+  .comment-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    img {
+      width: 50px;
+    }
+  }
+  .comment-content {
+    .comment-card {
+      width: 100%;
+      display: flex;
+      .portrait {
+        flex-shrink: 0;
+        width: 100px;
+        display: flex;
+        justify-content: center;
+        img {
+          width: 60px;
+          height: 60px;
+          margin: 0;
+        }
+      }
+      .comment-info {
+        width: 100%;
+        padding-right: 10px;
+        .name {
+          font-size: 17px;
+          color: #515151;
+        }
+        .content {
+          margin-top: 10px;
+          font-size: 18px;
+          line-height: 25px;
+        }
+        .detail {
+          margin-top: 10px;
+          display: flex;
+          align-items: center;
+          color: #707070;
+          font-size: 16px;
+          gap: 20px;
+          .like {
+            cursor: pointer;
+            .like-img {
+              width: 20px;
+              height: 20px;
+              margin-right: 10px;
+              background-image: url("@/assets/icons/like.png");
+              background-repeat: no-repeat;
+              background-size: cover;
+              &:hover {
+                background-image: url("@/assets/icons/like-hover.png");
+              }
+            }
+          }
+          .unlike {
+            cursor: pointer;
+            .unlike-img {
+              width: 20px;
+              height: 20px;
+              margin-right: 10px;
+              background-image: url("@/assets/icons/unlike.png");
+              background-repeat: no-repeat;
+              background-size: cover;
+              &:hover {
+                background-image: url("@/assets/icons/unlike-hover.png");
+              }
+            }
+          }
+          .reply {
+            cursor: pointer;
+            &:hover {
+              color: #00aeec;
+            }
+          }
+        }
+        .reply-box {
+          display: flex;
+          width: 100%;
+          margin-top: 15px;
+          .reply-portrait {
+            img {
+              width: 60px;
+              height: 60px;
+              margin-right: 15px;
+            }
+          }
+          .reply-text {
+            width: 100%;
+            .reply-input {
+              margin-bottom: 10px;
+            }
+            .reply-pub {
+              display: flex;
+              justify-content: flex-end;
+            }
+          }
+        }
+      }
+    }
   }
 }
 /* 确保Quill生成的对齐样式生效 */
@@ -562,17 +565,19 @@ onMounted(() => {
 :deep(h1),
 :deep(h2),
 :deep(h3) {
-  margin: 1.5em 0 1em;
-  font-weight: 600;
+  margin: 0.8em 0;
 }
 :deep(h1) {
   font-size: 2em;
+  font-weight: 600;
 }
 :deep(h2) {
   font-size: 1.75em;
+  font-weight: 500;
 }
 :deep(h3) {
-  font-size: 1.5em;
+  font-size: 1.25em;
+  font-weight: 400;
 }
 
 /* 引用样式 */

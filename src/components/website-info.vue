@@ -40,9 +40,9 @@
 
 <script setup>
 import { onMounted, reactive } from "vue";
-import { getWebsiteInfo } from "@/api/website";
+import { getWebsiteInfo } from "@/api/home";
 const websiteData = reactive({
-  run_days: Number, //单位天
+  run_days: Number,
   today_visits: Number,
   total_visits: Number,
   article_count: Number,

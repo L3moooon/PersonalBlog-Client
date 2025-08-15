@@ -18,6 +18,12 @@ const router = createRouter({
   //     return { top: 0 };
   //   }
   // },
+
+  // 全局滚动行为配置
+  scrollBehavior() {
+    // 始终滚动到顶部
+    return { top: 0 }
+  }
 })
 //全局前置守卫
 router.beforeEach((to, from, next) => {

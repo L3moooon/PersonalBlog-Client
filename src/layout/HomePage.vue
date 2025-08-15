@@ -2,7 +2,9 @@
   <div class="container">
     <div class="top">
       <TopbarMenu></TopbarMenu>
-      <div class="main">
+      <div
+        class="main"
+        v-if="showTop && route.path != '/article'">
         <div class="name">{{ themeStore.themeData.welcome }}</div>
         <TypeText :text="themeStore.saying"></TypeText>
         <button
@@ -15,7 +17,7 @@
     <div class="down">
       <!-- 左 -->
       <div class="left-container">
-        <el-affix :offset="20">
+        <el-affix :offset="80">
           <el-menu popper-class="menu">
             <MenuList
               :menuList="routes"
@@ -29,34 +31,47 @@
       </div>
       <!-- 右-->
       <div class="right-container">
-        <VisitorCard></VisitorCard>
-        <WebsiteInfo v-if="route.path != '/article'"></WebsiteInfo>
-        <el-affix :offset="20">
-          <RecommandArticle></RecommandArticle>
-          <!-- TODO 标签 -->
-        </el-affix>
+        <!-- 文章独有 -->
+        <template v-if="route.path == '/article'">
+          <el-affix :offset="80">
+            <ArticleCatagory
+              contentSelector="article-content"></ArticleCatagory>
+            <TagCloud></TagCloud>
+          </el-affix>
+        </template>
+        <!-- 其他页通用 -->
+        <template v-else>
+          <VisitorCard></VisitorCard>
+          <WebsiteInfo></WebsiteInfo>
+          <el-affix :offset="80">
+            <RecommandArticle></RecommandArticle>
+          </el-affix>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { routes } from "@/router/route";
 import { useRoute } from "vue-router";
-import { getThemeInfo } from "@/api/website.js";
+import { getThemeInfo } from "@/api/home.js";
 import { sendUserInfo } from "@/api/user";
 import { useThemeStore } from "@/store/theme";
 import MenuList from "@/components/menu-list.vue";
 import VisitorCard from "@/components/visitor-card.vue";
 import WebsiteInfo from "@/components/website-info.vue";
+import ArticleCatagory from "@/components/article-catagory.vue";
 import RecommandArticle from "@/components/recommand-article.vue";
+import TagCloud from "@/components/tag-cloud.vue";
 import TypeText from "@/components/type-text.vue";
 import TopbarMenu from "@/components/topbar-menu.vue";
 import "@/styles/poem-font.css";
 //请求用户信息并放到pinia仓库
 const themeStore = useThemeStore();
 const route = useRoute();
+const showTop = ref(true); // 控制top区域是否显示
 // 生成简单的浏览器指纹
 function generateFingerprint() {
   // 收集浏览器特征
@@ -110,13 +125,34 @@ const getTheme = async () => {
 };
 const turnDownPage = () => {
   window.scrollTo({
-    top: window.innerHeight,
+    top: window.innerHeight + 1,
     behavior: "smooth", // 平滑滚动效果
   });
 };
-onMounted(async () => {
+// 定义滚动处理函数
+const handleScroll = () => {
+  // 获取top区域的高度
+  const topElement = document.querySelector(".top");
+  if (!topElement) return; // 避免元素未加载时的错误
+  const topHeight = topElement.offsetHeight;
+  // 滚动距离超过top高度时，销毁top
+  // showTop.value = window.scrollY < topHeight;
+  if (window.scrollY > topHeight) {
+    setTimeout(() => {
+      showTop.value = false;
+    }, 100);
+  }
+};
+onMounted(() => {
   sendInfo();
   getTheme();
+
+  handleScroll(); //先判断一次
+  // TODO 加节流
+  window.addEventListener("scroll", handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
@@ -172,14 +208,13 @@ onMounted(async () => {
 }
 
 .down {
-  // height: 200px;
+  padding-top: 80px;
   min-height: 100vh;
+  // min-height: calc(100vh - 80px);
   display: flex;
   width: 70%;
-  margin: 4rem auto;
-  margin-bottom: 20px;
+  margin: 0 auto;
   justify-content: space-between;
-  // align-items: center;
   flex-grow: 1 2 1;
   .left-container {
     width: 15%;
@@ -194,6 +229,7 @@ onMounted(async () => {
     background-color: #efeeee;
     border-radius: 10px;
     margin: 0 1rem;
+    margin-bottom: 20px;
   }
   .right-container {
     width: 20%;

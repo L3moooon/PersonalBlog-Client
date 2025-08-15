@@ -8,7 +8,6 @@
       class="left"
       @click="backHome">
       <img :src="useTheme.portrait" />
-      <!-- <span>{{ useTheme.nickname }}</span> -->
       <div class="name">个人博客</div>
     </div>
     <div class="right">
@@ -32,6 +31,7 @@ import { throttle } from "@/utils/throttle";
 import { ElMessage } from "element-plus";
 const useTheme = useThemeStore();
 const router = useRouter();
+const route = useRoute();
 
 const wrapperRef = ref(null);
 const backHome = () => {
