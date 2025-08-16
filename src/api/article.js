@@ -34,3 +34,11 @@ export const delComment = (data) => {
     data
   })
 }
+//更新访问量
+export const updateViewCount = (data) => {
+  return request({
+    url: '/web/article/view',
+    method: 'post',
+    data
+  })
+}

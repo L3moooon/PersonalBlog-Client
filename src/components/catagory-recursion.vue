@@ -5,7 +5,8 @@
         v-for="(item, index) in props.catagory"
         :key="index"
         class="toc-item"
-        @click="scrollToSection(item.id)">
+        @click.stop
+        @click.prevent="scrollToSection(item.id)">
         <a
           :href="`#${item.id}`"
           :class="['toc-link', { 'toc-active': props.activeId === item.id }]">

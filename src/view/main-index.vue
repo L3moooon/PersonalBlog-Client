@@ -53,9 +53,15 @@
             <img
               src="@/assets/icons/评论.png"
               alt="" />
-            {{ item.view }}
+            {{ item.comment_count }}
           </div>
         </div>
+      </div>
+      <!-- 置顶 -->
+      <div
+        class="top"
+        v-if="item.top">
+        置顶
       </div>
     </div>
   </div>
@@ -67,14 +73,13 @@ import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { timeFormatter } from "@/utils/timeFormatter";
 import GitCalendar from "@/components/git-calendar.vue";
-
+const $router = useRouter();
 const articleList = ref([]);
 onMounted(async () => {
-  const { data } = await getHomeData();
+  const { data, status } = await getHomeData();
   articleList.value = data;
 });
 
-const $router = useRouter();
 const goRoute = (id) => {
   $router.push({ path: "/article", query: { id } });
 };
@@ -95,6 +100,8 @@ const goRoute = (id) => {
       -18px -18px 30px rgba(255, 255, 255, 1);
     transition: box-shadow 0.2s ease-out;
     cursor: pointer;
+    position: relative;
+    overflow: hidden;
     &:hover {
       box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.2),
         0px 0px 0px rgba(255, 255, 255, 0.8),
@@ -178,6 +185,25 @@ const goRoute = (id) => {
           }
         }
       }
+    }
+    .top {
+      width: 200px;
+      height: 50px;
+      background: linear-gradient(135deg, #c42c2c, #a02424);
+      position: absolute;
+      right: -65px;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3),
+        /* 外部阴影：模拟光线投射的阴影 */ inset 0 1px 2px
+          rgba(255, 255, 255, 0.2); /* 内部阴影：模拟高光 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 500; /* 加粗文字，增强存在感 */
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2); /* 文字阴影，让文字更立体 */
+      // 增加细微的旋转偏差，避免过于规整
+      transform: rotate(45deg) skew(-2deg, -2deg);
     }
   }
 }

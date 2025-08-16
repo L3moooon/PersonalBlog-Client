@@ -50,11 +50,6 @@
           ><el-icon><star-filled /></el-icon
         ></el-divider>
       </div>
-      <!-- <el-affix
-        :offset="0"
-        position="top">
-        <div class="catagory">目录</div>
-      </el-affix> -->
     </div>
     <!-- 评论 -->
     <div class="comments">
@@ -171,7 +166,13 @@
 <script setup>
 import { onMounted, ref, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
-import { getArticle, getComments, comment, delComment } from "@/api/article";
+import {
+  getArticle,
+  getComments,
+  comment,
+  delComment,
+  updateViewCount,
+} from "@/api/article";
 import { StarFilled } from "@element-plus/icons-vue";
 import { timeFormatter, timeFormatter2 } from "@/utils/timeFormatter";
 import { ElMessage } from "element-plus";
@@ -216,9 +217,7 @@ const getArticleContent = async () => {
   const { data, status } = await getArticle({ id: route.query.id });
   if (status == 1) {
     Object.assign(article, data);
-    // console.log(article);
     const res = computedInfo(article.content);
-    // console.log(res);
     article.contentLength = res[0];
     article.readingTime = res[1];
   }
@@ -290,16 +289,30 @@ function computedInfo(html, countSpaces = false) {
   const text = countSpaces ? plainText : plainText.replace(/\s+/g, "");
   // 3. 统计长度（中文、英文、数字等均按1个字符计算）
   //按千字5分钟计算阅读时长
-  const readingTime = ((text.length / 1000) * 5).toFixed(0);
+  const readingTime = ((text.length / 1000) * 3).toFixed(0);
   const _readingTime = readingTime <= 1 ? 1 : readingTime;
   return [text.length, _readingTime];
 }
-
+const timer = ref(null);
 onMounted(() => {
   visitorInfo.value = JSON.parse(localStorage.getItem("visitor"));
   getArticleContent();
   getArticleComments();
-
+  //用户停留页面3s后计入访问量
+  timer.value = setTimeout(async () => {
+    //查找之前的浏览记录
+    const viewHistory = JSON.parse(localStorage.getItem("viewHistory")) || {};
+    const id = route.query.id;
+    const now = Date.now();
+    const TWELVE_HOURS = 12 * 60 * 60 * 1000; // 12小时的毫秒数
+    if (!viewHistory[id] || now - viewHistory[id] > TWELVE_HOURS) {
+      const { status } = await updateViewCount({ id });
+      if (status == 1) {
+        viewHistory[id] = now;
+        localStorage.setItem("viewHistory", JSON.stringify(viewHistory));
+      }
+    }
+  }, 3000);
   // // 对所有代码块重新应用高亮
   // document.querySelectorAll("pre code").forEach((block) => {
   //   hljs.highlightElement(block);
@@ -544,6 +557,7 @@ onMounted(() => {
   // font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 14px;
   line-height: 1.5;
+  padding: 6px;
 }
 
 /* 修复图片样式（避免图片溢出容器） */
@@ -568,16 +582,22 @@ onMounted(() => {
   margin: 0.8em 0;
 }
 :deep(h1) {
-  font-size: 2em;
+  font-size: 24px;
   font-weight: 600;
 }
 :deep(h2) {
-  font-size: 1.75em;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
 }
 :deep(h3) {
-  font-size: 1.25em;
-  font-weight: 400;
+  font-size: 20px;
+  font-weight: 600;
+}
+:deep(p) {
+  text-indent: 2em;
+  font-size: 18px;
+  line-height: 22px;
+  margin-bottom: 15px;
 }
 
 /* 引用样式 */

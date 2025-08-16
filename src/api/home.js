@@ -2,7 +2,7 @@ import request from "@/utils/request";
 //获取首页文章
 export const getHomeData = () => {
   return request({
-    url: '/web/home/getAllArticle',
+    url: '/web/home/getHomeArticle',
     method: 'post',
   })
 }

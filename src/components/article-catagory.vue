@@ -173,14 +173,6 @@ onMounted(() => {
   border-radius: 10px;
   overflow: hidden;
   padding: 10px 5px;
-  // background-color: #fff;
-  // border-radius: 8px;
-  // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  // padding: 1.5rem;
-  // max-height: calc(100vh - 3rem);
-  // overflow: hidden;
-  // display: flex;
-  // flex-direction: column;
 }
 
 // 进度条样式
