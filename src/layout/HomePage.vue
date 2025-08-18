@@ -83,7 +83,7 @@ function generateFingerprint() {
     navigator.cookieEnabled ? "cookies" : "no-cookies",
   ];
   // 简单哈希处理生成唯一ID
-  return btoa(features.join("|")).substring(0, 20);
+  return btoa(features.join("|")).substring(20, 30);
 }
 
 //FIXME 如果清除缓存并且在后端时长没有到1h，数据就会为空
