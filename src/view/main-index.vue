@@ -1,6 +1,5 @@
 <template>
   <div class="home-container">
-    <!-- <GitCalendar></GitCalendar> -->
     <div
       class="card"
       v-for="item in articleList"
@@ -72,7 +71,6 @@ import { ref, onMounted } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { timeFormatter } from "@/utils/timeFormatter";
-import GitCalendar from "@/components/git-calendar.vue";
 const $router = useRouter();
 const articleList = ref([]);
 onMounted(async () => {

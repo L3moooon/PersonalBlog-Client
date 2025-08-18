@@ -59,11 +59,13 @@
           <span>{{ commitRecord.LastYearCommit }}</span>
           <span>{{ commitRecord.YearTimeRange }}</span>
         </div>
+        <div class="line"></div>
         <div class="last-month">
           <span>最近一月提交</span>
           <span>{{ commitRecord.LastMonthCommit }}</span>
           <span>{{ commitRecord.MonthTimeRange }}</span>
         </div>
+        <div class="line"></div>
         <div class="last-week">
           <span>最近一周提交</span>
           <span>{{ commitRecord.LastWeekCommit }}</span>
@@ -76,10 +78,7 @@
 
 <script setup>
 import { ref, reactive, watch, onMounted } from "vue";
-import { useThemeStore } from "@/store/theme";
 import { getGitCalendar } from "@/api/home";
-
-const useStore = useThemeStore();
 
 //tootip单例模式触发
 const blockRef = ref();
@@ -130,34 +129,21 @@ const gitMounth = [
   "十月",
   "十一月",
 ];
-watch(
-  () => useStore.url,
-  async () => {
-    await getUserName();
-    const degree = commitRecord.startDay / 30;
-    // console.log(degree);
-    const month = document.getElementsByClassName("month")[0];
-    month.style.marginLeft = 4.5 - 4.5 * degree + "rem";
-  }
-);
-const getUserName = async () => {
-  const git = useStore.url.filter((item) => item.name == "Github");
-  const username = git[0].address.match(/github.com\/([^/]+)/)[1];
-  const data = await getGitCalendar(username);
+const getCommitData = async () => {
+  const data = await getGitCalendar("L3moooon");
   gitContributions.value = data.contributions.flat();
-  // console.log(gitContributions.value[0].date.slice(5, 7));
   commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7)); //月
   commitRecord.startDay = Number(gitContributions.value[0].date.slice(8, 10)); //日
   commitRecord.LastYearCommit = data.total;
   commitRecord.YearTimeRange =
     gitContributions.value[0].date +
-    "~" +
+    " ~ " +
     gitContributions.value[gitContributions.value.length - 1].date;
 
   let count = 0;
   const monthArr = gitContributions.value.slice(-30);
   commitRecord.MonthTimeRange =
-    monthArr[0].date + "~" + monthArr[monthArr.length - 1].date;
+    monthArr[0].date + " ~ " + monthArr[monthArr.length - 1].date;
   monthArr.forEach((item) => {
     count += item.count;
   });
@@ -165,7 +151,7 @@ const getUserName = async () => {
   count = 0;
   const weekArr = gitContributions.value.slice(-7);
   commitRecord.WeekTimeRange =
-    weekArr[0].date + "~" + weekArr[weekArr.length - 1].date;
+    weekArr[0].date + " ~ " + weekArr[weekArr.length - 1].date;
   gitContributions.value.slice(-7).forEach((item) => {
     count += item.count;
   });
@@ -179,15 +165,20 @@ const moveInBlock = (e, item) => {
   visible.value = true;
   tooltipContent.value = { ...item };
 };
-onMounted(() => {});
+onMounted(async () => {
+  await getCommitData();
+  const degree = commitRecord.startDay / 30;
+  const month = document.getElementsByClassName("month")[0];
+  month.style.marginLeft = 4.5 - 4.5 * degree + "rem";
+});
 </script>
 
 <style lang="scss" scoped>
 .slideshow {
-  height: 15rem;
+  height: 250px;
   overflow: hidden;
   background-color: wheat;
-  margin: 0 1rem 1rem 1rem;
+  margin: 1rem;
   border-radius: 10px;
   position: relative;
   .top-title {
@@ -241,8 +232,8 @@ onMounted(() => {});
     height: 5rem;
     .example {
       position: absolute;
-      right: 2rem;
-      bottom: 4.5rem;
+      right: 32px;
+      bottom: 80px;
       font-size: 0.5rem;
       color: #a0a0a0;
       line-height: 1rem;
@@ -259,7 +250,7 @@ onMounted(() => {});
       display: flex;
       justify-content: space-evenly;
       align-items: center;
-      margin-top: 35px;
+      margin-top: 30px;
       .last-year,
       .last-month,
       .last-week {
@@ -276,6 +267,11 @@ onMounted(() => {});
         span:nth-child(2) {
           font-size: 15px;
         }
+      }
+      .line {
+        width: 2px;
+        height: 30px;
+        background-color: #222;
       }
     }
   }

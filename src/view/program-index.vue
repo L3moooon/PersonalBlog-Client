@@ -1,7 +1,9 @@
 <template>
-  <div></div>
+  <div><GitCalendar /></div>
 </template>
 
-<script setup></script>
+<script setup>
+import GitCalendar from "@/components/git-calendar.vue";
+</script>
 
 <style lang="scss" scoped></style>

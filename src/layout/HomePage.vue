@@ -12,6 +12,7 @@
           class="button">
           主页
         </button>
+        <!-- <van-button type="primary">123</van-button> -->
       </div>
     </div>
     <div class="down">
