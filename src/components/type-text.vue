@@ -12,18 +12,16 @@
 </template>
 
 <script setup>
-import { ElMessage } from "element-plus";
 import { ref, watch, onMounted, onUnmounted } from "vue";
 const props = defineProps(["text"]);
 
 const containerElement = ref(null);
 const blinkLine = ref("false");
 
-//古诗数组里面每句古诗都需要一定时间打印完成再打印下一句，所以需要实现一个
 async function typePoem(poemArr) {
   let i = 0;
   while (i < poemArr.length) {
-    //光标动画间隔0.75s，最好waitBegin的间隔时间是750的整数倍
+    //光标动画间隔0.75s，waitBegin的间隔时间最好是750ms的整数倍
     await waitBegin(2250);
     await typeText(poemArr[i], 350);
     await waitBegin(2250);
@@ -68,16 +66,10 @@ async function typePoem(poemArr) {
     });
   }
 }
-watch(
-  () => props.text,
-  (val) => {
-    typePoem(val);
-  }
-);
 onMounted(() => {
+  typePoem(props.text);
   containerElement.value = document.getElementById("type-list");
 });
-onUnmounted(() => {});
 </script>
 
 <style lang="scss" scoped>

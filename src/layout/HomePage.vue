@@ -6,7 +6,9 @@
         class="main"
         v-if="showTop && route.path != '/article'">
         <div class="name">{{ themeStore.themeData.welcome }}</div>
-        <TypeText :text="themeStore.saying"></TypeText>
+        <TypeText
+          v-if="isFocus && themeStore.saying.length"
+          :text="themeStore.saying"></TypeText>
         <button
           @click="turnDownPage"
           class="button">
@@ -69,10 +71,11 @@ import TagCloud from "@/components/tag-cloud.vue";
 import TypeText from "@/components/type-text.vue";
 import TopbarMenu from "@/components/topbar-menu.vue";
 import "@/styles/poem-font.css";
-//请求用户信息并放到pinia仓库
+
 const themeStore = useThemeStore();
 const route = useRoute();
 const showTop = ref(true); // 控制top区域是否显示
+const isFocus = ref(true); //控制打字机仅在前台时显示
 // 生成简单的浏览器指纹
 function generateFingerprint() {
   // 收集浏览器特征
@@ -144,6 +147,11 @@ const handleScroll = () => {
     }, 100);
   }
 };
+
+// 处理页面可见性变化
+const handleVisibilityChange = () => {
+  isFocus.value = !document.hidden;
+};
 onMounted(() => {
   sendInfo();
   getTheme();
@@ -151,16 +159,16 @@ onMounted(() => {
   handleScroll(); //先判断一次
   // TODO 加节流
   window.addEventListener("scroll", handleScroll);
+  document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
+  document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 </script>
 
 <style lang="scss" scoped>
 .container {
-  // background-image: url("../assets/night.png");
-  // background-image: url("../assets/CrayonShinchan.png");
   background-image: url("../assets/bamboo.png");
   background-size: cover;
   background-repeat: no-repeat;
@@ -170,19 +178,11 @@ onUnmounted(() => {
       width: 100%;
       height: 100vh;
       padding: 0 auto;
-      // position: absolute;
-      // left: 50%;
-      // top: 50%;
-      // transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       color: white;
-
-      // width: 500px;
-      // height: 200px;
-      // backdrop-filter: blur(3px);
       border-radius: 30px;
       font-family: SiJiYuNi;
       .name {
@@ -190,6 +190,7 @@ onUnmounted(() => {
         font-weight: 500;
       }
       .button {
+        cursor: pointer;
         font-family: SiJiYuNi;
         font-size: 20px;
         color: white;
@@ -200,7 +201,6 @@ onUnmounted(() => {
         border-radius: 5px;
         font-weight: 500;
         margin: 1rem auto;
-        cursor: pointer;
         border: 1px solid #e0be6e;
         box-shadow: 10px;
       }
@@ -211,7 +211,6 @@ onUnmounted(() => {
 .down {
   padding-top: 80px;
   min-height: 100vh;
-  // min-height: calc(100vh - 80px);
   display: flex;
   width: 70%;
   margin: 0 auto;
