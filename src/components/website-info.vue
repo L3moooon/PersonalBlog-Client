@@ -65,7 +65,6 @@ const transformRuntime = () => {
   const createTimestamp = dateObj.getTime() / 1000;
   const timeDiff = currentTimestamp - createTimestamp;
   // console.log("cur", currentTimestamp, "creat", createTimestamp, timeDiff);
-
   return Math.floor(timeDiff / (60 * 60 * 24));
 };
 const transformActivateTime = () => {
@@ -82,8 +81,7 @@ const transformActivateTime = () => {
   border-radius: 10px;
   overflow: hidden;
   transition: 0.3s;
-  // margin: 1.5rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 
   .title {
     margin: 0.5rem;
@@ -92,9 +90,9 @@ const transformActivateTime = () => {
     .icon {
       animation: rotate 2s linear infinite;
       // color: black;
-      width: 1rem;
-      height: 1rem;
-      margin: 0 0.5rem;
+      width: 16px;
+      height: 16px;
+      margin: 0 8px;
     }
   }
   .detail {
@@ -107,7 +105,7 @@ const transformActivateTime = () => {
       cursor: pointer;
       // position: absolute;
       width: 28%;
-      height: 3rem;
+      height: 48px;
       margin: 0.4rem;
       text-align: center;
       border-radius: 10px;
@@ -138,8 +136,5 @@ const transformActivateTime = () => {
   to {
     transform: rotate(360deg);
   }
-}
-.web-info:hover {
-  // height: calc();
 }
 </style>

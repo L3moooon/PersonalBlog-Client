@@ -12,68 +12,72 @@
 </template>
 
 <script setup>
+import { ElMessage } from "element-plus";
 import { ref, watch, onMounted, onUnmounted } from "vue";
 const props = defineProps(["text"]);
-const waitAddTimer = ref(null);
-const addTimer = ref(null);
-const waitDelTimer = ref(null);
-const delTimer = ref(null);
-async function typePoem() {
-  for (let i = 0; i < props.text.length; i++) {
-    const arr = props.text[i].split("");
-    // console.log(stringArr);
-    const type = new Promise((resolve, reject) => {
-      const container = document.getElementById("type-list");
-      //设置一个定时器
-      let i = 0;
-      //等待1.5s后持续添加文字
-      waitAddTimer.value = setTimeout(() => {
-        blinkLine.value = false;
-        addTimer.value = setInterval(() => {
-          if (i < arr.length) {
-            // console.log(container.innerHTML);
-            container.innerHTML += arr[i];
-            i++;
-          }
-          //如果添加完成
-          else {
-            clearInterval(addTimer.value);
-            //等待1s后持续删除文字
-            // console.log(container.innerHTML);
-            blinkLine.value = true;
-            waitDelTimer.value = setTimeout(() => {
-              blinkLine.value = false;
-              // console.log(i);
-              delTimer.value = setInterval(() => {
-                // console.log(container.innerHTML, i);
-                if (i > 0) {
-                  container.innerHTML = container.innerHTML.slice(0, i - 1);
-                  i--;
-                } else {
-                  clearInterval(delTimer.value);
-                  blinkLine.value = true;
-                  resolve();
-                }
-              }, 90);
-            }, 1500);
-          }
-        }, 350);
-      }, 1500);
+
+const containerElement = ref(null);
+const blinkLine = ref("false");
+
+//古诗数组里面每句古诗都需要一定时间打印完成再打印下一句，所以需要实现一个
+async function typePoem(poemArr) {
+  let i = 0;
+  while (i < poemArr.length) {
+    //光标动画间隔0.75s，最好waitBegin的间隔时间是750的整数倍
+    await waitBegin(2250);
+    await typeText(poemArr[i], 350);
+    await waitBegin(2250);
+    await delText(poemArr[i], 90);
+    //无限循环
+    i++;
+    if (i == poemArr.length) i = 0;
+  }
+  function waitBegin(delay) {
+    blinkLine.value = true;
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, delay);
     });
-    await type;
-    if (i == props.text.length - 1) i = 0;
+  }
+  function typeText(poem, delay) {
+    let pointer = 0;
+    blinkLine.value = false;
+    return new Promise((resolve, reject) => {
+      let timer = setInterval(() => {
+        containerElement.value.textContent += poem[pointer++];
+      }, delay);
+      setTimeout(() => {
+        clearInterval(timer);
+        resolve();
+      }, delay * poem.length);
+    });
+  }
+  function delText(poem, delay) {
+    blinkLine.value = false;
+    let pointer = poem.length - 1;
+    return new Promise((resolve, reject) => {
+      let timer = setInterval(() => {
+        containerElement.value.textContent = poem.slice(0, pointer);
+        pointer--;
+      }, delay);
+      setTimeout(() => {
+        clearInterval(timer);
+        resolve();
+      }, delay * poem.length);
+    });
   }
 }
+watch(
+  () => props.text,
+  (val) => {
+    typePoem(val);
+  }
+);
 onMounted(() => {
-  typePoem();
+  containerElement.value = document.getElementById("type-list");
 });
-onUnmounted(() => {
-  clearTimeout(waitAddTimer.value);
-  clearTimeout(waitDelTimer.value);
-  clearInterval(addTimer.value);
-  clearInterval(delTimer.value);
-});
-const blinkLine = ref("false");
+onUnmounted(() => {});
 </script>
 
 <style lang="scss" scoped>
@@ -81,10 +85,8 @@ const blinkLine = ref("false");
   margin: 1rem 0;
   height: 2rem;
   line-height: 2rem;
-  // display: flex;
   .text {
     display: inline-block;
-    // width: 0;
     height: 2rem;
     white-space: nowrap;
     font-size: 2rem;
@@ -104,9 +106,10 @@ const blinkLine = ref("false");
   .line {
     font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
-    height: 2rem;
+    height: 32px;
     line-height: 2rem;
     font-size: 35px;
+    transform: scaleX(0.6); /* 水平方向缩放到 50% */
     vertical-align: top;
   }
   .blink {
