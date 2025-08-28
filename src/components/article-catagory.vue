@@ -22,8 +22,14 @@
     </div>
     <!-- 目录内容 -->
     <CatagoryRecursion
+      v-if="tocItems.length"
       :catagory="tocItems"
       :activeId="activeId" />
+    <div
+      v-else
+      class="noCatagory flex-center">
+      暂无目录
+    </div>
   </div>
 </template>
 
@@ -167,7 +173,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .toc-container {
-  min-height: 160px;
+  min-height: 80px;
   background: linear-gradient(135deg, #83a4d4, #b6fbff);
   opacity: 0.9;
   border-radius: 10px;
@@ -193,7 +199,10 @@ onMounted(() => {
     }
   }
 }
-
+.noCatagory {
+  width: 100%;
+  height: 30px;
+}
 .toc-header {
   display: flex;
   justify-content: space-between;

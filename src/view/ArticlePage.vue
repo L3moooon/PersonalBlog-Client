@@ -38,6 +38,7 @@
       :src="article.cover_img"
       object-fit="contain" />
     <!-- 正文 -->
+    <el-divider></el-divider>
     <div
       class="article-content"
       id="article-content">
@@ -75,7 +76,8 @@
           alt="" />
         <span>评论</span>
         <span>|</span>
-        <span>当前共 {{ sum }} 条评论</span>
+        <span v-if="sum">当前共 {{ sum }} 条评论</span>
+        <span v-else>暂无评论</span>
       </div>
       <div class="comment-content">
         <div
@@ -178,8 +180,6 @@ import { timeFormatter, timeFormatter2 } from "@/utils/timeFormatter";
 import { ElMessage } from "element-plus";
 import { useCommentStore } from "@/store/comment";
 
-import TopbarMenu from "@/components/topbar-menu.vue";
-import VisitorCard from "@/components/visitor-card.vue";
 import ReplyCard from "@/components/reply-card.vue";
 
 import hljs from "highlight.js";
@@ -200,6 +200,8 @@ const replyId = ref(null); //回复父节点id
 const showReplyBox = ref(-1);
 const replyTextPlaceholder = ref("");
 
+const timer = ref(null); //访问量计时器
+
 //回复楼中楼
 watch(
   () => commentStore.parent_id,
@@ -217,7 +219,7 @@ const getArticleContent = async () => {
   const { data, status } = await getArticle({ id: route.query.id });
   if (status == 1) {
     Object.assign(article, data);
-    const res = computedInfo(article.content);
+    const res = computedInfo(article.content); //统计文章字数信息
     article.contentLength = res[0];
     article.readingTime = res[1];
   }
@@ -271,7 +273,6 @@ const pubComment = async (content) => {
 };
 //回复楼主
 const reply = (id, name) => {
-  console.log(id, name);
   showReplyBox.value = id;
   replyId.value = id;
   replyTextPlaceholder.value = "回复@" + name;
@@ -283,17 +284,14 @@ const unlikeComment = async (id) => {};
 //计算文章内容长度等信息
 function computedInfo(html, countSpaces = false) {
   // 1. 去除HTML标签
-  // console.log(html, typeof html);
   const plainText = html.replace(/<[^>]*>/g, "");
   // 2. 处理空白字符（可选：去除所有空格/保留空格）
   const text = countSpaces ? plainText : plainText.replace(/\s+/g, "");
   // 3. 统计长度（中文、英文、数字等均按1个字符计算）
-  //按千字5分钟计算阅读时长
-  const readingTime = ((text.length / 1000) * 3).toFixed(0);
+  const readingTime = ((text.length / 1000) * 3).toFixed(0); //按千字3分钟计算阅读时长
   const _readingTime = readingTime <= 1 ? 1 : readingTime;
   return [text.length, _readingTime];
 }
-const timer = ref(null);
 onMounted(() => {
   visitorInfo.value = JSON.parse(localStorage.getItem("visitor"));
   getArticleContent();
@@ -313,10 +311,7 @@ onMounted(() => {
       }
     }
   }, 3000);
-  // // 对所有代码块重新应用高亮
-  // document.querySelectorAll("pre code").forEach((block) => {
-  //   hljs.highlightElement(block);
-  // });
+
   // 遍历所有代码块，根据实际语言类型高亮
   document.querySelectorAll("pre code").forEach((block) => {
     // 从 class 中提取语言类型（Quill 会自动添加 language-xxx 类）
@@ -336,7 +331,6 @@ onMounted(() => {
 .article-main {
   position: relative;
   width: 100%;
-  // overflow: hidden;
   .banner-content {
     text-align: center;
     .title {
@@ -359,9 +353,8 @@ onMounted(() => {
       font-family: Alibaba PuHuiTi;
       font-weight: 500;
       font-size: 18px;
-      color: #222222;
+      color: #474545;
       margin-top: 10px;
-
       flex-wrap: wrap;
       gap: 10px;
       .info {
@@ -393,6 +386,9 @@ onMounted(() => {
     text-align: left;
     .text {
       margin-bottom: 100px;
+      img {
+        max-height: 300px;
+      }
     }
   }
 
@@ -557,7 +553,7 @@ onMounted(() => {
   // font-family: "Consolas", "Monaco", "Courier New", monospace;
   font-size: 14px;
   line-height: 1.5;
-  padding: 6px;
+  padding: 6px 6px 6px 26px;
 }
 
 /* 修复图片样式（避免图片溢出容器） */
@@ -594,7 +590,7 @@ onMounted(() => {
   font-weight: 600;
 }
 :deep(p) {
-  text-indent: 2em;
+  // text-indent: 2em;
   font-size: 18px;
   line-height: 22px;
   margin-bottom: 15px;
