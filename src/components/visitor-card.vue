@@ -34,7 +34,7 @@
 
 <script setup>
 import { onMounted, ref, reactive, computed } from "vue";
-import { throttle } from "@/utils/throttle";
+import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
 const useStore = useThemeStore();
 import anonymous from "@/assets/icons/personal.png";
@@ -90,7 +90,7 @@ onMounted(() => {
 <style lang="scss" scoped>
 .author {
   width: 100%;
-  height: 13rem;
+  height: 186px;
   // background-color: rgba(241, 204, 143, 0.9);
   // background-color: rgba(235, 224, 224, 0.9);
   background: linear-gradient(135deg, #83a4d4, #b6fbff);

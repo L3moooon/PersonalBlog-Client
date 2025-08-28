@@ -36,7 +36,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import CatagoryRecursion from "./catagory-recursion.vue";
-import { throttle } from "@/utils/throttle";
+import { throttle } from "lodash";
 // 接收内容区域的选择器作为参数
 
 const headingTags = ["h1", "h2", "h3", "h4", "h5", "h6"];

@@ -10,13 +10,15 @@
           <img
             src="@/assets/icons/time.png"
             alt="" />
-          发表于:{{ timeFormatter(article.publish_date) }}
+          发表于:
+          <span v-timeFormatter="article.publish_date"></span>
         </div>
         <div>|</div>
         <div class="info">
           <img
             src="@/assets/icons/update.png"
-            alt="" />更新于:{{ timeFormatter(article.last_edit_date) }}
+            alt="" />更新于:
+          <span v-timeFormatter="article.last_edit_date"></span>
         </div>
         <div>|</div>
         <div class="info">
@@ -99,9 +101,9 @@
               <div class="name">{{ item.reply_name }}</div>
               <div class="content">{{ item.content }}</div>
               <div class="detail">
-                <div class="time">
-                  {{ timeFormatter2(item.comment_date) }}
-                </div>
+                <div
+                  class="time"
+                  v-timeFormatter="item.comment_date"></div>
                 <div
                   class="like"
                   @click="likeComment">
@@ -176,7 +178,6 @@ import {
   updateViewCount,
 } from "@/api/article";
 import { StarFilled } from "@element-plus/icons-vue";
-import { timeFormatter, timeFormatter2 } from "@/utils/timeFormatter";
 import { ElMessage } from "element-plus";
 import { useCommentStore } from "@/store/comment";
 
@@ -356,10 +357,11 @@ onMounted(() => {
       color: #474545;
       margin-top: 10px;
       flex-wrap: wrap;
-      gap: 10px;
+      column-gap: 10px;
       .info {
         display: flex;
         align-items: center;
+        height: 30px;
         img {
           width: 20px;
           margin-right: 5px;

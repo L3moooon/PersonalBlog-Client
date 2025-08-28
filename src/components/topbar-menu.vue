@@ -27,7 +27,7 @@
 import { onMounted, ref, onUnmounted } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { useThemeStore } from "@/store/theme";
-import { throttle } from "@/utils/throttle";
+import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
 const useTheme = useThemeStore();
 const router = useRouter();

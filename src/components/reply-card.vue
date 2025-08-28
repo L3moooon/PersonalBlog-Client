@@ -28,7 +28,10 @@
           <span> :{{ item.content }}</span>
         </div>
         <div class="detail">
-          <div class="time">{{ timeFormatter2(item.comment_date) }}</div>
+          <div
+            class="time"
+            v-timeFormatter:YYYY-MM-DD
+            HH:mm="item.comment_date"></div>
           <div class="like">
             <div class="like-img"></div>
             {{ item.like_count > 0 ? item.like_count : "" }}
@@ -56,7 +59,6 @@
 import { onMounted, ref, computed } from "vue";
 import { ElMessage } from "element-plus";
 import ReplyCard from "@/components/reply-card";
-import { timeFormatter2 } from "@/utils/timeFormatter";
 import { comment } from "@/api/article";
 import { useCommentStore } from "@/store/comment";
 import like from "@/assets/svg/like.svg";

@@ -1,4 +1,11 @@
 import request from "@/utils/request";
+//获取网站主题信息
+export const getThemeInfo = () => {
+  return request({
+    url: '/web/home/theme',
+    method: 'post'
+  })
+}
 //获取首页文章
 export const getHomeData = () => {
   return request({
@@ -13,10 +20,10 @@ export const getWebsiteInfo = () => {
     method: 'post'
   })
 }
-//获取网站主题信息
-export const getThemeInfo = () => {
+//获取首页推荐文章
+export const getRecommendArticle = () => {
   return request({
-    url: '/web/home/theme',
+    url: '/web/home/getRecommendArticle',
     method: 'post'
   })
 }

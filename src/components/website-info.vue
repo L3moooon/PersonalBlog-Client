@@ -75,7 +75,7 @@ const transformActivateTime = () => {
 <style lang="scss" scoped>
 .web-info {
   width: 100%;
-  // height: 4rem;
+  height: 165px;
   background: linear-gradient(135deg, #83a4d4, #b6fbff);
   opacity: 0.9;
   border-radius: 10px;
@@ -84,12 +84,11 @@ const transformActivateTime = () => {
   margin-bottom: 16px;
 
   .title {
-    margin: 0.5rem;
+    margin: 8px 8px 8px 0;
     font-size: 1rem;
 
     .icon {
       animation: rotate 2s linear infinite;
-      // color: black;
       width: 16px;
       height: 16px;
       margin: 0 8px;
@@ -103,7 +102,6 @@ const transformActivateTime = () => {
 
     .column {
       cursor: pointer;
-      // position: absolute;
       width: 28%;
       height: 48px;
       margin: 0.4rem;
@@ -125,7 +123,6 @@ const transformActivateTime = () => {
     }
     .column:hover {
       box-shadow: 2px 2px 5px #876a40;
-      // font-size: 2em;
     }
   }
 }

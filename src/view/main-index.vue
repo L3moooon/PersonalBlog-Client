@@ -34,7 +34,7 @@
             <img
               src="@/assets/icons/time.png"
               alt="" />
-            {{ timeFormatter(item.last_edit_date) }}
+            <span v-timeFormatter:YYYY-MM-DD="item.last_edit_date"></span>
           </div>
           <div class="like">
             <img
@@ -70,8 +70,7 @@
 import { ref, onMounted } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
-import { timeFormatter } from "@/utils/timeFormatter";
-const $router = useRouter();
+const router = useRouter();
 const articleList = ref([]);
 onMounted(async () => {
   const { data, status } = await getHomeData();
@@ -79,7 +78,7 @@ onMounted(async () => {
 });
 
 const goRoute = (id) => {
-  $router.push({ path: "/article", query: { id } });
+  router.push({ path: "/article", query: { id } });
 };
 </script>
 
