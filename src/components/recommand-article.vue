@@ -116,10 +116,15 @@ onMounted(() => {
       .cover {
         width: 100px;
         height: 60px;
+        border-radius: 5px;
+        overflow: hidden;
         margin: 0 10px 0 5px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
         div {
           background-color: #fff;
-          border-radius: 5px;
           width: 100%;
           height: 100%;
         }
