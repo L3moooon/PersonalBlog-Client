@@ -44,10 +44,10 @@ import MenuList from "@/components/menu-list.vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps(["menuList"]);
-const $router = useRouter();
+const router = useRouter();
+
 const goRoute = (vc) => {
-  console.log(vc, vc.index, `/${vc.index}`);
-  $router.push(vc.index);
+  router.push(vc.index);
 };
 </script>
 

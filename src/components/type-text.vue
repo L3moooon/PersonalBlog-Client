@@ -14,7 +14,14 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted } from "vue";
 const props = defineProps(["text"]);
-
+const text = ref([
+  "若待上林花似锦，出门俱是开花人",
+  "去年今日此门中，人面桃花相映红",
+  "梧桐叶上三更雨，叶叶声声是别离",
+  "浮生岂得长年少，莫惜醉来开口笑",
+  "若似月轮终皎洁，不辞冰雪为卿热",
+  "夜鹭望流目不瞬，大鱼兴左视不觉",
+]);
 const containerElement = ref(null);
 const blinkLine = ref("false");
 
@@ -67,7 +74,7 @@ async function typePoem(poemArr) {
   }
 }
 onMounted(() => {
-  typePoem(props.text);
+  typePoem(text.value);
   containerElement.value = document.getElementById("type-list");
 });
 </script>

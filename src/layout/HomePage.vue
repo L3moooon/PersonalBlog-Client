@@ -1,20 +1,19 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    id="home-img-container">
     <div class="top">
       <TopbarMenu></TopbarMenu>
       <div
         class="main"
         v-if="showTop && route.path != '/article'">
-        <div class="name">{{ themeStore.themeData.welcome }}</div>
-        <TypeText
-          v-if="isFocus && themeStore.saying.length"
-          :text="themeStore.saying"></TypeText>
+        <div class="name">欢迎来访</div>
+        <TypeText v-if="isFocus"></TypeText>
         <button
           @click="turnDownPage"
           class="button">
           主页
         </button>
-        <!-- <van-button type="primary">123</van-button> -->
       </div>
     </div>
     <div class="down">
@@ -59,9 +58,8 @@
 import { onMounted, onUnmounted, ref } from "vue";
 import { routes } from "@/router/route";
 import { useRoute } from "vue-router";
-import { getThemeInfo } from "@/api/home.js";
 import { sendUserInfo } from "@/api/user";
-import { useThemeStore } from "@/store/theme";
+
 import MenuList from "@/components/menu-list.vue";
 import VisitorCard from "@/components/visitor-card.vue";
 import WebsiteInfo from "@/components/website-info.vue";
@@ -70,9 +68,9 @@ import RecommandArticle from "@/components/recommand-article.vue";
 import TagCloud from "@/components/tag-cloud.vue";
 import TypeText from "@/components/type-text.vue";
 import TopbarMenu from "@/components/topbar-menu.vue";
-import "@/styles/poem-font.css";
 
-const themeStore = useThemeStore();
+import { throttle } from "lodash";
+
 const route = useRoute();
 const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
@@ -89,7 +87,6 @@ function generateFingerprint() {
   // 简单哈希处理生成唯一ID
   return btoa(features.join("|")).substring(20, 30);
 }
-
 //FIXME 如果清除缓存并且在后端时长没有到1h，数据就会为空
 const sendInfo = async () => {
   const STORAGE_KEY = "last_visit_stat";
@@ -114,19 +111,7 @@ const sendInfo = async () => {
     }
   }
 };
-//获取网站主题
-const getTheme = async () => {
-  const { data, status } = await getThemeInfo();
-  if (status == 1) {
-    themeStore.setThemeData(data);
-  }
-  themeStore.$patch((state) => {
-    state.nickname = data.nickname;
-    state.portrait = data.portrait;
-    state.saying = data.saying;
-    state.url = data.url;
-  });
-};
+
 const turnDownPage = () => {
   window.scrollTo({
     top: window.innerHeight + 1,
@@ -147,29 +132,26 @@ const handleScroll = () => {
     }, 100);
   }
 };
-
+const throttledHandleScroll = throttle(handleScroll, 200);
 // 处理页面可见性变化
 const handleVisibilityChange = () => {
   isFocus.value = !document.hidden;
 };
 onMounted(() => {
   sendInfo();
-  getTheme();
-
   handleScroll(); //先判断一次
-  // TODO 加节流
-  window.addEventListener("scroll", handleScroll);
+  window.addEventListener("scroll", throttledHandleScroll);
   document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
+  window.removeEventListener("scroll", throttledHandleScroll);
   document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 </script>
 
 <style lang="scss" scoped>
 .container {
-  background-image: url("../assets/bamboo.png");
+  background-image: url("../assets/test/bamboo.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;

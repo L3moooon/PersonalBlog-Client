@@ -91,8 +91,6 @@ onMounted(() => {
 .author {
   width: 100%;
   height: 186px;
-  // background-color: rgba(241, 204, 143, 0.9);
-  // background-color: rgba(235, 224, 224, 0.9);
   background: linear-gradient(135deg, #83a4d4, #b6fbff);
   opacity: 0.9;
   border-radius: 10px;
@@ -104,16 +102,10 @@ onMounted(() => {
   img {
     display: block;
     width: 6rem;
-    // border-radius: 50%;
     border-radius: 10px;
     margin: 1rem auto;
     transition: 0.5s;
     transform-style: preserve-3d;
-  }
-  img:hover {
-    // transform: rotate(360deg);
-    // width: 10rem;
-    // box-shadow: #83a4d4 solid 2px;
   }
   .name {
     font-size: 1rem;
@@ -122,7 +114,6 @@ onMounted(() => {
     overflow: hidden;
   }
   .greeting {
-    // font-family: SiJiYuNi;
     font-size: 0.8rem;
     font-weight: 500;
     text-align: center;

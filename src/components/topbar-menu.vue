@@ -7,8 +7,8 @@
     <div
       class="left"
       @click="backHome">
-      <img :src="useTheme.portrait" />
-      <div class="name">个人博客</div>
+      <img src="/src/assets/portrait.jpg" />
+      <div class="name">宵时雨</div>
     </div>
     <div class="right">
       <div @click="mention">主题切换</div>
@@ -98,7 +98,7 @@ onUnmounted(() => {
 }
 .backdrop-filter {
   transition: 0.3s;
-  backdrop-filter: blur(5px); /* 模糊半径，值越大越模糊 */
+  backdrop-filter: blur(5px);
   animation: fadeInBg 0.3s ease-out forwards;
 }
 .wrapper {

@@ -17,7 +17,6 @@ const app = createApp(App)
 app.use(ElementPlus, {
   locale: zhCn,
 });
-// 批量注册指令（指令名即对象key，如v-date、v-permission）
 Object.keys(directives).forEach(key => {
   app.directive(key, directives[key]);
 });

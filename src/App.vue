@@ -13,10 +13,8 @@ import "./styles/reset.scss";
 import "@/utils/rem";
 import "@/font/iconfont";
 import "element-plus/dist/index.css";
-import "@/styles/icon.css";
-import "@/styles/scrollbar.scss"; //滚动条
 import "@/styles/transitions.css"; //路由跳转
-import "@/styles/public.scss";
+import "@/styles/public.scss"; //公共样式
 </script>
 
 <style>
@@ -24,7 +22,6 @@ import "@/styles/public.scss";
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* text-align: center; */
   color: #303133;
   font-size: 16px;
 }

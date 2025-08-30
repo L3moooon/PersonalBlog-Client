@@ -55,21 +55,7 @@ onMounted(async () => {
   if (status == 1) {
     Object.assign(websiteData, data);
   }
-  // console.log(websiteData);
-  // websiteData.run_time = transformRuntime();
 });
-const transformRuntime = () => {
-  const currentDate = new Date();
-  const currentTimestamp = currentDate.getTime() / 1000;
-  const dateObj = new Date(websiteData.create_time);
-  const createTimestamp = dateObj.getTime() / 1000;
-  const timeDiff = currentTimestamp - createTimestamp;
-  // console.log("cur", currentTimestamp, "creat", createTimestamp, timeDiff);
-  return Math.floor(timeDiff / (60 * 60 * 24));
-};
-const transformActivateTime = () => {
-  console.log(websiteData.last_activate);
-};
 </script>
 
 <style lang="scss" scoped>
