@@ -46,7 +46,7 @@ const scrollToSection = (id) => {
   flex-grow: 1;
 }
 .toc-item {
-  margin-bottom: 0.5rem;
+  // margin-bottom: 0.5rem;
 
   .toc-link {
     display: block;
@@ -82,8 +82,7 @@ const scrollToSection = (id) => {
 
 .toc-sub-list {
   margin-left: 1.5rem;
-  margin-top: 0.25rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .toc-sub-item {

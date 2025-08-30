@@ -84,7 +84,7 @@ export const routes = [
       },
       {
         path: '/article',
-        component: () => import('@/view/ArticlePage.vue'),
+        component: () => import('@/view/article-index.vue'),
         meta: {
           title: '',
           icon: '',

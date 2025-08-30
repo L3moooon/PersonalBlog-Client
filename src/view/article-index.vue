@@ -6,31 +6,36 @@
       <div class="title">{{ article.title }}</div>
       <div class="abstract">{{ article.abstract || "暂无简介" }}</div>
       <div class="detail">
-        <div class="info">
-          <img
-            src="@/assets/icons/time.png"
-            alt="" />
-          发表于:
-          <span v-timeFormatter="article.publish_date"></span>
+        <div class="top-half">
+          <div class="info flex-center">
+            <img
+              class="info-img"
+              src="@/assets/icons/time.png"
+              alt="" />
+            发表于:
+            <span v-timeFormatter="article.publish_date"></span>
+          </div>
+          <div class="info flex-center">
+            <img
+              class="info-img"
+              src="@/assets/icons/update.png"
+              alt="" />更新于:
+            <span v-timeFormatter="article.last_edit_date"></span>
+          </div>
         </div>
-        <div>|</div>
-        <div class="info">
-          <img
-            src="@/assets/icons/update.png"
-            alt="" />更新于:
-          <span v-timeFormatter="article.last_edit_date"></span>
-        </div>
-        <div>|</div>
-        <div class="info">
-          <img
-            src="@/assets/icons/字数.png"
-            alt="" />字数统计:{{ article.contentLength }}
-        </div>
-        <div>|</div>
-        <div class="info">
-          <img
-            src="@/assets/icons/时间.png"
-            alt="" />阅读时长:{{ article.readingTime }}分钟
+        <div class="bottom-half flex-center">
+          <div class="info flex-center">
+            <img
+              class="info-img"
+              src="@/assets/icons/字数.png"
+              alt="" />字数统计:{{ article.contentLength }}
+          </div>
+          <div class="info flex-center">
+            <img
+              class="info-img"
+              src="@/assets/icons/时间.png"
+              alt="" />阅读时长:{{ article.readingTime }}分钟
+          </div>
         </div>
       </div>
     </div>
@@ -39,12 +44,11 @@
       class="banner-img flex-center"
       :src="article.cover_img"
       object-fit="contain" />
-    <!-- 正文 -->
     <el-divider></el-divider>
+    <!-- 正文 -->
     <div
       class="article-content"
       id="article-content">
-      <!-- <div class="tool">工具栏</div> -->
       <div class="text-container quill-content-wrapper">
         <div
           class="text quill-content"
@@ -348,9 +352,6 @@ onMounted(() => {
       max-height: 100px;
     }
     .detail {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       font-family: Alibaba PuHuiTi;
       font-weight: 500;
       font-size: 18px;
@@ -358,11 +359,15 @@ onMounted(() => {
       margin-top: 10px;
       flex-wrap: wrap;
       column-gap: 10px;
-      .info {
+      .top-half,
+      .bottom-half {
         display: flex;
-        align-items: center;
+        justify-content: center;
+        column-gap: 20px;
+      }
+      .info {
         height: 30px;
-        img {
+        .info-img {
           width: 20px;
           margin-right: 5px;
         }
@@ -556,14 +561,6 @@ onMounted(() => {
   font-size: 14px;
   line-height: 1.5;
   padding: 6px 6px 6px 26px;
-}
-
-/* 修复图片样式（避免图片溢出容器） */
-:deep(img) {
-  max-width: 100%;
-  height: auto;
-  margin: 1em 0;
-  border-radius: 4px;
 }
 
 /* 列表样式修复 */
