@@ -7,7 +7,7 @@
     <div
       class="left"
       @click="backHome">
-      <img src="/src/assets/portrait.jpg" />
+      <img src="@/assets/portrait.jpg" />
       <div class="name">宵时雨</div>
     </div>
     <div class="right">

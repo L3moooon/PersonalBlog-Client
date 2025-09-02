@@ -37,7 +37,11 @@ module.exports = defineConfig(async () => {
         '/public': {
           target,
           changeOrigin: true,
-        }
+        },
+        '/images': {
+          target: 'https://oss.willisblog.cn',
+          changeOrigin: true,
+        },
       }
     }
   }

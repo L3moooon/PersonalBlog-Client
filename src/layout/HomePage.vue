@@ -151,7 +151,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .container {
-  background-image: url("../assets/test/bamboo.jpg");
+  background-image: url("../assets/bamboo.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
