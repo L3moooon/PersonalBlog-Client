@@ -16,7 +16,14 @@
         </button>
       </div>
     </div>
-    <div class="down">
+    <!-- 移动端 -->
+    <div v-if="isMobile">
+      <router-view></router-view>
+    </div>
+    <!-- pc端 -->
+    <div
+      v-else
+      class="down">
       <!-- 左 -->
       <div class="left-container">
         <el-affix :offset="20">
@@ -68,12 +75,15 @@ import RecommandArticle from "@/components/recommand-article.vue";
 import TagCloud from "@/components/tag-cloud.vue";
 import TypeText from "@/components/type-text.vue";
 import TopbarMenu from "@/components/topbar-menu.vue";
-
 import { throttle } from "lodash";
+
+const screenWidth = ref(window.innerWidth);
+const isMobile = ref(screenWidth.value < 768);
 
 const route = useRoute();
 const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
+
 // 生成简单的浏览器指纹
 function generateFingerprint() {
   // 收集浏览器特征
@@ -137,15 +147,22 @@ const throttledHandleScroll = throttle(handleScroll, 200);
 const handleVisibilityChange = () => {
   isFocus.value = !document.hidden;
 };
+
+const handleResize = () => {
+  screenWidth.value = window.innerWidth;
+  isMobile.value = screenWidth.value < 768;
+};
 onMounted(() => {
   sendInfo();
   handleScroll(); //先判断一次
   window.addEventListener("scroll", throttledHandleScroll);
   document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("resize", handleResize);
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", throttledHandleScroll);
   document.removeEventListener("visibilitychange", handleVisibilityChange);
+  window.removeEventListener("resize", handleResize);
 });
 </script>
 

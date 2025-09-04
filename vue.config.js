@@ -1,4 +1,5 @@
 const { defineConfig } = require('@vue/cli-service');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const path = require("path");
 
 // const target = 'http://182.92.105.35:3000'
@@ -6,11 +7,6 @@ const target = 'http://127.0.0.1:3000'
 
 // 使用异步函数包装配置
 module.exports = defineConfig(async () => {
-  // 动态导入 ESM 模块
-  const { default: AutoImport } = await import('unplugin-auto-import/rspack');
-  const { default: Components } = await import('unplugin-vue-components/rspack');
-  const { VantResolver } = await import('@vant/auto-import-resolver');
-
   return {
     transpileDependencies: true,
     chainWebpack: (config) => {
@@ -20,12 +16,11 @@ module.exports = defineConfig(async () => {
     },
     configureWebpack: {
       plugins: [
-        AutoImport({
-          resolvers: [VantResolver()]
-        }),
-        Components({
-          resolvers: [VantResolver()]
-        }),
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static', // 生成静态报告文件
+          openAnalyzer: false,   // 析构后不自动打开报告
+          reportFilename: 'bundle-report.html', // 报告文件名
+        })
       ],
     },
     devServer: {

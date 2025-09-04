@@ -25,13 +25,10 @@
 
 <script setup>
 import { onMounted, ref, onUnmounted } from "vue";
-import { useRouter, useRoute } from "vue-router";
-import { useThemeStore } from "@/store/theme";
+import { useRouter } from "vue-router";
 import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
-const useTheme = useThemeStore();
 const router = useRouter();
-const route = useRoute();
 
 const wrapperRef = ref(null);
 const backHome = () => {

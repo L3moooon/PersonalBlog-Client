@@ -12,8 +12,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from "vue";
-const props = defineProps(["text"]);
+import { ref, onMounted } from "vue";
 const text = ref([
   "若待上林花似锦，出门俱是开花人",
   "去年今日此门中，人面桃花相映红",
@@ -81,14 +80,14 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .text-box {
-  margin: 1rem 0;
-  height: 2rem;
-  line-height: 2rem;
+  margin: 16px 0;
+  height: 32px;
+  line-height: 32px;
   .text {
     display: inline-block;
-    height: 2rem;
+    height: 32px;
     white-space: nowrap;
-    font-size: 2rem;
+    font-size: 32px;
     overflow: hidden;
   }
   @keyframes blink {
@@ -105,10 +104,9 @@ onMounted(() => {
   .line {
     font-family: Arial, Helvetica, sans-serif;
     display: inline-block;
-    height: 32px;
-    line-height: 2rem;
+    line-height: 32px;
     font-size: 35px;
-    transform: scaleX(0.6); /* 水平方向缩放到 50% */
+    transform: scaleX(0.6);
     vertical-align: top;
   }
   .blink {

@@ -18,7 +18,6 @@ export default class PerformanceMonitor {
         isCacheHit: this.checkCacheHit() // 是否命中缓存
       }
     };
-
     this.init();
   }
 
