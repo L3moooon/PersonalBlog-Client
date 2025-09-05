@@ -12,31 +12,12 @@
       <!-- 早上好，下午好，晚上好 -->
       <div class="greeting">欢迎到访</div>
     </div>
-
-    <!-- <div class="link">
-      <div
-        class="url"
-        v-for="(item, index) in useStore.url"
-        :key="index">
-        <a
-          :href="item.address"
-          target="_blank">
-          <svg
-            class="icon"
-            aria-hidden="true">
-            <use :xlink:href="getIconLink(item.name)"></use>
-          </svg>
-        </a>
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, reactive, computed } from "vue";
 import { throttle } from "lodash";
-import { useThemeStore } from "@/store/theme";
-const useStore = useThemeStore();
 import anonymous from "@/assets/icons/personal.png";
 
 const visitor = reactive({});
@@ -69,19 +50,8 @@ const resetCardTransform = () => {
     img.style.transform = "rotateX(0) rotateY(0)";
   });
 };
-// 使用对象字面量替代switch语句，更简洁地获取图标链接
-const iconLinks = {
-  Github: "#icon-github-fill",
-  QQ: "#icon-changyonglogo33",
-  Bilibili: "#icon-bilibili-line",
-  Google: "#icon-logo-google",
-  Wechat: "#icon-github-fill",
-};
-const getIconLink = (urlName) => iconLinks[urlName] || "";
-
 onMounted(() => {
   const info = JSON.parse(localStorage.getItem("visitor"));
-  // console.log(visitor.value);
   Object.assign(visitor, info);
   console.log(visitor);
 });
@@ -118,24 +88,6 @@ onMounted(() => {
     font-weight: 500;
     text-align: center;
     margin: 0.3rem;
-  }
-  .link {
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    svg {
-      color: #303133;
-      margin: 0 0.5rem;
-      width: 1.5rem;
-      height: 1.5rem;
-      transition: 0.3s;
-    }
-    svg:hover {
-      width: 2.2rem;
-      height: 2.2rem;
-      color: #20b0e3;
-    }
   }
 }
 </style>
