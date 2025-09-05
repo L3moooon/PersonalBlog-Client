@@ -13,11 +13,8 @@
     "core-js": "^3.8.3",
     "element-plus": "^2.9.0",
     "pinia": "^2.3.0",
-    "sass": "^1.83.0",
-    "sass-loader": "^16.0.4",
     "vue": "^3.2.13",
-    "vue-router": "^4.5.0",
-    "webpack-bundle-analyzer": "^4.10.2"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
@@ -28,7 +25,10 @@
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3",
     "postcss-loader": "^8.1.1",
-    "postcss-pxtorem": "^6.1.0"
+    "postcss-pxtorem": "^6.1.0",
+    "sass": "^1.92.0",
+    "sass-loader": "^16.0.5",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "eslintConfig": {
     "root": true,
