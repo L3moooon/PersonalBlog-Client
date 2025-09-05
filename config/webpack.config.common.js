@@ -42,15 +42,62 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '//localhost:8080', // 设置公共路径，确保 CSS 中的资源路径正确
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              url: false
+            }
+          },
+          'postcss-loader'
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '//localhost:8080',
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              url: false
+            }
+          },
+          'postcss-loader',
+          'sass-loader'
+        ],
       },
       {
         test: /\.less$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'],
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+            options: {
+              publicPath: '//localhost:8080', // 设置公共路径，确保 CSS 中的资源路径正确
+            },
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              url: false
+            }
+          },
+          'postcss-loader',
+          'less-loader'
+        ],
       },
       // 处理图片和字体
       {
@@ -72,7 +119,8 @@ module.exports = {
       minify: { // 压缩 HTML
         collapseWhitespace: true, // 移除空格
         removeComments: true // 移除注释
-      }
+      },
+      title: '时雨博客' // 网页标题
     }),
     new VueLoaderPlugin(),  // 解析 .vue 文件必需
     new ESlintPlugin({  // 代码检查
@@ -85,7 +133,7 @@ module.exports = {
     }),
     new DefinePlugin({  //定义全局变量和环境变量
       // 'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'BASE_URL': JSON.stringify('https://localhost:8080') // 自定义全局变量
+      'BASE_URL': JSON.stringify('/') // 自定义全局变量
     })
   ],
   optimization: {
@@ -106,12 +154,5 @@ module.exports = {
       },
     },
   },
-  // performance: {
-  //   hints: false, // 关闭性能提示
-  // },
-  // stats: 'normal', // 控制台输出信息的详细程度
-  // stats: 'minimal', // 仅输出最少信息
-  // stats: 'errors-only', // 仅输出错误信息
-  // stats: 'verbose', // 输出详细信息
 };
 

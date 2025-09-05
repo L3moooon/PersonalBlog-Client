@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack serve --env development",
-    "build": "webpack --env production",
-    "lint": "vue-cli-service lint"
+    "build": "webpack --env production"
   },
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",

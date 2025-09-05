@@ -1,4 +1,3 @@
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 // const target = 'http://182.92.105.35:3000'
 const target = 'http://127.0.0.1:3000'
@@ -30,11 +29,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static', // 生成静态报告文件
-      openAnalyzer: false,   // 析构后不自动打开报告
-      reportFilename: 'bundle-report.html', // 报告文件名
-    }),
-  ]
+  plugins: []
 }

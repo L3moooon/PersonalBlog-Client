@@ -1,6 +1,7 @@
 const TerserPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 module.exports = {
   mode: 'production',
@@ -21,5 +22,10 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static', // 生成静态报告文件
+      openAnalyzer: false,   // 析构后不自动打开报告
+      reportFilename: 'bundle-report.html', // 报告文件名
+    }),
   ]
 }

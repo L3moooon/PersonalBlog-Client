@@ -1,12 +1,12 @@
 <template>
-  <!-- <router-view></router-view>
-    -->
-  <router-view v-slot="{ Component, route }">
-    <!-- 使用任何自定义过渡和回退到 `fade` -->
+  <router-view></router-view>
+
+  <!-- 使用任何自定义过渡和回退到 `fade` -->
+  <!-- <router-view v-slot="{ Component, route }">
     <transition :name="route.meta.transition || 'fade'">
       <component :is="Component" />
     </transition>
-  </router-view>
+  </router-view> -->
 </template>
 <script setup>
 import "./styles/reset.scss";
