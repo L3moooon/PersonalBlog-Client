@@ -43,73 +43,60 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '//localhost:8080', // 设置公共路径，确保 CSS 中的资源路径正确
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1,
-              url: false
-            }
-          },
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           'postcss-loader'
         ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '//localhost:8080',
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              url: false
-            }
-          },
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           'postcss-loader',
-          'sass-loader'
+          'sass-loader',
         ],
       },
       {
         test: /\.less$/i,
         use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-            options: {
-              publicPath: '//localhost:8080', // 设置公共路径，确保 CSS 中的资源路径正确
-            },
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              url: false
-            }
-          },
+          MiniCssExtractPlugin.loader,
+          'css-loader',
           'postcss-loader',
-          'less-loader'
+          'less-loader',
         ],
       },
       // 处理图片和字体
+      // {
+      //   test: /\.(png|jpg|gif|svg|woff2?|ttf)$/, // 匹配图片和字体
+      //   use: {
+      //     loader: 'url-loader',
+      //     options: {
+      //       limit: 8192, // 小于 8KB 的文件转为 base64
+      //       name: 'assets/[name].[hash:8].[ext]' // 大于 8KB 的文件输出路径
+      //     }
+      //   },
+      // },
+      // 图片配置
       {
-        test: /\.(png|jpg|gif|svg|woff2?|ttf)$/, // 匹配图片和字体
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 8192, // 小于 8KB 的文件转为 base64
-            name: 'assets/[name].[hash:8].[ext]' // 大于 8KB 的文件输出路径
-          }
-        }
+        test: /\.(png|jpg|gif|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: { maxSize: 8 * 1024 } // 图片小文件转base64
+        },
+        generator: {
+          filename: 'imgs/[contenthash][ext]'
+        },
+        // use: 'image-webpack-loader' // 对图片压缩
       },
+      // 字体配置
+      {
+        test: /\.(woff2?|ttf|eot)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]' // 字体使用原名，便于引用
+        }
+      }
     ],
   },
   plugins: [

@@ -132,11 +132,11 @@ onMounted(() => {
           width: 20px;
           height: 20px;
           margin-right: 10px;
-          background-image: url("@/assets/icons/like.png");
+          background-image: url("../assets/icons/like.png");
           background-repeat: no-repeat;
           background-size: cover;
           &:hover {
-            background-image: url("@/assets/icons/like-hover.png");
+            background-image: url("../assets/icons/like-hover.png");
           }
         }
       }
@@ -149,11 +149,11 @@ onMounted(() => {
           width: 20px;
           height: 20px;
           margin-right: 10px;
-          background-image: url("@/assets/icons/unlike.png");
+          background-image: url("../assets/icons/unlike.png");
           background-repeat: no-repeat;
           background-size: cover;
           &:hover {
-            background-image: url("@/assets/icons/unlike-hover.png");
+            background-image: url("../assets/icons/unlike-hover.png");
           }
         }
       }
