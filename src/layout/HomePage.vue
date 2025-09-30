@@ -168,7 +168,8 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .container {
-  background-image: url("../assets/bamboo.jpg");
+  background-image: url("@/assets/bamboo.jpg");
+  // background-image: url("@/assets/night.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -226,7 +227,7 @@ onUnmounted(() => {
   }
   .content-middle {
     width: 65%;
-    background-color: #efeeee;
+    background-color: #fff;
     border-radius: 10px;
     margin: 0 1rem;
     margin-bottom: 20px;

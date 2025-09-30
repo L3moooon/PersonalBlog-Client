@@ -18,46 +18,46 @@ export const routes = [
           icon: '#icon-home'
         }
       },
-      {
-        path: '/program',
-        component: () => import('@/view/program-index.vue'),
-        meta: {
-          title: '程序设计',
-          icon: '#icon-chengxuprogram1'
-        }
-      },
-      {
-        path: '/note',
-        component: () => import('@/view/note-index.vue'),
-        meta: {
-          title: '学习笔记',
-          icon: '#icon-note'
-        }
-      },
-      {
-        path: '/game',
-        component: () => import('@/view/live-index.vue'),
-        meta: {
-          title: '生活爱好',
-          icon: '#icon-game'
-        }
-      },
-      {
-        path: '/exprience',
-        component: () => import('@/view/think-index.vue'),
-        meta: {
-          title: '随想录',
-          icon: '#icon-daifasong'
-        }
-      },
-      {
-        path: 'log',
-        component: () => import('@/view/log-index.vue'),
-        meta: {
-          title: '建站日志',
-          icon: '#icon-rizhi'
-        }
-      },
+      // {
+      //   path: '/program',
+      //   component: () => import('@/view/program-index.vue'),
+      //   meta: {
+      //     title: '程序设计',
+      //     icon: '#icon-chengxuprogram1'
+      //   }
+      // },
+      // {
+      //   path: '/note',
+      //   component: () => import('@/view/note-index.vue'),
+      //   meta: {
+      //     title: '学习笔记',
+      //     icon: '#icon-note'
+      //   }
+      // },
+      // {
+      //   path: '/game',
+      //   component: () => import('@/view/live-index.vue'),
+      //   meta: {
+      //     title: '生活爱好',
+      //     icon: '#icon-game'
+      //   }
+      // },
+      // {
+      //   path: '/exprience',
+      //   component: () => import('@/view/think-index.vue'),
+      //   meta: {
+      //     title: '随想录',
+      //     icon: '#icon-daifasong'
+      //   }
+      // },
+      // {
+      //   path: 'log',
+      //   component: () => import('@/view/log-index.vue'),
+      //   meta: {
+      //     title: '建站日志',
+      //     icon: '#icon-rizhi'
+      //   }
+      // },
       {
         path: '/aboutme',
         component: () => import('@/view/aboutme-index.vue'),

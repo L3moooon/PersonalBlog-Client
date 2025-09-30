@@ -49,10 +49,14 @@
     <div
       class="article-content"
       id="article-content">
-      <div class="text-container quill-content-wrapper">
-        <div
-          class="text quill-content"
-          v-html="article.content"></div>
+      <div class="text-container">
+        <!-- <div
+          class="text w-e-text-container"
+          v-html="article.content"></div> -->
+        <Editor
+          v-model="article.content"
+          :defaultConfig="editorConfig"
+          mode="default" />
         <el-divider
           ><el-icon><star-filled /></el-icon
         ></el-divider>
@@ -184,12 +188,12 @@ import {
 import { StarFilled } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 import { useCommentStore } from "@/store/comment";
+import { Editor } from "@wangeditor/editor-for-vue";
 
 import ReplyCard from "@/components/reply-card.vue";
 
-import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
+// import hljs from "highlight.js";
+// import "highlight.js/styles/atom-one-dark.css";
 
 const commentStore = useCommentStore();
 const route = useRoute();
@@ -218,7 +222,9 @@ watch(
     }
   }
 );
-
+const editorConfig = {
+  readOnly: true,
+};
 //获取文章内容
 const getArticleContent = async () => {
   const { data, status } = await getArticle({ id: route.query.id });
@@ -331,8 +337,8 @@ onMounted(() => {
   });
 });
 </script>
-
 <style lang="scss" scoped>
+@import "~@wangeditor/editor/dist/css/style.css";
 .article-main {
   position: relative;
   width: 100%;
@@ -534,72 +540,5 @@ onMounted(() => {
       }
     }
   }
-}
-/* 确保Quill生成的对齐样式生效 */
-:deep(.ql-align-center) {
-  text-align: center !important;
-}
-:deep(.ql-align-right) {
-  text-align: right !important;
-}
-:deep(.ql-align-justify) {
-  text-align: justify !important;
-}
-
-/* 代码块样式增强（与编辑端保持视觉一致） */
-:deep(pre) {
-  margin: 1em 0;
-  padding: 16px;
-  border-radius: 4px;
-  overflow-x: auto;
-  background-color: #282c34 !important; /* 与atom-one-dark主题匹配的背景色 */
-}
-
-:deep(.ql-syntax) {
-  color: #abb2bf; /* 代码文本颜色 */
-  // font-family: "Consolas", "Monaco", "Courier New", monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  padding: 6px 6px 6px 26px;
-}
-
-/* 列表样式修复 */
-:deep(ul),
-:deep(ol) {
-  padding-left: 2em;
-  margin: 1em 0;
-}
-
-/* 标题样式调整 */
-:deep(h1),
-:deep(h2),
-:deep(h3) {
-  margin: 0.8em 0;
-}
-:deep(h1) {
-  font-size: 24px;
-  font-weight: 600;
-}
-:deep(h2) {
-  font-size: 22px;
-  font-weight: 600;
-}
-:deep(h3) {
-  font-size: 20px;
-  font-weight: 600;
-}
-:deep(p) {
-  // text-indent: 2em;
-  font-size: 18px;
-  line-height: 22px;
-  margin-bottom: 15px;
-}
-
-/* 引用样式 */
-:deep(blockquote) {
-  border-left: 4px solid #ccc;
-  padding-left: 1em;
-  margin: 1em 0;
-  color: #666;
 }
 </style>
