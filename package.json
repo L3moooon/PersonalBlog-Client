@@ -10,6 +10,7 @@
     "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.7.9",
     "core-js": "^3.8.3",
+    "dotenv": "^17.2.2",
     "element-plus": "^2.9.0",
     "highlight.js": "^11.11.1",
     "pinia": "^2.3.0",

@@ -60,7 +60,7 @@
     </div>
     <!-- 评论 -->
     <div class="comments">
-      <div class="pubCommnent">
+      <div class="pubComment">
         <el-input
           v-model="commentText"
           type="textarea"
@@ -423,7 +423,7 @@ onMounted(() => {
 }
 .comments {
   padding: 10px 40px 40px 40px;
-  .pubCommnent {
+  .pubComment {
     margin-bottom: 20px;
     .func {
       margin-top: 20px;

@@ -4,7 +4,6 @@ const { DefinePlugin } = require('webpack');
 const { VueLoaderPlugin } = require('vue-loader');
 const ESlintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
-
 function getStyleLoaders(type = 'css') {
   const loaders = [
     MiniCssExtractPlugin.loader,

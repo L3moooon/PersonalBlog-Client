@@ -25,6 +25,7 @@ module.exports = {
         target,
         changeOrigin: true
       },
+      //本地开发环境显示oss图片
       {
         context: '/images',
         target: 'https://oss.willisblog.cn',
