@@ -16,14 +16,8 @@
         </button>
       </div>
     </div>
-    <!-- 移动端 -->
-    <div v-if="isMobile">
-      <router-view></router-view>
-    </div>
-    <!-- pc端 -->
-    <div
-      v-else
-      class="down">
+
+    <div class="down">
       <!-- 左 -->
       <div class="left-container">
         <el-affix :offset="20">
@@ -68,13 +62,13 @@ import { useRoute } from "vue-router";
 import { sendUserInfo } from "@/api/user";
 
 import MenuList from "@/components/menu-list.vue";
-import VisitorCard from "@/components/visitor-card.vue";
-import WebsiteInfo from "@/components/website-info.vue";
-import ArticleCatagory from "@/components/article-catagory.vue";
-import RecommandArticle from "@/components/recommand-article.vue";
+import VisitorCard from "@/layout/basic/visitor-card.vue";
+import WebsiteInfo from "@/layout/basic/website-info.vue";
+import ArticleCatagory from "@/view/articel/article-catagory.vue";
+import RecommandArticle from "@/layout/basic/recommand-article.vue";
 import TagCloud from "@/components/tag-cloud.vue";
-import TypeText from "@/components/type-text.vue";
-import TopbarMenu from "@/components/topbar-menu.vue";
+import TypeText from "@/layout/basic/type-text.vue";
+import TopbarMenu from "@/layout/basic/topbar-menu.vue";
 import { throttle } from "lodash";
 
 const screenWidth = ref(window.innerWidth);
@@ -209,15 +203,16 @@ onUnmounted(() => {
 }
 
 .down {
+  display: flex;
   padding-top: 80px;
   min-height: 100vh;
-  display: flex;
-  width: 70%;
+  width: 80%;
+  gap: 20px;
+  max-width: 1280px;
+  min-width: 1080px;
   margin: 0 auto;
-  justify-content: space-between;
-  flex-grow: 1 2 1;
   .left-container {
-    width: 15%;
+    width: 200px;
   }
   .el-menu {
     border-radius: 10px;
@@ -226,15 +221,14 @@ onUnmounted(() => {
     --el-menu-item-font-size: 14px;
   }
   .content-middle {
-    width: 65%;
+    flex: 1;
     background-color: #fff;
     border-radius: 10px;
-    margin: 0 1rem;
     margin-bottom: 20px;
     overflow: hidden;
   }
   .right-container {
-    width: 20%;
+    width: 250px;
   }
 }
 </style>

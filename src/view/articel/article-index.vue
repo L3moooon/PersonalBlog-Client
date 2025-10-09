@@ -190,7 +190,7 @@ import { ElMessage } from "element-plus";
 import { useCommentStore } from "@/store/comment";
 import { Editor } from "@wangeditor/editor-for-vue";
 
-import ReplyCard from "@/components/reply-card.vue";
+import ReplyCard from "@/view/articel/reply-card.vue";
 
 // import hljs from "highlight.js";
 // import "highlight.js/styles/atom-one-dark.css";
@@ -486,11 +486,11 @@ onMounted(() => {
               width: 20px;
               height: 20px;
               margin-right: 10px;
-              background-image: url("../assets/icons/like.png");
+              background-image: url("@/assets/icons/like.png");
               background-repeat: no-repeat;
               background-size: cover;
               &:hover {
-                background-image: url("../assets/icons/like-hover.png");
+                background-image: url("@/assets/icons/like-hover.png");
               }
             }
           }
@@ -500,11 +500,11 @@ onMounted(() => {
               width: 20px;
               height: 20px;
               margin-right: 10px;
-              background-image: url("../assets/icons/unlike.png");
+              background-image: url("@/assets/icons/unlike.png");
               background-repeat: no-repeat;
               background-size: cover;
               &:hover {
-                background-image: url("../assets/icons/unlike-hover.png");
+                background-image: url("@/assets/icons/unlike-hover.png");
               }
             }
           }

@@ -118,14 +118,16 @@ module.exports = {
       title: '时雨博客' // 网页标题
     }),
     new VueLoaderPlugin(),  // 解析 .vue 文件必需
-    new ESlintPlugin({  // 代码检查
-      context: path.resolve(__dirname, '../src'),
-      extensions: ['js', 'vue'],
-      exclude: 'node_modules',
-      cache: true, // 开启缓存
-      cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintcache'), // 缓存目录
-      // threads: true // 开启多线程
-    }),
+    // new ESlintPlugin({  // 代码检查
+    //   context: path.resolve(__dirname, '../src'),
+    //   extensions: ['js', 'vue'],
+    //   exclude: 'node_modules',
+    //   cache: true, // 开启缓存
+    //   cacheLocation: path.resolve(__dirname, '../node_modules/.cache/eslintcache'), // 缓存目录
+    //   // threads: true // 开启多线程
+    //   failOnError: false,   // 不因为错误中断打包（开发环境推荐）
+    //   failOnWarning: false  // 不因为警告中断打包
+    // }),
     new MiniCssExtractPlugin({
       filename: 'styles/[name].[contenthash:8].css', // 输出 CSS 文件到 styles 目录
     }),

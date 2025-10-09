@@ -11,25 +11,20 @@
     <div class="content">
       <div
         class="item"
-        v-for="item in pagination.articles"
+        v-for="(item, index) in pagination.articles"
         :key="item.id"
         @click="handleJump(item.id)">
-        <div class="cover">
-          <img
-            v-if="item.cover_img.length"
-            :src="item.cover_img"
-            alt="" />
-          <div
-            v-else
-            class="flex-center">
-            <span>暂无封面</span>
-          </div>
+        <div
+          class="number flex-center"
+          :class="{
+            top1: index == 0,
+            top2: index == 1,
+            top3: index == 2,
+          }">
+          {{ index + 1 }}
         </div>
-        <div class="right">
-          <div class="title">{{ item.title }}</div>
-          <div
-            class="time"
-            v-timeFormatter:YYYY-MM-DD="item.publish_date"></div>
+        <div class="right flex-center">
+          {{ item.title }}
         </div>
       </div>
     </div>
@@ -97,41 +92,38 @@ onMounted(() => {
     }
   }
   .content {
-    padding: 0 5px;
     .item {
       cursor: pointer;
       transition: 0.3s;
-      background-color: #b1c8cc;
-      // background: linear-gradient(135deg, #4ca1af, #c4e0e5);
-      // box-shadow: 2px 2px 5px #e6c481;
       border-radius: 5px;
-      height: 75px;
+      height: 30px;
       margin-bottom: 10px;
+      padding: 0 5px;
       display: flex;
       align-items: center;
       &:hover {
         // box-shadow: 2px 2px 5px #876a40;
+        background-color: #b1c8cc;
         transition: 0.3s;
       }
-      .cover {
-        width: 100px;
-        height: 60px;
+      .number {
+        width: 20px;
+        height: 20px;
         border-radius: 5px;
-        overflow: hidden;
-        margin: 0 10px 0 5px;
-        img {
-          width: 100%;
-          height: 100%;
-        }
-        div {
-          background-color: #fff;
-          width: 100%;
-          height: 100%;
-        }
+        background-color: #b1c8cc;
       }
+      .top1 {
+        background-color: #f85b1b;
+      }
+      .top2 {
+        background-color: #f97f4e;
+      }
+      .top3 {
+        background-color: #fba480;
+      }
+
       .right {
-        .title {
-        }
+        margin-left: 10px;
       }
     }
   }

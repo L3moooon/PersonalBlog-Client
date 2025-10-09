@@ -178,13 +178,13 @@ onMounted(async () => {
   height: 250px;
   overflow: hidden;
   background-color: wheat;
-  margin: 1rem;
+  padding: 10px;
   border-radius: 10px;
   position: relative;
   .top-title {
     color: #555555;
     font-weight: 700;
-    margin: 0.5rem auto;
+    margin: 8px auto;
     text-align: center;
   }
   .content {
@@ -193,15 +193,15 @@ onMounted(async () => {
     justify-items: center;
     justify-content: center;
     color: #a0a0a0;
-    font-size: 0.5rem;
+    font-size: 8px;
     .month {
       text-align: center;
-      width: 44rem;
-      margin: 0.4rem 2.5rem 0.4rem 4.15rem;
+      width: 700px;
+      margin: 6px 40px 6px 66px;
       span {
         display: inline-block;
-        width: 1.5rem;
-        margin: 0 1.05rem;
+        width: 24px;
+        margin: 0 17px;
       }
     }
     .middle {
@@ -210,18 +210,18 @@ onMounted(async () => {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 2rem;
+        width: 32px;
         text-align: center;
         span:not(:nth-child(1)) {
           display: block;
-          margin-top: 1.2rem;
+          margin-top: 19px;
         }
       }
       #git-calendar {
         display: grid;
         grid-auto-flow: column;
-        grid-template-columns: repeat(53, 0.75rem);
-        grid-template-rows: repeat(7, 0.75rem);
+        grid-template-columns: repeat(53, 12px);
+        grid-template-rows: repeat(7, 12px);
         gap: 2px;
         border-radius: 10px;
       }
@@ -229,18 +229,18 @@ onMounted(async () => {
   }
   .bottom {
     width: 100%;
-    height: 5rem;
+    height: 80px;
     .example {
       position: absolute;
       right: 32px;
       bottom: 80px;
-      font-size: 0.5rem;
+      font-size: 8px;
       color: #a0a0a0;
-      line-height: 1rem;
+      line-height: 16px;
       .example-block {
         display: inline-block;
-        width: 0.75rem;
-        height: 0.75rem;
+        width: 12px;
+        height: 12px;
         vertical-align: middle;
       }
     }

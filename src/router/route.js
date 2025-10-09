@@ -2,7 +2,7 @@
 export const routes = [
   {
     path: '/',
-    component: () => import('@/layout/HomePage.vue'),
+    component: () => import('@/layout/basic/index.vue'),
     redirect: '/home',
     meta: {
       title: '',
@@ -42,14 +42,14 @@ export const routes = [
       //     icon: '#icon-game'
       //   }
       // },
-      // {
-      //   path: '/exprience',
-      //   component: () => import('@/view/think-index.vue'),
-      //   meta: {
-      //     title: '随想录',
-      //     icon: '#icon-daifasong'
-      //   }
-      // },
+      {
+        path: '/exprience',
+        component: () => import('@/view/think-index.vue'),
+        meta: {
+          title: '随想录',
+          icon: '#icon-daifasong'
+        }
+      },
       // {
       //   path: 'log',
       //   component: () => import('@/view/log-index.vue'),
@@ -58,14 +58,7 @@ export const routes = [
       //     icon: '#icon-rizhi'
       //   }
       // },
-      {
-        path: '/aboutme',
-        component: () => import('@/view/aboutme-index.vue'),
-        meta: {
-          title: '关于我',
-          icon: '#icon-aboutMe'
-        }
-      },
+
       {
         path: '/message',
         component: () => import('@/view/message-index.vue'),
@@ -83,8 +76,16 @@ export const routes = [
         }
       },
       {
+        path: '/about',
+        component: () => import('@/view/about/index.vue'),
+        meta: {
+          title: '关于',
+          icon: '#icon-aboutMe'
+        }
+      },
+      {
         path: '/article',
-        component: () => import('@/view/article-index.vue'),
+        component: () => import('@/view/articel/article-index.vue'),
         meta: {
           title: '',
           icon: '',

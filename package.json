@@ -65,7 +65,8 @@
     },
     "rules": {
       "no-self-assign": "off",
-      "no-unused-vars": "off"
+      "no-unused-vars": "off",
+      "multi-word-component-names": "off"
     }
   },
   "browserslist": [

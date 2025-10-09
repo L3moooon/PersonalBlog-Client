@@ -71,7 +71,7 @@ onMounted(async () => {
 
   .title {
     margin: 8px 8px 8px 0;
-    font-size: 1rem;
+    font-size: 16px;
 
     .icon {
       animation: rotate 2s linear infinite;
@@ -90,20 +90,20 @@ onMounted(async () => {
       cursor: pointer;
       width: 28%;
       height: 48px;
-      margin: 0.4rem;
+      margin: 6px;
       text-align: center;
       border-radius: 10px;
       box-shadow: 2px 2px 5px #e6c481;
       transition: 0.3s;
       .info-title {
         width: 100%;
-        line-height: 1.1rem;
+        line-height: 18px;
         background-color: antiquewhite;
         border-radius: 10px 10px 0 0;
       }
       .content {
         background: linear-gradient(135deg, #4ca1af, #c4e0e5);
-        line-height: 1.9rem;
+        line-height: 30px;
         border-radius: 0 0 10px 10px;
       }
     }

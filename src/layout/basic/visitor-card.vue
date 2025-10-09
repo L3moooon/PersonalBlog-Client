@@ -71,23 +71,24 @@ onMounted(() => {
   }
   img {
     display: block;
-    width: 6rem;
+    width: 96px;
+    height: 96px;
     border-radius: 10px;
-    margin: 1rem auto;
+    margin: 16px auto;
     transition: 0.5s;
     transform-style: preserve-3d;
   }
   .name {
-    font-size: 1rem;
+    font-size: 16px;
     text-align: center;
-    margin: 0.5rem;
+    margin: 8px;
     overflow: hidden;
   }
   .greeting {
-    font-size: 0.8rem;
+    font-size: 13px;
     font-weight: 500;
     text-align: center;
-    margin: 0.3rem;
+    margin: 5px;
   }
 }
 </style>

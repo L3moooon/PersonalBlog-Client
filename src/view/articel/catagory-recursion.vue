@@ -57,6 +57,9 @@ const scrollToSection = (id) => {
 
     .toc-text {
       margin-left: 0.25rem;
+      // white-space: nowrap;
+      // overflow: hidden;
+      // text-overflow: ellipsis;
     }
 
     &:hover {

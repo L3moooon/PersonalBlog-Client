@@ -5,11 +5,13 @@
       v-for="item in articleList"
       :key="item.id"
       @click="goRoute(item.id)">
-      <img
+      <div
         v-if="item.cover_img"
-        class="home-cover"
-        :src="item.cover_img"
-        alt="" />
+        class="home-cover">
+        <img
+          :src="item.cover_img"
+          alt="" />
+      </div>
       <div
         v-else
         class="home-cover">
@@ -40,7 +42,7 @@
             <img
               src="@/assets/icons/like.png"
               alt="" />
-            {{ item.like }}
+            {{ item.star }}
           </div>
           <div class="view">
             <img
@@ -88,7 +90,7 @@ const goRoute = (id) => {
   height: 100%;
   .card {
     padding: 10px;
-    margin: 1rem 1rem;
+    margin: 16px 16px;
     height: 180px;
     background-color: white;
     border-radius: 10px;
@@ -105,21 +107,31 @@ const goRoute = (id) => {
         inset 18px 18px 30px rgba(0, 0, 0, 0.1),
         inset -18px -18px 30px rgba(255, 255, 255, 1);
       transition: box-shadow 0.2s ease-out;
+      .home-cover img {
+        scale: 1.2;
+        transition: 0.3s;
+      }
     }
     .home-cover {
-      width: 280px;
+      width: 40%;
+      // width: 280px;
       height: 180px;
       border-radius: 10px;
-
       font-size: 30px;
       font-weight: 300;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
+      img {
+        width: 100%;
+        height: 100%;
+        transition: 0.3s;
+      }
     }
 
     .content {
-      width: calc(100% - 300px);
+      width: 60%;
       padding-left: 30px;
       display: flex;
       flex-direction: column;
@@ -163,9 +175,9 @@ const goRoute = (id) => {
         height: 30px;
         display: flex;
         align-items: center;
-        width: 100%;
-        // justify-content: space-between;
-        gap: 60px;
+        width: 90%;
+        justify-content: space-between;
+        // gap: 60px;
         font-size: 15px;
         font-weight: 200;
         color: #a0a0a0;
@@ -174,7 +186,11 @@ const goRoute = (id) => {
         .view,
         .comments {
           display: flex;
-          // align-items: center;
+          height: 100%;
+          align-items: center;
+          white-space: nowrap;
+          overflow: hideen;
+          text-overflow: ellipsis;
           img {
             width: 15px;
             height: 15px;
