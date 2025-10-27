@@ -13,7 +13,6 @@ import "./styles/reset.scss";
 import "@/utils/rem";
 import "@/font/iconfont";
 import "element-plus/dist/index.css";
-import "@/styles/transitions.css"; //路由跳转
 import "@/styles/public.scss"; //公共样式
 </script>
 

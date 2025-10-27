@@ -1,17 +1,20 @@
 <template>
   <div
     class="container"
-    id="home-img-container">
+    id="home-img-container"
+  >
     <div class="top">
       <TopbarMenu></TopbarMenu>
       <div
         class="main"
-        v-if="showTop && route.path != '/article'">
+        v-if="showTop && route.path != '/article'"
+      >
         <div class="name">欢迎来访</div>
         <TypeText v-if="isFocus"></TypeText>
         <button
           @click="turnDownPage"
-          class="button">
+          class="button"
+        >
           主页
         </button>
       </div>
@@ -20,25 +23,29 @@
     <div class="down">
       <!-- 左 -->
       <div class="left-container">
-        <el-affix :offset="20">
+        <!-- <el-affix :offset="20">
           <el-menu popper-class="menu">
             <MenuList
               :menuList="routes"
               router="true"></MenuList>
           </el-menu>
-        </el-affix>
+        </el-affix> -->
       </div>
       <!-- 中 -->
       <div class="content-middle">
         <router-view></router-view>
       </div>
       <!-- 右-->
-      <div class="right-container">
+      <div
+        v-if="themeStore.isDesktop()"
+        class="right-container"
+      >
         <!-- 文章独有 -->
         <template v-if="route.path == '/article'">
           <el-affix :offset="20">
             <ArticleCatagory
-              contentSelector="article-content"></ArticleCatagory>
+              contentSelector="article-content"
+            ></ArticleCatagory>
             <TagCloud></TagCloud>
           </el-affix>
         </template>
@@ -64,16 +71,14 @@ import { sendUserInfo } from "@/api/user";
 import MenuList from "@/components/menu-list.vue";
 import VisitorCard from "@/layout/basic/visitor-card.vue";
 import WebsiteInfo from "@/layout/basic/website-info.vue";
-import ArticleCatagory from "@/view/articel/article-catagory.vue";
+import ArticleCatagory from "@/view/article/article-catagory.vue";
 import RecommandArticle from "@/layout/basic/recommand-article.vue";
 import TagCloud from "@/components/tag-cloud.vue";
 import TypeText from "@/layout/basic/type-text.vue";
 import TopbarMenu from "@/layout/basic/topbar-menu.vue";
 import { throttle } from "lodash";
-
-const screenWidth = ref(window.innerWidth);
-const isMobile = ref(screenWidth.value < 768);
-
+import { useThemeStore } from "@/store/theme";
+const themeStore = useThemeStore();
 const route = useRoute();
 const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
@@ -126,6 +131,7 @@ const turnDownPage = () => {
 const handleScroll = () => {
   // 获取top区域的高度
   const topElement = document.querySelector(".top");
+  const topWrapper = document.getElementById("topbar-menu");
   if (!topElement) return; // 避免元素未加载时的错误
   const topHeight = topElement.offsetHeight;
   // 滚动距离超过top高度时，销毁top
@@ -134,6 +140,7 @@ const handleScroll = () => {
     setTimeout(() => {
       showTop.value = false;
     }, 100);
+    topWrapper.classList.add("bg-white");
   }
 };
 const throttledHandleScroll = throttle(handleScroll, 200);
@@ -142,32 +149,99 @@ const handleVisibilityChange = () => {
   isFocus.value = !document.hidden;
 };
 
-const handleResize = () => {
-  screenWidth.value = window.innerWidth;
-  isMobile.value = screenWidth.value < 768;
-};
 onMounted(() => {
   sendInfo();
   handleScroll(); //先判断一次
   window.addEventListener("scroll", throttledHandleScroll);
   document.addEventListener("visibilitychange", handleVisibilityChange);
-  window.addEventListener("resize", handleResize);
 });
 onUnmounted(() => {
   window.removeEventListener("scroll", throttledHandleScroll);
   document.removeEventListener("visibilitychange", handleVisibilityChange);
-  window.removeEventListener("resize", handleResize);
 });
 </script>
 
 <style lang="scss" scoped>
-.container {
-  background-image: url("@/assets/bamboo.jpg");
-  // background-image: url("@/assets/night.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+@media (min-width: 768px) {
+  .container {
+    background-image: url("@/assets/bamboo.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    .top {
+      .main {
+        width: 100%;
+        height: 100vh;
+        padding: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        border-radius: 30px;
+        font-family: SiJiYuNi;
+        .name {
+          font-size: 64px;
+          font-weight: 500;
+        }
+        .button {
+          cursor: pointer;
+          font-family: SiJiYuNi;
+          font-size: 20px;
+          color: white;
+          display: block;
+          height: 40px;
+          width: 100px;
+          background-color: #e9c669;
+          border-radius: 5px;
+          font-weight: 500;
+          margin: 1rem auto;
+          border: 1px solid #e0be6e;
+          box-shadow: 10px;
+        }
+      }
+    }
+  }
+
+  .down {
+    display: flex;
+    padding-top: 80px;
+    min-height: 100vh;
+    width: 80%;
+    gap: 20px;
+    max-width: 1280px;
+    min-width: 1080px;
+    margin: 0 auto;
+    .left-container {
+      width: 200px;
+    }
+    .el-menu {
+      border-radius: 10px;
+      overflow: hidden;
+      --el-font-family: Avenir, Helvetica, Arial, sans-serif;
+      --el-menu-item-font-size: 14px;
+    }
+    .content-middle {
+      flex: 1;
+      background-color: #fff;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .right-container {
+      width: 250px;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .container {
+    background-image: url("@/assets/img/mobile-bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  }
   .top {
+    color: white;
     .main {
       width: 100%;
       height: 100vh;
@@ -176,59 +250,48 @@ onUnmounted(() => {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      color: white;
       border-radius: 30px;
       font-family: SiJiYuNi;
       .name {
-        font-size: 4rem;
+        font-size: 64px;
         font-weight: 500;
       }
       .button {
         cursor: pointer;
         font-family: SiJiYuNi;
         font-size: 20px;
-        color: white;
         display: block;
         height: 40px;
         width: 100px;
-        background-color: #e9c669;
+        background-color: #4489ca;
         border-radius: 5px;
         font-weight: 500;
         margin: 1rem auto;
-        border: 1px solid #e0be6e;
+        border: 1px solid #609ed6;
         box-shadow: 10px;
+        color: #fff;
+        position: absolute;
+        bottom: 20px;
       }
     }
   }
-}
-
-.down {
-  display: flex;
-  padding-top: 80px;
-  min-height: 100vh;
-  width: 80%;
-  gap: 20px;
-  max-width: 1280px;
-  min-width: 1080px;
-  margin: 0 auto;
-  .left-container {
-    width: 200px;
-  }
-  .el-menu {
-    border-radius: 10px;
-    overflow: hidden;
-    --el-font-family: Avenir, Helvetica, Arial, sans-serif;
-    --el-menu-item-font-size: 14px;
-  }
-  .content-middle {
-    flex: 1;
+  .bg-white {
+    color: #555;
+    transition: 0.3s;
     background-color: #fff;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    overflow: hidden;
+    // background-color: #458bc9;
+    // border-bottom: 1px solid #e9e9e9;
   }
-  .right-container {
-    width: 250px;
+  .down {
+    padding-top: 60px;
+    min-height: 100vh;
+    width: 100%;
+    margin: 0 auto;
+    .content-middle {
+      height: 100%;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
   }
 }
 </style>

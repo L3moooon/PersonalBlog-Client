@@ -1,17 +1,20 @@
 <template>
   <div
     v-for="item in props.data"
-    :key="item.id">
+    :key="item.id"
+  >
     <div class="comment-card">
       <div class="portrait">
         <img
           v-if="item.portrait"
           :src="item.portrait"
-          alt="" />
+          alt=""
+        />
         <img
           v-else
           src="@/assets/icons/personal.png"
-          alt="" />
+          alt=""
+        />
       </div>
       <div class="info">
         <div class="content">
@@ -20,7 +23,8 @@
             回复
             <span
               @click="returnPos"
-              class="name parent_name">
+              class="name parent_name"
+            >
               {{ item.parent_name }}
             </span>
           </template>
@@ -31,7 +35,8 @@
           <div
             class="time"
             v-timeFormatter:YYYY-MM-DD
-            HH:mm="item.comment_date"></div>
+            HH:mm="item.comment_date"
+          ></div>
           <div class="like">
             <div class="like-img"></div>
             {{ item.like_count > 0 ? item.like_count : "" }}
@@ -41,7 +46,8 @@
           </div>
           <div
             class="reply"
-            @click="reply(item.id, item.reply_name)">
+            @click="reply(item.id, item.reply_name)"
+          >
             回复
           </div>
         </div>
@@ -51,14 +57,15 @@
       v-if="item.children && item.children.length"
       :data="item.children"
       :rootId="props.rootId"
-      :articleId="props.articleId"></ReplyCard>
+      :articleId="props.articleId"
+    ></ReplyCard>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, computed } from "vue";
 import { ElMessage } from "element-plus";
-import ReplyCard from "@/view/articel/reply-card";
+import ReplyCard from "@/view/article/reply-card";
 import { comment } from "@/api/article";
 import { useCommentStore } from "@/store/comment";
 import like from "@/assets/svg/like.svg";
@@ -127,7 +134,6 @@ onMounted(() => {
       gap: 20px;
       .like {
         cursor: pointer;
-
         .like-img {
           width: 20px;
           height: 20px;

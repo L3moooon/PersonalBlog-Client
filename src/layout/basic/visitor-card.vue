@@ -3,11 +3,13 @@
     <div
       class="info"
       @mousemove="cardTransform($event)"
-      @mouseleave="resetCardTransform($event)">
+      @mouseleave="resetCardTransform($event)"
+    >
       <img
         :src="computedPortrait"
         id="card-img"
-        class="card__shine" />
+        class="card__shine"
+      />
       <div class="name">{{ visitor.name }}</div>
       <!-- 早上好，下午好，晚上好 -->
       <div class="greeting">欢迎到访</div>
@@ -65,7 +67,7 @@ onMounted(() => {
   opacity: 0.9;
   border-radius: 10px;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
   .info {
     overflow: hidden;
   }

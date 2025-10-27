@@ -1,15 +1,18 @@
 <template>
   <template
     v-for="item in props.menuList"
-    :key="item.path">
+    :key="item.path"
+  >
     <!-- 展示&&有子路由 -->
     <el-sub-menu
       v-if="!item.meta.hidden && item.children"
-      :index="item.path">
+      :index="item.path"
+    >
       <template #title>
         <svg
           class="icon"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <use :xlink:href="item.meta.icon"></use>
         </svg>
         <span>{{ item.meta.title }}</span>
@@ -26,11 +29,13 @@
     <el-menu-item
       v-if="!item.meta.hidden && !item.children"
       :index="item.path"
-      @click="goRoute">
+      @click="goRoute"
+    >
       <template #title>
         <svg
           class="icon"
-          aria-hidden="true">
+          aria-hidden="true"
+        >
           <use :xlink:href="item.meta.icon"></use>
         </svg>
         <span>{{ item.meta.title }}</span>
@@ -53,7 +58,7 @@ const goRoute = (vc) => {
 
 <style lang="scss" scoped>
 .icon {
-  margin-right: 0.8rem;
+  margin-right: 12px;
 }
 // .el-menu-item:active {
 //   color: #409eff;

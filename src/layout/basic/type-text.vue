@@ -2,7 +2,8 @@
   <div class="text-box">
     <span
       id="type-list"
-      class="text"></span>
+      class="text"
+    ></span>
     <span
       class="line"
       :class="{ blink: blinkLine }"
@@ -79,38 +80,77 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.text-box {
-  margin: 16px 0;
-  height: 32px;
-  line-height: 32px;
-  .text {
-    display: inline-block;
+@media (min-width: 768px) {
+  .text-box {
+    margin: 16px 0;
     height: 32px;
-    white-space: nowrap;
-    font-size: 32px;
-    overflow: hidden;
-  }
-  @keyframes blink {
-    0% {
-      opacity: 1;
-    }
-    50% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
-  }
-  .line {
-    font-family: Arial, Helvetica, sans-serif;
-    display: inline-block;
     line-height: 32px;
-    font-size: 35px;
-    transform: scaleX(0.6);
-    vertical-align: top;
+    .text {
+      display: inline-block;
+      height: 32px;
+      white-space: nowrap;
+      font-size: 32px;
+      overflow: hidden;
+    }
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    .line {
+      font-family: Arial, Helvetica, sans-serif;
+      display: inline-block;
+      line-height: 32px;
+      font-size: 35px;
+      transform: scaleX(0.6);
+      vertical-align: top;
+    }
+    .blink {
+      animation: blink 0.75s ease-in-out 0s infinite;
+    }
   }
-  .blink {
-    animation: blink 0.75s ease-in-out 0s infinite;
+}
+
+@media (max-width: 768px) {
+  .text-box {
+    margin: 16px 0;
+    height: 32px;
+    line-height: 32px;
+    .text {
+      display: inline-block;
+      height: 32px;
+      white-space: nowrap;
+      font-size: 24px;
+      overflow: hidden;
+    }
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+    .line {
+      font-family: Arial, Helvetica, sans-serif;
+      display: inline-block;
+      line-height: 32px;
+      font-size: 26px;
+      transform: scaleX(0.6);
+      vertical-align: top;
+    }
+    .blink {
+      animation: blink 0.75s ease-in-out 0s infinite;
+    }
   }
 }
 </style>
