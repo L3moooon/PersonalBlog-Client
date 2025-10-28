@@ -12,7 +12,7 @@ export const routes = [
     children: [
       {
         path: "/home",
-        component: () => import("@/view/main-index.vue"),
+        component: () => import("@/view/home-index.vue"),
         meta: {
           title: "首页",
           icon: "#icon-home",

@@ -1,65 +1,54 @@
 <template>
-  <div
-    class="container"
-    id="home-img-container"
-  >
-    <div class="top">
-      <TopbarMenu></TopbarMenu>
-      <div
-        class="main"
-        v-if="showTop && route.path != '/article'"
-      >
-        <div class="name">欢迎来访</div>
-        <TypeText v-if="isFocus"></TypeText>
-        <button
-          @click="turnDownPage"
-          class="button"
-        >
-          主页
-        </button>
-      </div>
-    </div>
-
-    <div class="down">
-      <!-- 左 -->
-      <div class="left-container">
-        <!-- <el-affix :offset="20">
-          <el-menu popper-class="menu">
-            <MenuList
-              :menuList="routes"
-              router="true"></MenuList>
-          </el-menu>
-        </el-affix> -->
-      </div>
-      <!-- 中 -->
-      <div class="content-middle">
-        <router-view></router-view>
-      </div>
-      <!-- 右-->
-      <div
-        v-if="themeStore.isDesktop()"
-        class="right-container"
-      >
-        <!-- 文章独有 -->
-        <template v-if="route.path == '/article'">
-          <el-affix :offset="20">
-            <ArticleCatagory
-              contentSelector="article-content"
-            ></ArticleCatagory>
-            <TagCloud></TagCloud>
-          </el-affix>
-        </template>
-        <!-- 其他页通用 -->
-        <template v-else>
-          <VisitorCard></VisitorCard>
-          <WebsiteInfo></WebsiteInfo>
-          <el-affix :offset="20">
-            <RecommandArticle></RecommandArticle>
-          </el-affix>
-        </template>
-      </div>
-    </div>
-  </div>
+	<div
+		class="container"
+		id="home-img-container"
+	>
+		<div class="top">
+			<TopBar></TopBar>
+			<div
+				class="main"
+				v-if="showTop && route.path != '/article'"
+			>
+				<div class="name">欢迎来访</div>
+				<TypeText v-if="isFocus"></TypeText>
+				<button
+					@click="turnDownPage"
+					class="button"
+				>
+					主页
+				</button>
+			</div>
+		</div>
+		<div class="down">
+			<div class="left-container"></div>
+			<div class="content-middle">
+				<router-view></router-view>
+			</div>
+			<div
+				v-if="themeStore.isDesktop()"
+				class="right-container"
+			>
+				<!-- 文章独有-标签面板和目录面板 -->
+				<template v-if="route.path == '/article'">
+					<el-affix :offset="20">
+						<ArticleCatagory
+							contentSelector="article-content"
+						></ArticleCatagory>
+						<TagCloud></TagCloud>
+					</el-affix>
+				</template>
+				<!-- 其他页通用 -->
+				<template v-else>
+					<VisitorCard></VisitorCard>
+					<WebsiteInfo></WebsiteInfo>
+					<el-affix :offset="20">
+						<Recommand></Recommand>
+					</el-affix>
+				</template>
+			</div>
+		</div>
+		<MusicPlayer />
+	</div>
 </template>
 
 <script setup>
@@ -68,230 +57,214 @@ import { routes } from "@/router/route";
 import { useRoute } from "vue-router";
 import { sendUserInfo } from "@/api/user";
 
-import MenuList from "@/components/menu-list.vue";
-import VisitorCard from "@/layout/basic/visitor-card.vue";
-import WebsiteInfo from "@/layout/basic/website-info.vue";
+import VisitorCard from "@/layout/basic/Visitor.vue";
+import WebsiteInfo from "@/layout/basic/WebInfo.vue";
 import ArticleCatagory from "@/view/article/article-catagory.vue";
-import RecommandArticle from "@/layout/basic/recommand-article.vue";
-import TagCloud from "@/components/tag-cloud.vue";
-import TypeText from "@/layout/basic/type-text.vue";
-import TopbarMenu from "@/layout/basic/topbar-menu.vue";
+import Recommand from "@/layout/basic/Recommand.vue";
+import TagCloud from "@/view/article/Tag.vue";
+import TypeText from "@/layout/basic/TypeText.vue";
+import TopBar from "@/layout/basic/TopBar.vue";
+import MusicPlayer from "@/components/MusicPlayer.vue";
 import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
+import { generateFingerprint } from "@/utils/collectFinger";
 const themeStore = useThemeStore();
 const route = useRoute();
 const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
 
-// 生成简单的浏览器指纹
-function generateFingerprint() {
-  // 收集浏览器特征
-  const features = [
-    navigator.userAgent,
-    screen.width + "x" + screen.height,
-    new Date().getTimezoneOffset(),
-    navigator.language,
-    navigator.cookieEnabled ? "cookies" : "no-cookies",
-  ];
-  // 简单哈希处理生成唯一ID
-  return btoa(features.join("|")).substring(20, 30);
-}
-//FIXME 如果清除缓存并且在后端时长没有到1h，数据就会为空
 const sendInfo = async () => {
-  const STORAGE_KEY = "last_visit_stat";
-  const NOW = new Date().getTime();
-  const ONEHOUR = 60 * 60 * 1000;
-
-  // 获取检查上次发送时间
-  const lastStats = JSON.parse(
-    localStorage.getItem(STORAGE_KEY) || '{"time": 0}'
-  );
-
-  // 如果超过1小时或从未发送过，则发送统计请求
-  if (NOW - lastStats.time > ONEHOUR) {
-    const { data, status } = await sendUserInfo({
-      identify: generateFingerprint(),
-      agent: navigator.userAgent,
-    });
-    if (status == 1) {
-      // 记录本次发送时间
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: NOW }));
-      localStorage.setItem("visitor", JSON.stringify(data));
-    }
-  }
+	const STORAGE_KEY = "last_visit_stat";
+	const NOW = new Date().getTime();
+	const ONEHOUR = 60 * 60 * 1000;
+	// 获取检查上次发送时间
+	const lastStats = JSON.parse(
+		localStorage.getItem(STORAGE_KEY) || '{"time": 0}'
+	);
+	// 如果超过1小时或从未发送过，则发送统计请求
+	if (NOW - lastStats.time > ONEHOUR) {
+		const identify = await generateFingerprint();
+		const { data, status } = await sendUserInfo({
+			identify,
+			agent: navigator.userAgent,
+		});
+		if (status == 1) {
+			// 记录本次发送时间
+			localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: NOW }));
+			localStorage.setItem("visitor", JSON.stringify(data));
+		}
+	}
 };
 
 const turnDownPage = () => {
-  window.scrollTo({
-    top: window.innerHeight + 1,
-    behavior: "smooth", // 平滑滚动效果
-  });
+	window.scrollTo({
+		top: window.innerHeight + 1,
+		behavior: "smooth", // 平滑滚动效果
+	});
 };
 // 滚动到内容区时销毁上半屏
 const handleScroll = () => {
-  // 获取top区域的高度
-  const topElement = document.querySelector(".top");
-  const topWrapper = document.getElementById("topbar-menu");
-  if (!topElement) return; // 避免元素未加载时的错误
-  const topHeight = topElement.offsetHeight;
-  // 滚动距离超过top高度时，销毁top
-  // showTop.value = window.scrollY < topHeight;
-  if (window.scrollY > topHeight) {
-    setTimeout(() => {
-      showTop.value = false;
-    }, 100);
-    topWrapper.classList.add("bg-white");
-  }
+	// 获取top区域的高度
+	const topElement = document.querySelector(".top");
+	const topWrapper = document.getElementById("topbar-menu");
+	if (!topElement) return; // 避免元素未加载时的错误
+	const topHeight = topElement.offsetHeight;
+	// 滚动距离超过top高度时，销毁top
+	// showTop.value = window.scrollY < topHeight;
+	if (window.scrollY > topHeight) {
+		setTimeout(() => {
+			showTop.value = false;
+		}, 100);
+		topWrapper.classList.add("bg-white");
+	}
 };
 const throttledHandleScroll = throttle(handleScroll, 200);
 // 处理页面可见性变化
 const handleVisibilityChange = () => {
-  isFocus.value = !document.hidden;
+	isFocus.value = !document.hidden;
 };
 
 onMounted(() => {
-  sendInfo();
-  handleScroll(); //先判断一次
-  window.addEventListener("scroll", throttledHandleScroll);
-  document.addEventListener("visibilitychange", handleVisibilityChange);
+	sendInfo();
+	handleScroll(); //先判断一次
+	window.addEventListener("scroll", throttledHandleScroll);
+	document.addEventListener("visibilitychange", handleVisibilityChange);
 });
 onUnmounted(() => {
-  window.removeEventListener("scroll", throttledHandleScroll);
-  document.removeEventListener("visibilitychange", handleVisibilityChange);
+	window.removeEventListener("scroll", throttledHandleScroll);
+	document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 </script>
 
 <style lang="scss" scoped>
-@media (min-width: 768px) {
-  .container {
-    background-image: url("@/assets/bamboo.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    .top {
-      .main {
-        width: 100%;
-        height: 100vh;
-        padding: 0 auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        border-radius: 30px;
-        font-family: SiJiYuNi;
-        .name {
-          font-size: 64px;
-          font-weight: 500;
-        }
-        .button {
-          cursor: pointer;
-          font-family: SiJiYuNi;
-          font-size: 20px;
-          color: white;
-          display: block;
-          height: 40px;
-          width: 100px;
-          background-color: #e9c669;
-          border-radius: 5px;
-          font-weight: 500;
-          margin: 1rem auto;
-          border: 1px solid #e0be6e;
-          box-shadow: 10px;
-        }
-      }
-    }
-  }
+// 全局变量
+$font-display: SiJiYuNi; // 展示类字体
+$radius-main: 10px; // 主要圆角
+$radius-large: 30px; // 大圆角
+$shadow-btn: 10px; // 按钮阴影
+$space-padding-top: 80px; // 桌面端底部区域上内边距
+$space-padding-top-mobile: 60px; // 移动端底部区域上内边距
 
-  .down {
-    display: flex;
-    padding-top: 80px;
-    min-height: 100vh;
-    width: 80%;
-    gap: 20px;
-    max-width: 1280px;
-    min-width: 1080px;
-    margin: 0 auto;
-    .left-container {
-      width: 200px;
-    }
-    .el-menu {
-      border-radius: 10px;
-      overflow: hidden;
-      --el-font-family: Avenir, Helvetica, Arial, sans-serif;
-      --el-menu-item-font-size: 14px;
-    }
-    .content-middle {
-      flex: 1;
-      background-color: #fff;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-    .right-container {
-      width: 250px;
-    }
-  }
+// 按钮颜色变量（按设备区分）
+$btn-desktop-bg: #e9c669;
+$btn-desktop-border: #e0be6e;
+$btn-mobile-bg: #4489ca;
+$btn-mobile-border: #609ed6;
+
+// 公共基础样式
+.container {
+	user-select: none;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
 }
+
+// 顶部区域公共样式
+.top {
+	.main {
+		width: 100%;
+		height: 100vh;
+		padding: 0 auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		border-radius: $radius-large;
+		font-family: $font-display;
+		.name {
+			font-size: 64px;
+			font-weight: 500;
+		}
+		.button {
+			cursor: pointer;
+			font-family: $font-display;
+			font-size: 20px;
+			color: #fff;
+			height: 40px;
+			width: 100px;
+			border-radius: 5px;
+			font-weight: 500;
+			margin: 1rem auto;
+			border: 1px solid;
+			box-shadow: $shadow-btn;
+			display: block;
+		}
+	}
+}
+
+// 底部内容区公共样式
+.down {
+	min-height: 100vh;
+	margin: 0 auto;
+	.content-middle {
+		margin-bottom: 20px;
+		overflow: hidden;
+	}
+}
+
+// 桌面端样式
+@media (min-width: 768px) {
+	.container {
+		background-image: url("@/assets/bamboo.jpg");
+	}
+	.top {
+		.main {
+			color: #fff; // 桌面端顶部文字白色
+			.button {
+				background-color: $btn-desktop-bg;
+				border-color: $btn-desktop-border;
+			}
+		}
+	}
+	.down {
+		display: flex;
+		padding-top: $space-padding-top;
+		width: 80%;
+		gap: 20px;
+		max-width: 1280px;
+		min-width: 1080px;
+		.left-container {
+			width: 200px;
+		}
+		.content-middle {
+			flex: 1;
+			background-color: #fff;
+			border-radius: $radius-main;
+		}
+		.right-container {
+			width: 250px;
+		}
+	}
+}
+
+// 移动端样式
 @media (max-width: 768px) {
-  .container {
-    background-image: url("@/assets/img/mobile-bg.jpg");
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-  }
-  .top {
-    color: white;
-    .main {
-      width: 100%;
-      height: 100vh;
-      padding: 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      border-radius: 30px;
-      font-family: SiJiYuNi;
-      .name {
-        font-size: 64px;
-        font-weight: 500;
-      }
-      .button {
-        cursor: pointer;
-        font-family: SiJiYuNi;
-        font-size: 20px;
-        display: block;
-        height: 40px;
-        width: 100px;
-        background-color: #4489ca;
-        border-radius: 5px;
-        font-weight: 500;
-        margin: 1rem auto;
-        border: 1px solid #609ed6;
-        box-shadow: 10px;
-        color: #fff;
-        position: absolute;
-        bottom: 20px;
-      }
-    }
-  }
-  .bg-white {
-    color: #555;
-    transition: 0.3s;
-    background-color: #fff;
-    // background-color: #458bc9;
-    // border-bottom: 1px solid #e9e9e9;
-  }
-  .down {
-    padding-top: 60px;
-    min-height: 100vh;
-    width: 100%;
-    margin: 0 auto;
-    .content-middle {
-      height: 100%;
-      margin-bottom: 20px;
-      overflow: hidden;
-    }
-  }
+	.container {
+		background-image: url("@/assets/img/mobile-bg.jpg");
+	}
+	.top {
+		color: #fff; // 移动端顶部文字白色
+		.main {
+			.button {
+				background-color: $btn-mobile-bg;
+				border-color: $btn-mobile-border;
+				position: absolute; // 移动端按钮固定在底部
+				bottom: 20px;
+			}
+		}
+	}
+	.down {
+		padding-top: $space-padding-top-mobile;
+		width: 100%;
+		.content-middle {
+			height: 100%; // 移动端内容区占满高度
+		}
+	}
+	// 导航栏背景切换样式
+	.bg-white {
+		color: #555;
+		background-color: #fff;
+		transition: 0.3s;
+	}
 }
 </style>
