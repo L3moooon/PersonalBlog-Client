@@ -61,7 +61,7 @@ import VisitorCard from "@/layout/basic/Visitor.vue";
 import WebsiteInfo from "@/layout/basic/WebInfo.vue";
 import ArticleCatagory from "@/view/article/article-catagory.vue";
 import Recommand from "@/layout/basic/Recommand.vue";
-import TagCloud from "@/view/article/Tag.vue";
+import TagCloud from "@/view/article/TagPanel.vue";
 import TypeText from "@/layout/basic/TypeText.vue";
 import TopBar from "@/layout/basic/TopBar.vue";
 import MusicPlayer from "@/components/MusicPlayer.vue";
