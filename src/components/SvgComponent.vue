@@ -37,11 +37,8 @@ const iconName = computed(() => `#icon-${props.icon}`);
 .svg-icon {
 	width: 100%;
 	height: 100%;
+	color: currentColor;
+	fill: currentColor;
 	overflow: hidden;
-}
-
-.svg-external-icon {
-	mask-size: cover !important;
-	display: inline-block;
 }
 </style>

@@ -4,7 +4,7 @@
 		id="home-img-container"
 	>
 		<div class="top">
-			<TopBar></TopBar>
+			<TopBar />
 			<div
 				class="main"
 				v-if="showTop && route.path != '/article'"
@@ -28,21 +28,20 @@
 				v-if="themeStore.isDesktop()"
 				class="right-container"
 			>
-				<!-- 文章独有-标签面板和目录面板 -->
+				<!-- 文章页-标签面板和目录面板 -->
 				<template v-if="route.path == '/article'">
 					<el-affix :offset="20">
-						<ArticleCatagory
-							contentSelector="article-content"
-						></ArticleCatagory>
-						<TagCloud></TagCloud>
+						<ArticleCatagory />
+						<TagPanel />
 					</el-affix>
+					<ScrollTool />
 				</template>
 				<!-- 其他页通用 -->
 				<template v-else>
-					<VisitorCard></VisitorCard>
-					<WebsiteInfo></WebsiteInfo>
+					<VisitorCard />
+					<WebsiteInfo />
 					<el-affix :offset="20">
-						<Recommand></Recommand>
+						<Recommand />
 					</el-affix>
 				</template>
 			</div>
@@ -53,18 +52,18 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
-import { routes } from "@/router/route";
 import { useRoute } from "vue-router";
 import { sendUserInfo } from "@/api/user";
 
 import VisitorCard from "@/layout/basic/Visitor.vue";
 import WebsiteInfo from "@/layout/basic/WebInfo.vue";
-import ArticleCatagory from "@/view/article/article-catagory.vue";
+import ArticleCatagory from "@/view/article/CatagoryPanel.vue";
 import Recommand from "@/layout/basic/Recommand.vue";
-import TagCloud from "@/view/article/TagPanel.vue";
+import TagPanel from "@/view/article/TagPanel.vue";
 import TypeText from "@/layout/basic/TypeText.vue";
 import TopBar from "@/layout/basic/TopBar.vue";
 import MusicPlayer from "@/components/MusicPlayer.vue";
+import ScrollTool from "@/components/ScrollTool.vue";
 import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
 import { generateFingerprint } from "@/utils/collectFinger";

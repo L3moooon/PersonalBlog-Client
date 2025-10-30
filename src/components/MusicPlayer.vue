@@ -24,7 +24,7 @@
 				<div class="controls">
 					<el-button circle>
 						<SvgComponent
-							icon="back"
+							icon="pre-music"
 							width="1.2rem"
 							height="1.2rem"
 						/>
