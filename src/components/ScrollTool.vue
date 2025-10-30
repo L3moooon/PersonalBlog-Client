@@ -19,7 +19,6 @@
 </template>
 
 <script setup>
-import SvgComponent from "./SvgComponent.vue";
 import { useRouter } from "vue-router";
 const router = useRouter();
 //滚动到顶部

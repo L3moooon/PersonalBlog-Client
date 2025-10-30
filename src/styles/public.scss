@@ -37,8 +37,13 @@
 //   overflow: hidden;
 // }
 
+//flex布局
 .flex {
 	display: flex;
+}
+.flex-vertical-center {
+	display: flex;
+	align-items: center;
 }
 .flex-center {
 	display: flex;
@@ -56,6 +61,7 @@
 	justify-content: space-evenly;
 }
 
+//路由过渡动画
 .fade-enter-active,
 .fade-leave-active {
 	transition: opacity 0.5s;

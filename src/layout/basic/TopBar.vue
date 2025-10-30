@@ -130,7 +130,6 @@ import { useRouter } from "vue-router";
 import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
 import { useThemeStore } from "@/store/theme";
-import SvgComponent from "@/components/SvgComponent.vue";
 
 let removeResizeListener;
 
@@ -252,6 +251,7 @@ onUnmounted(() => {
 				cursor: pointer;
 				padding: 7px 10px;
 				border-radius: 5px;
+				transition: 0.3s;
 				&:hover {
 					background-color: #1f5a5c;
 					transition: 0.3s;
@@ -263,12 +263,6 @@ onUnmounted(() => {
 				margin-right: 10px;
 				display: block;
 				color: #fff;
-				// &:hover {
-				// 	color: #ffd700;
-				// 	& + div {
-				// 		color: #ffd700;
-				// 	}
-				// }
 			}
 			.input {
 				width: 180px;
@@ -288,7 +282,6 @@ onUnmounted(() => {
 		position: fixed;
 		top: 0;
 		z-index: 999;
-		// color: white;
 		transition: 0.3s;
 	}
 	.right {

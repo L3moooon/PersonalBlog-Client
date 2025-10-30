@@ -46,7 +46,6 @@
 </template>
 
 <script setup>
-import SvgComponent from "@/components/SvgComponent.vue";
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
 

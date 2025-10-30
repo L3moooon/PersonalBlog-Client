@@ -13,14 +13,6 @@
 <script setup>
 import { computed } from "vue";
 const props = defineProps({
-	width: {
-		type: [String, Number],
-		default: "1rem",
-	},
-	heigth: {
-		type: [String, Number],
-		default: "1rem",
-	},
 	icon: {
 		type: String,
 		required: true,
@@ -35,8 +27,8 @@ const iconName = computed(() => `#icon-${props.icon}`);
 
 <style scoped>
 .svg-icon {
-	width: 100%;
-	height: 100%;
+	width: 20px;
+	height: 20px;
 	color: currentColor;
 	fill: currentColor;
 	overflow: hidden;

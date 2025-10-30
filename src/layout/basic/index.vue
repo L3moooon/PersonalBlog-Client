@@ -32,7 +32,6 @@
 				<template v-if="route.path == '/article'">
 					<el-affix :offset="20">
 						<ArticleCatagory />
-						<TagPanel />
 					</el-affix>
 					<ScrollTool />
 				</template>
@@ -42,6 +41,7 @@
 					<WebsiteInfo />
 					<el-affix :offset="20">
 						<Recommand />
+						<TagPanel />
 					</el-affix>
 				</template>
 			</div>
@@ -59,7 +59,7 @@ import VisitorCard from "@/layout/basic/Visitor.vue";
 import WebsiteInfo from "@/layout/basic/WebInfo.vue";
 import ArticleCatagory from "@/view/article/CatagoryPanel.vue";
 import Recommand from "@/layout/basic/Recommand.vue";
-import TagPanel from "@/view/article/TagPanel.vue";
+import TagPanel from "@/layout/basic/TagPanel.vue";
 import TypeText from "@/layout/basic/TypeText.vue";
 import TopBar from "@/layout/basic/TopBar.vue";
 import MusicPlayer from "@/components/MusicPlayer.vue";

@@ -82,7 +82,6 @@
 <script setup>
 import { ref } from "vue";
 import audioUrl from "@/assets/music/music.mp3";
-import SvgComponent from "./SvgComponent.vue";
 
 const musicContainerRef = ref(null);
 const audioRef = ref(null);
