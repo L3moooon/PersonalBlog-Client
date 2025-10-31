@@ -14,5 +14,8 @@ export const useTagStore = defineStore("Tag", {
 				this.activatedTags.add(TagId);
 			}
 		},
+		clearTags() {
+			this.activatedTags.clear();
+		},
 	},
 });

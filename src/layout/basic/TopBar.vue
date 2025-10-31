@@ -40,6 +40,7 @@
 					class="box-item"
 					:offset="20"
 					placement="top-start"
+					trigger="click"
 				>
 					<template #reference>
 						<div
@@ -122,6 +123,10 @@
 			</template>
 		</div>
 	</div>
+	<div
+		class="wrapper-placeholder"
+		@mouseenter="placeholderMouseenter"
+	></div>
 </template>
 
 <script setup>
@@ -138,7 +143,6 @@ const router = useRouter();
 const drawer = ref(false);
 const inputValue = ref("");
 const wrapperRef = ref(null);
-const showWrapper = ref(true);
 
 const backHome = () => {
 	router.push("/");
@@ -146,17 +150,12 @@ const backHome = () => {
 function showOrHide(e) {
 	// 下滑
 	if (e.deltaY > 0) {
-		showWrapper.value = false;
 		wrapperRef.value?.classList.add("hide");
 		wrapperRef.value?.classList.remove("show");
 	}
 	// 上滑
 	else {
-		// showWrapper.value = true;
-		// wrapperRef.value?.classList.add("show");
-		// wrapperRef.value?.classList.remove("hide");
 		if (window.scrollY <= 80) {
-			showWrapper.value = true;
 			wrapperRef.value?.classList.add("show");
 			wrapperRef.value?.classList.remove("hide");
 		}
@@ -164,23 +163,30 @@ function showOrHide(e) {
 }
 const throttledShowOrHide = throttle(showOrHide, 100);
 //光标进入时显示并添加遮罩层
-const mouseenter = () => {
-	showWrapper.value = true;
+const mouseenter = (e) => {
+	e.stopPropagation();
+	e.preventDefault();
 	wrapperRef.value?.classList.add("backdrop-filter");
 	wrapperRef.value?.classList.add("show");
 	wrapperRef.value?.classList.remove("hide");
 };
-//光标离开时关闭遮罩层，如果不在初屏位置就隐藏
+//光标离开时
+//在初屏位置就t关闭滤镜
+//不在就隐藏顶部栏并关闭滤镜
 const mouseLeave = () => {
 	console.log(window.scrollY);
 	if (window.scrollY > 80) {
-		showWrapper.value = false;
 		// 触发隐藏动画
 		wrapperRef.value?.classList.add("hide");
 		wrapperRef.value?.classList.remove("show");
 	}
 	wrapperRef.value?.classList.remove("backdrop-filter");
 };
+const placeholderMouseenter = () => {
+	wrapperRef.value?.classList.add("show");
+	wrapperRef.value?.classList.remove("hide");
+};
+
 const mention = () => {
 	ElMessage.info("敬请期待");
 };
@@ -197,12 +203,11 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 @media (min-width: 768px) {
 	.wrapper-placeholder {
-		transition: 0.3s;
 		width: 100%;
 		height: 60px;
 		position: fixed;
 		top: 0;
-		z-index: 999;
+		z-index: 99;
 	}
 	.backdrop-filter {
 		transition: 0.3s;

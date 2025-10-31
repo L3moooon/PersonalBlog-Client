@@ -6,6 +6,12 @@
 				className="icon"
 			/>
 			<div class="title-text">标签云</div>
+			<SvgComponent
+				v-if="tagStore.activatedTags.size > 0"
+				@click="handleClearTags"
+				icon="filter-clear"
+				className="clear-icon"
+			/>
 		</div>
 		<div class="tag-cloud">
 			<div
@@ -34,7 +40,9 @@ const handleShowArticlesByTag = (tagId) => {
 	console.log("Selected tag ID:", tagId);
 	tagStore.toggleTag(tagId);
 };
-
+const handleClearTags = () => {
+	tagStore.clearTags();
+};
 onMounted(async () => {
 	const res = await getTagCloud();
 	tagsData.value = res.data;
@@ -63,6 +71,18 @@ onMounted(async () => {
 	.title-text {
 		font-weight: bold;
 		padding-left: 8px;
+	}
+	.clear-icon {
+		cursor: pointer;
+		margin-left: auto;
+		margin-right: 10px;
+		// color: #702636;
+		transition: 0.3s;
+
+		&:hover {
+			transform: scale(1.2);
+			transition: 0.3s;
+		}
 	}
 }
 @keyframes flip {
