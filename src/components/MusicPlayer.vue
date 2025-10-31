@@ -71,7 +71,7 @@
 				@click="handleShowPlayer"
 			>
 				<SvgComponent
-					:className="['rotate', playStatus ? '' : 'stop']"
+					:className="['icon', 'rotate', playStatus ? '' : 'stop']"
 					icon="music"
 				/>
 			</div>
@@ -154,6 +154,11 @@ const handleRelease = (e) => {
 <style lang="scss" scoped>
 $player-width: 340px;
 $player-height: 80px;
+$border-radius: calc($player-height / 2); // 统一圆角值
+$shadow: 0 2px 8px rgba(0, 0, 0, 0.1); // 统一阴影样式
+$progress-height: 8px; // 进度条/音量条高度
+$progress-radius: 4px; // 进度条/音量条圆角
+
 .music-container {
 	width: $player-width;
 	height: $player-height;
@@ -163,7 +168,7 @@ $player-height: 80px;
 	color: #fff;
 	border: 1px solid #4b5256;
 	border-left: none;
-	border-radius: 0 calc($player-height/2) calc($player-height/2) 0;
+	border-radius: 0 $border-radius $border-radius 0;
 	transition: 0.5s;
 	overflow: hidden;
 	.player {
@@ -171,8 +176,9 @@ $player-height: 80px;
 		background: transparent;
 		backdrop-filter: blur(10px);
 		border-radius: 8px;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+		box-shadow: $shadow;
 		display: flex;
+		align-items: center;
 		.cover {
 			width: 70px;
 			height: 70px;
@@ -181,14 +187,16 @@ $player-height: 80px;
 			.cover-img {
 				width: 100%;
 				height: 100%;
-				border-radius: 5px;
+				border-radius: inherit;
 			}
 		}
 		.music-detail {
-			flex: 1;
+			flex: 1; // 占满剩余宽度
 			.music-info {
 				margin-top: 5px;
+				font-size: 14px;
 			}
+			// 控制按钮组
 			.controls {
 				width: 160px;
 				display: flex;
@@ -197,49 +205,60 @@ $player-height: 80px;
 				margin: 8px 0;
 				overflow: hidden;
 			}
+			.progress {
+				width: 160px;
+				height: $progress-height;
+				background: #ddd;
+				border-radius: $progress-radius;
+				overflow: hidden;
+				.progress-bar {
+					height: 100%;
+					background: #3498db;
+					width: 0;
+					transition: width 0.3s linear; // 补充进度条过渡，优化视觉
+				}
+			}
+		}
+		.disc {
+			cursor: pointer;
+			position: absolute;
+			right: $border-radius;
+			top: 0;
+			height: $player-height;
+			width: $player-height;
+			transform: translateX(50%); // 水平居中到容器边缘
+			.icon {
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 }
+// 展开/收起状态：控制容器平移
 .active {
 	transform: translateX(0);
 }
+
 .unactive {
-	transform: translateX(calc($player-height/2) - $player-width);
-}
-.progress {
-	width: 160px;
-	height: 8px;
-	background: #ddd;
-	border-radius: 4px;
-	overflow: hidden;
-}
-.progress-bar {
-	height: 100%;
-	background: #3498db;
-	width: 0;
-}
-.volume {
-	width: 80px;
-	height: 8px;
-	background: #ddd;
-	border-radius: 4px;
-	overflow: hidden;
-}
-.volume-bar {
-	height: 100%;
-	background: #3498db;
-	width: 100%;
-}
-.disc {
-	cursor: pointer;
-	position: absolute;
-	right: calc($player-height/2);
-	top: 0;
-	height: $player-height;
-	width: $player-height;
-	transform: translateX(50%);
+	transform: translateX(calc($player-height / 2 - $player-width));
 }
 
+// 音量条样式：原代码未使用，保留备用
+.volume {
+	width: 80px;
+	height: $progress-height;
+	background: #ddd;
+	border-radius: $progress-radius;
+	overflow: hidden;
+
+	.volume-bar {
+		height: 100%;
+		background: #3498db;
+		width: 100%;
+	}
+}
+
+// 旋转动画：控制图标旋转效果
 @keyframes rotate {
 	from {
 		transform: rotate(0deg);
@@ -248,9 +267,11 @@ $player-height: 80px;
 		transform: rotate(360deg);
 	}
 }
+
 .rotate {
 	animation: rotate 4s linear infinite forwards;
 }
+
 .stop {
 	animation-play-state: paused;
 }

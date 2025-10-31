@@ -46,7 +46,7 @@ export const updateViewCount = (data) => {
 //获取标签云
 export const getTagCloud = () => {
 	return request({
-		url: "/web/article/tagCloud",
+		url: "/web/home/getTagCloud",
 		method: "get",
 	});
 };

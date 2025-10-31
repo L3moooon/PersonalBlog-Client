@@ -89,7 +89,9 @@ onMounted(async () => {
 			margin: 6px;
 			text-align: center;
 			border-radius: 10px;
-			box-shadow: 2px 2px 5px #e6c481;
+			// box-shadow: 2px 2px 5px #e6c481;
+			box-shadow: 2px 2px 5px #876a40;
+
 			transition: 0.3s;
 			.info-title {
 				width: 100%;
@@ -103,9 +105,9 @@ onMounted(async () => {
 				border-radius: 0 0 10px 10px;
 			}
 		}
-		.column:hover {
-			box-shadow: 2px 2px 5px #876a40;
-		}
+		// .column:hover {
+		// 	box-shadow: 2px 2px 5px #876a40;
+		// }
 	}
 }
 @keyframes rotate {

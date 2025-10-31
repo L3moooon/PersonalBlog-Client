@@ -55,19 +55,11 @@
 						:class="{ border: !item.cover_img }"
 					>
 						<img
-							v-if="item.cover_img"
-							:src="item.cover_img"
+							:src="item.cover_img || defaultCover"
 							alt=""
 							@load="item.imgLoaded = true"
 							@error="item.imgLoaded = true"
 						/>
-						<!-- 无图片时显示占位文本 -->
-						<div
-							v-else
-							class="img-placeholder"
-						>
-							暂无封面
-						</div>
 					</div>
 					<div class="content">
 						<div class="title">{{ item.title }}</div>
@@ -143,10 +135,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
+import { useTagStore } from "@/store/tag";
+import defaultCover from "@/assets/img/default-cover.png";
 
+const tagStore = useTagStore();
 const router = useRouter();
 const articleList = ref([]);
 
@@ -159,6 +154,16 @@ const pagination_info = reactive({
 	pageSize: 5,
 });
 
+watch(
+	() => tagStore.activatedTags.size,
+	(newVal) => {
+		// 重置分页和列表
+		pagination_info.pageNo = 1;
+		articleList.value = [];
+		hasMore.value = true;
+		getArticleList();
+	}
+);
 const getArticleList = async () => {
 	console.log("获取文章列表");
 	if (loadingMore.value || !hasMore.value) return;
@@ -176,6 +181,7 @@ const getArticleList = async () => {
 	try {
 		console.log(pagination_info.pageNo, pagination_info.pageSize);
 		const { data, code, pagination } = await getHomeData({
+			tags: [...tagStore.activatedTags],
 			pageNo: pagination_info.pageNo,
 			pageSize: pagination_info.pageSize,
 		});

@@ -7,7 +7,7 @@
 			<TopBar />
 			<div
 				class="main"
-				v-if="showTop && route.path != '/article'"
+				v-if="themeStore.TopScreenShow && route.path != '/article'"
 			>
 				<div class="name">欢迎来访</div>
 				<TypeText v-if="isFocus"></TypeText>
@@ -69,7 +69,7 @@ import { useThemeStore } from "@/store/theme";
 import { generateFingerprint } from "@/utils/collectFinger";
 const themeStore = useThemeStore();
 const route = useRoute();
-const showTop = ref(true); // 控制top区域是否显示
+// const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
 
 const sendInfo = async () => {
@@ -112,7 +112,8 @@ const handleScroll = () => {
 	// showTop.value = window.scrollY < topHeight;
 	if (window.scrollY > topHeight) {
 		setTimeout(() => {
-			showTop.value = false;
+			// showTop.value = false;
+			themeStore.setTopStatus(false);
 		}, 100);
 		topWrapper.classList.add("bg-white");
 	}
@@ -195,6 +196,7 @@ $btn-mobile-border: #609ed6;
 .down {
 	min-height: 100vh;
 	margin: 0 auto;
+	box-sizing: border-box;
 	.content-middle {
 		margin-bottom: 20px;
 		overflow: hidden;
