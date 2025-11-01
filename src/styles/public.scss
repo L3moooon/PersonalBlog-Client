@@ -1,49 +1,89 @@
 @charset "UTF-8";
 @font-face {
-  font-family: "SiJiYuNi";
-  src: url("../font/SiJiYuNi-2.ttf");
-  font-weight: normal;
-  font-style: normal;
+	font-family: "SiJiYuNi";
+	src: url("../font/SiJiYuNi-2.ttf");
+	font-weight: normal;
+	font-style: normal;
 }
 @font-face {
-  font-family: "Note-Script-Medium";
-  src: url("../font/Note-Script-Medium-2.ttf");
-  font-weight: normal;
-  font-style: normal;
+	font-family: "Note-Script-Medium";
+	src: url("../font/Note-Script-Medium-2.ttf");
+	font-weight: normal;
+	font-style: normal;
 }
 
 //滚动条外观设置
 ::-webkit-scrollbar {
-  width: 10px;
+	width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: white;
+	background: white;
 }
 
 ::-webkit-scrollbar-thumb {
-  width: 10px;
-  background-color: gray;
-  border-radius: 10px;
+	width: 10px;
+	background-color: gray;
+	border-radius: 10px;
 }
 
-.icon {
-  width: 1.2em;
-  height: 1.2em;
-  color: #a0a0a0;
-  font-weight: 500;
-  vertical-align: -0.15em;
-  fill: currentColor;
-  overflow: hidden;
-}
+// .icon {
+//   width: 1.2em;
+//   height: 1.2em;
+//   color: #a0a0a0;
+//   font-weight: 500;
+//   vertical-align: -0.15em;
+//   fill: currentColor;
+//   overflow: hidden;
+// }
 
+//flex布局
+.flex {
+	display: flex;
+}
+.flex-vertical-center {
+	display: flex;
+	align-items: center;
+}
 .flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 .flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.flex-evenly {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+//路由过渡动画
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+/*
+  进入和离开动画可以使用不同
+  持续时间和速度曲线。
+*/
+.slide-fade-enter-active {
+	transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+	transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+	transform: translateX(20px);
+	opacity: 0;
 }
