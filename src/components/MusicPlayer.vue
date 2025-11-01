@@ -81,7 +81,7 @@
 
 <script setup>
 import { ref } from "vue";
-import audioUrl from "@/assets/music/music.mp3";
+import audioUrl from "@/assets/music/发如雪-周杰伦.mp3";
 
 const musicContainerRef = ref(null);
 const audioRef = ref(null);

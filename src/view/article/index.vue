@@ -7,9 +7,9 @@
 		<el-divider></el-divider>
 		<MainContent :article="article" />
 		<Interact />
-		<el-divider
-			><el-icon><star-filled /></el-icon
-		></el-divider>
+		<el-divider>
+			<el-icon><star-filled /></el-icon>
+		</el-divider>
 		<CommentPanel />
 	</div>
 </template>
@@ -180,32 +180,32 @@ onMounted(() => {
 						gap: 20px;
 						.like {
 							cursor: pointer;
-							.like-img {
-								width: 20px;
-								height: 20px;
-								margin-right: 10px;
-								background-image: url("@/assets/icons/like.png");
-								background-repeat: no-repeat;
-								background-size: cover;
-								&:hover {
-									background-image: url("@/assets/icons/like-hover.png");
-								}
-							}
+							// .like-img {
+							// 	width: 20px;
+							// 	height: 20px;
+							// 	margin-right: 10px;
+							// 	background-image: url("@/assets/icons/like.png");
+							// 	background-repeat: no-repeat;
+							// 	background-size: cover;
+							// 	&:hover {
+							// 		background-image: url("@/assets/icons/like-hover.png");
+							// 	}
+							// }
 						}
-						.unlike {
-							cursor: pointer;
-							.unlike-img {
-								width: 20px;
-								height: 20px;
-								margin-right: 10px;
-								background-image: url("@/assets/icons/unlike.png");
-								background-repeat: no-repeat;
-								background-size: cover;
-								&:hover {
-									background-image: url("@/assets/icons/unlike-hover.png");
-								}
-							}
-						}
+						// .unlike {
+						// 	cursor: pointer;
+						// 	.unlike-img {
+						// 		width: 20px;
+						// 		height: 20px;
+						// 		margin-right: 10px;
+						// 		background-image: url("@/assets/icons/unlike.png");
+						// 		background-repeat: no-repeat;
+						// 		background-size: cover;
+						// 		&:hover {
+						// 			background-image: url("@/assets/icons/unlike-hover.png");
+						// 		}
+						// 	}
+						// }
 						.reply {
 							cursor: pointer;
 							&:hover {

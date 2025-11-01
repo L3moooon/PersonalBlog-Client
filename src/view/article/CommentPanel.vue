@@ -22,9 +22,9 @@
 			</div>
 		</div>
 		<div class="comment-title">
-			<img
-				src="@/assets/icons/评论.png"
-				alt=""
+			<SvgComponent
+				icon="comment-count"
+				className="comment-icon"
 			/>
 			<span>评论</span>
 			<span>|</span>
@@ -62,14 +62,10 @@
 								class="like"
 								@click="likeComment"
 							>
-								<div class="like-img"></div>
-								{{ item.like_count > 0 ? item.like_count : "" }}
-							</div>
-							<div
-								class="unlike"
-								@click="unlikeComment"
-							>
-								<div class="unlike-img"></div>
+								<SvgComponent
+									icon="like"
+									className="like-img"
+								/>
 								{{ item.like_count > 0 ? item.like_count : "" }}
 							</div>
 							<div
@@ -136,6 +132,7 @@ import CommentContent from "@/view/article/CommentContent.vue";
 import { useCommentStore } from "@/store/comment";
 
 import { getComments, comment, delComment } from "@/api/article";
+import SvgComponent from "@/components/SvgComponent.vue";
 
 const commentStore = useCommentStore();
 const route = useRoute();
@@ -277,32 +274,32 @@ onMounted(() => {
 					gap: 20px;
 					.like {
 						cursor: pointer;
-						.like-img {
-							width: 20px;
-							height: 20px;
-							margin-right: 10px;
-							background-image: url("@/assets/icons/like.png");
-							background-repeat: no-repeat;
-							background-size: cover;
-							&:hover {
-								background-image: url("@/assets/icons/like-hover.png");
-							}
-						}
+						// .like-img {
+						// 	width: 20px;
+						// 	height: 20px;
+						// 	margin-right: 10px;
+						// 	background-image: url("@/assets/icons/like.png");
+						// 	background-repeat: no-repeat;
+						// 	background-size: cover;
+						// 	&:hover {
+						// 		background-image: url("@/assets/icons/like-hover.png");
+						// 	}
+						// }
 					}
-					.unlike {
-						cursor: pointer;
-						.unlike-img {
-							width: 20px;
-							height: 20px;
-							margin-right: 10px;
-							background-image: url("@/assets/icons/unlike.png");
-							background-repeat: no-repeat;
-							background-size: cover;
-							&:hover {
-								background-image: url("@/assets/icons/unlike-hover.png");
-							}
-						}
-					}
+					// .unlike {
+					// 	cursor: pointer;
+					// 	.unlike-img {
+					// 		width: 20px;
+					// 		height: 20px;
+					// 		margin-right: 10px;
+					// 		background-image: url("@/assets/icons/unlike.png");
+					// 		background-repeat: no-repeat;
+					// 		background-size: cover;
+					// 		&:hover {
+					// 			background-image: url("@/assets/icons/unlike-hover.png");
+					// 		}
+					// 	}
+					// }
 					.reply {
 						cursor: pointer;
 						&:hover {

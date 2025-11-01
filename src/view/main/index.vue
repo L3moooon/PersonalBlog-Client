@@ -26,7 +26,7 @@
 						<div class="tag">
 							<el-skeleton-item
 								v-for="value in 3"
-								variant="text "
+								variant="text"
 								class="tag-skeleton"
 							/>
 						</div>
@@ -49,7 +49,6 @@
 				</template>
 
 				<template #default>
-					<!-- 图片区域：新增加载状态绑定 -->
 					<div
 						class="home-cover"
 						:class="{ border: !item.cover_img }"
@@ -64,47 +63,50 @@
 					<div class="content">
 						<div class="title">{{ item.title }}</div>
 						<div class="tag">
-							<img
-								src="@/assets/icons/tag.png"
-								alt=""
+							<SvgComponent
+								icon="sale"
+								className="icon"
 							/>
 							<div
 								class="tag-item"
 								v-for="(tag, index) in item.tag"
 								:key="index"
 							>
-								{{ tag.name }}
+								<div>{{ tag.name }}</div>
 							</div>
 						</div>
 						<div class="abstract">{{ item.abstract || "暂无简介" }}</div>
-						<div class="detail">
-							<div class="time">
-								<img
-									src="@/assets/icons/time.png"
-									alt=""
+						<div class="detail flex-between">
+							<div class="time flex-center">
+								<SvgComponent
+									icon="time"
+									className="detail-icon"
 								/>
-								<span v-timeFormatter:YYYY-MM-DD="item.last_edit_date"></span>
+								<span
+									class="text"
+									v-timeFormatter:YYYY-MM-DD="item.last_edit_date"
+								></span>
 							</div>
-							<div class="like">
-								<img
-									src="@/assets/icons/like.png"
-									alt=""
+							<div class="like flex-center">
+								<SvgComponent
+									icon="like"
+									className="detail-icon "
 								/>
-								{{ item.star }}
+								<span class="text">{{ item.star }}</span>
 							</div>
-							<div class="view">
-								<img
-									src="@/assets/icons/view.png"
-									alt=""
+							<div class="view flex-center">
+								<SvgComponent
+									icon="view-count"
+									className="detail-icon"
 								/>
-								{{ item.view }}
+								<span class="text"> {{ item.view }}</span>
 							</div>
-							<div class="comments">
-								<img
-									src="@/assets/icons/评论.png"
-									alt=""
+							<div class="comments flex-center">
+								<SvgComponent
+									icon="comment-count"
+									className="detail-icon"
 								/>
-								{{ item.comment_count }}
+								<span class="text"> {{ item.comment_count }}</span>
 							</div>
 						</div>
 					</div>
@@ -140,6 +142,7 @@ import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { useTagStore } from "@/store/tag";
 import defaultCover from "@/assets/img/default-cover.png";
+import SvgComponent from "@/components/SvgComponent.vue";
 
 const tagStore = useTagStore();
 const router = useRouter();
@@ -336,10 +339,7 @@ const goRoute = (id) => {
 				}
 				.detail {
 					height: 30px;
-					display: flex;
-					align-items: center;
 					width: 90%;
-					justify-content: space-between;
 					// gap: 60px;
 					font-size: 15px;
 					font-weight: 200;
@@ -348,17 +348,25 @@ const goRoute = (id) => {
 					.like,
 					.view,
 					.comments {
-						display: flex;
 						height: 100%;
-						align-items: center;
 						white-space: nowrap;
 						overflow: hideen;
 						text-overflow: ellipsis;
-						img {
-							width: 15px;
-							height: 15px;
+						.detail-icon {
+							width: 18px;
+							height: 18px;
 							margin-right: 5px;
+							color: #a0a0a0;
 						}
+						.text {
+							line-height: 30px;
+						}
+						// .text {
+						// 	display: flex;
+						// 	align-items: center;
+						// 	height: 18px;
+						// 	vertical-align: middle;
+						// }
 					}
 				}
 				.title-skeleton {

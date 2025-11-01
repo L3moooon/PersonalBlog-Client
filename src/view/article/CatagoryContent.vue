@@ -50,20 +50,14 @@ const scrollToSection = (id) => {
 	flex-grow: 1;
 }
 .toc-item {
-	// margin-bottom: 0.5rem;
-
 	.toc-link {
 		display: block;
-		padding: 0.375rem 0;
+		padding: 6px 0;
 		color: #475569;
 		text-decoration: none;
 		transition: all 0.2s ease;
-
 		.toc-text {
-			margin-left: 0.25rem;
-			// white-space: nowrap;
-			// overflow: hidden;
-			// text-overflow: ellipsis;
+			margin-left: 4px;
 		}
 
 		&:hover {
@@ -75,8 +69,6 @@ const scrollToSection = (id) => {
 		}
 	}
 	.toc-active {
-		// color: #fff;
-		// background-color: #b99364;
 		cursor: pointer;
 		font-weight: bold;
 		border-radius: 5px;
@@ -90,15 +82,15 @@ const scrollToSection = (id) => {
 }
 
 .toc-sub-list {
-	margin-left: 1.5rem;
-	margin-bottom: 0.25rem;
+	margin-left: 24px;
+	margin-bottom: 4px;
 }
 
 .toc-sub-item {
-	margin-bottom: 0.25rem;
+	margin-bottom: 4px;
 
 	.toc-link {
-		font-size: 0.9375rem;
+		font-size: 15px;
 		color: #64748b;
 	}
 }

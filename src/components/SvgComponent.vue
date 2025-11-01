@@ -1,8 +1,6 @@
 <template>
 	<svg
 		class="svg-icon"
-		:width="width"
-		:heigth="heigth"
 		:class="className"
 		aria-hidden="true"
 	>
@@ -18,7 +16,7 @@ const props = defineProps({
 		required: true,
 	},
 	className: {
-		type: String,
+		type: String || Array || Object,
 		default: "",
 	},
 });

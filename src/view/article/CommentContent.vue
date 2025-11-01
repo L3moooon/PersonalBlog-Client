@@ -41,9 +41,9 @@
 						<div class="like-img"></div>
 						{{ item.like_count > 0 ? item.like_count : "" }}
 					</div>
-					<div class="unlike">
+					<!-- <div class="unlike">
 						<div class="unlike-img"></div>
-					</div>
+					</div> -->
 					<div
 						class="reply"
 						@click="reply(item.id, item.reply_name)"
@@ -130,34 +130,34 @@ onMounted(() => {
 			gap: 20px;
 			.like {
 				cursor: pointer;
-				.like-img {
-					width: 20px;
-					height: 20px;
-					margin-right: 10px;
-					background-image: url("@/assets/icons/like.png");
-					background-repeat: no-repeat;
-					background-size: cover;
-					&:hover {
-						background-image: url("@/assets/icons/like-hover.png");
-					}
-				}
+				// .like-img {
+				// 	width: 20px;
+				// 	height: 20px;
+				// 	margin-right: 10px;
+				// 	background-image: url("@/assets/icons/like.png");
+				// 	background-repeat: no-repeat;
+				// 	background-size: cover;
+				// 	&:hover {
+				// 		background-image: url("@/assets/icons/like-hover.png");
+				// 	}
+				// }
 			}
 			.like:hover .like-svg-container svg path {
 				fill: #ff4d4f;
 			}
 			.unlike {
 				cursor: pointer;
-				.unlike-img {
-					width: 20px;
-					height: 20px;
-					margin-right: 10px;
-					background-image: url("@/assets/icons/unlike.png");
-					background-repeat: no-repeat;
-					background-size: cover;
-					&:hover {
-						background-image: url("@/assets/icons/unlike-hover.png");
-					}
-				}
+				// .unlike-img {
+				// 	width: 20px;
+				// 	height: 20px;
+				// 	margin-right: 10px;
+				// 	background-image: url("@/assets/icons/unlike.png");
+				// 	background-repeat: no-repeat;
+				// 	background-size: cover;
+				// 	&:hover {
+				// 		background-image: url("@/assets/icons/unlike-hover.png");
+				// 	}
+				// }
 			}
 			.reply {
 				cursor: pointer;

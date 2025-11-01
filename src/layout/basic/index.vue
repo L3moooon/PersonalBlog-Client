@@ -12,6 +12,7 @@
 				<div class="name">欢迎来访</div>
 				<TypeText v-if="isFocus"></TypeText>
 				<button
+					v-track="{ info: '主页下拉' }"
 					@click="turnDownPage"
 					class="button"
 				>
@@ -53,7 +54,6 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from "vue";
 import { useRoute } from "vue-router";
-import { sendUserInfo } from "@/api/user";
 
 import VisitorCard from "@/layout/basic/Visitor.vue";
 import WebsiteInfo from "@/layout/basic/WebInfo.vue";
@@ -66,34 +66,10 @@ import MusicPlayer from "@/components/MusicPlayer.vue";
 import ScrollTool from "@/components/ScrollTool.vue";
 import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
-import { generateFingerprint } from "@/utils/collectFinger";
+
 const themeStore = useThemeStore();
 const route = useRoute();
-// const showTop = ref(true); // 控制top区域是否显示
 const isFocus = ref(true); //控制打字机仅在前台时显示
-
-const sendInfo = async () => {
-	const STORAGE_KEY = "last_visit_stat";
-	const NOW = new Date().getTime();
-	const ONEHOUR = 60 * 60 * 1000;
-	// 获取检查上次发送时间
-	const lastStats = JSON.parse(
-		localStorage.getItem(STORAGE_KEY) || '{"time": 0}'
-	);
-	// 如果超过1小时或从未发送过，则发送统计请求
-	if (NOW - lastStats.time > ONEHOUR) {
-		const identify = await generateFingerprint();
-		const { data, status } = await sendUserInfo({
-			identify,
-			agent: navigator.userAgent,
-		});
-		if (status == 1) {
-			// 记录本次发送时间
-			localStorage.setItem(STORAGE_KEY, JSON.stringify({ time: NOW }));
-			localStorage.setItem("visitor", JSON.stringify(data));
-		}
-	}
-};
 
 const turnDownPage = () => {
 	window.scrollTo({
@@ -109,7 +85,6 @@ const handleScroll = () => {
 	if (!topElement) return; // 避免元素未加载时的错误
 	const topHeight = topElement.offsetHeight;
 	// 滚动距离超过top高度时，销毁top
-	// showTop.value = window.scrollY < topHeight;
 	if (window.scrollY > topHeight) {
 		setTimeout(() => {
 			// showTop.value = false;
@@ -125,7 +100,7 @@ const handleVisibilityChange = () => {
 };
 
 onMounted(() => {
-	sendInfo();
+	// sendInfo();
 	handleScroll(); //先判断一次
 	window.addEventListener("scroll", throttledHandleScroll);
 	document.addEventListener("visibilitychange", handleVisibilityChange);
