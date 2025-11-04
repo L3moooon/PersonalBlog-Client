@@ -94,7 +94,6 @@ onMounted(() => {
 	.content {
 		.item {
 			cursor: pointer;
-			transition: 0.3s;
 			border-radius: 5px;
 			height: 30px;
 			margin-bottom: 10px;
@@ -103,6 +102,7 @@ onMounted(() => {
 			display: flex;
 			align-items: center;
 			border: 1px solid transparent;
+			transition: 0.3s;
 			&:hover {
 				transform: translateY(-10%) translateX(10%) scale(1.1);
 				transition: 0.3s;

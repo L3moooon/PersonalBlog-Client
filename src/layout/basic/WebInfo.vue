@@ -49,7 +49,7 @@ const websiteData = reactive({
 });
 onMounted(async () => {
 	const { data, status } = await getWebsiteInfo();
-	console.log(data);
+	//console.log(data);
 	if (status == 1) {
 		Object.assign(websiteData, data);
 	}

@@ -37,7 +37,7 @@ const tagStore = useTagStore();
 
 const tagsData = ref([]);
 const handleShowArticlesByTag = (tagId) => {
-	console.log("Selected tag ID:", tagId);
+	//console.log("Selected tag ID:", tagId);
 	tagStore.toggleTag(tagId);
 };
 const handleClearTags = () => {
@@ -46,8 +46,8 @@ const handleClearTags = () => {
 onMounted(async () => {
 	const res = await getTagCloud();
 	tagsData.value = res.data;
-	console.log(res.data, "tag cloud data");
-	console.log(tagsData.value, "tagsData value");
+	//console.log(res.data, "tag cloud data");
+	//console.log(tagsData.value, "tagsData value");
 });
 </script>
 

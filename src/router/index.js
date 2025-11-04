@@ -8,15 +8,15 @@ const router = createRouter({
 	// scrollBehavior(to, from, savedPosition) {
 	//   if (savedPosition) {
 	//     // 如果有保存的滚动位置，则恢复
-	//     console.log('有保存的滚动位置', savedPosition);
+	//     //console.log('有保存的滚动位置', savedPosition);
 	//     return savedPosition;
 	//   } else if (to.hash) {
 	//     // 如果有哈希值，滚动到对应的锚点
-	//     console.log('哈希值');
+	//     //console.log('哈希值');
 	//     return { el: to.hash };
 	//   } else {
 	//     // 否则滚动到顶部
-	//     console.log('滚动到顶');
+	//     //console.log('滚动到顶');
 	//     return { top: 0 };
 	//   }
 	// },

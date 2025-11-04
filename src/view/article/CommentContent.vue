@@ -41,9 +41,6 @@
 						<div class="like-img"></div>
 						{{ item.like_count > 0 ? item.like_count : "" }}
 					</div>
-					<!-- <div class="unlike">
-						<div class="unlike-img"></div>
-					</div> -->
 					<div
 						class="reply"
 						@click="reply(item.id, item.reply_name)"
@@ -78,7 +75,7 @@ const props = defineProps({
 });
 //回复评论
 const reply = (id, name) => {
-	// console.log(props.rootId, id, name);
+	//console.log(props.rootId, id, name);
 	commentStore.setData(props.rootId, id, name);
 };
 
@@ -130,34 +127,12 @@ onMounted(() => {
 			gap: 20px;
 			.like {
 				cursor: pointer;
-				// .like-img {
-				// 	width: 20px;
-				// 	height: 20px;
-				// 	margin-right: 10px;
-				// 	background-image: url("@/assets/icons/like.png");
-				// 	background-repeat: no-repeat;
-				// 	background-size: cover;
-				// 	&:hover {
-				// 		background-image: url("@/assets/icons/like-hover.png");
-				// 	}
-				// }
 			}
 			.like:hover .like-svg-container svg path {
 				fill: #ff4d4f;
 			}
 			.unlike {
 				cursor: pointer;
-				// .unlike-img {
-				// 	width: 20px;
-				// 	height: 20px;
-				// 	margin-right: 10px;
-				// 	background-image: url("@/assets/icons/unlike.png");
-				// 	background-repeat: no-repeat;
-				// 	background-size: cover;
-				// 	&:hover {
-				// 		background-image: url("@/assets/icons/unlike-hover.png");
-				// 	}
-				// }
 			}
 			.reply {
 				cursor: pointer;

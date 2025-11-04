@@ -43,6 +43,8 @@ import CatagoryContent from "./CatagoryContent.vue";
 import { throttle } from "lodash";
 // 接收内容区域的选择器作为参数
 
+const observer = ref(null);
+
 const headingTags = ["h1", "h2", "h3", "h4", "h5", "h6"];
 // 目录项数据
 const tocItems = ref([]);
@@ -66,7 +68,7 @@ const generateToc = () => {
 
 	// 收集所有标题元素
 	let headingElements = [];
-	console.log(headingTags);
+	//console.log(headingTags);
 	headingTags.forEach((tag) => {
 		const elements = contentElement.value.querySelectorAll(tag);
 		headingElements.push(...Array.from(elements));
@@ -135,7 +137,7 @@ const handleScroll = () => {
 	const percentage = Math.min(Math.max(0, (scrollPosition / total) * 100), 100);
 	progress.value = Math.round(percentage);
 	// 确定当前激活的标题
-	console.log(headingPositions);
+	//console.log(headingPositions);
 	// 查找当前滚动位置所在的标题区间
 	for (let i = 0; i < headingPositions.length; i++) {
 		const current = headingPositions[i];
@@ -149,29 +151,32 @@ const handleScroll = () => {
 		}
 	}
 };
-
+const throttleHandleScroll = throttle(handleScroll, 50);
 // 组件挂载时初始化
 onMounted(() => {
 	contentElement.value = document.getElementById("article-content");
 	containerElement.value = document.getElementById("article-container");
-	console.log(contentElement.value, containerElement.value);
-
 	// 创建 MutationObserver 实例，监听内容容器的子元素变化
 	// 当容器内 DOM 变化（v-html 内容渲染进来）时，重新生成目录
-	const observer = new MutationObserver(() => {
+	observer.value = new MutationObserver(() => {
 		generateToc();
 	});
 	// 配置监听选项，监听子元素的新增、删除等变化，以及所有后代元素变化
-	observer.observe(contentElement.value, {
+	observer.value.observe(contentElement.value, {
 		childList: true,
 		subtree: true,
 	});
-	window.addEventListener("scroll", throttle(handleScroll, 50));
+	window.addEventListener("scroll", throttleHandleScroll);
 	// 组件卸载时清理
-	onUnmounted(() => {
-		observer.disconnect();
-		window.removeEventListener("scroll", handleScroll);
-	});
+});
+onUnmounted(() => {
+	contentElement.value = null;
+	containerElement.value = null;
+	if (observer.value) {
+		observer.value.disconnect();
+		observer.value = null;
+	}
+	window.removeEventListener("scroll", throttleHandleScroll);
 });
 </script>
 

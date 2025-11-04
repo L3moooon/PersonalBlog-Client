@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive, watch } from "vue";
+import { ref, onMounted, onUnmounted, reactive, watch } from "vue";
 import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { useTagStore } from "@/store/tag";
@@ -151,6 +151,8 @@ const articleList = ref([]);
 const observer = ref(null);
 const loadingMore = ref(false); // 控制当前是否正在请求（防重复）
 const hasMore = ref(true); // 控制是否还有更多数据
+
+const loaderFooterDom = ref(null);
 
 const pagination_info = reactive({
 	pageNo: 1,
@@ -168,7 +170,7 @@ watch(
 	}
 );
 const getArticleList = async () => {
-	console.log("获取文章列表");
+	console.log("获取文章列表", loadingMore.value, !hasMore.value);
 	if (loadingMore.value || !hasMore.value) return;
 	loadingMore.value = true;
 	// 插入占位数据：数量=每页条数，标记isLoading=true
@@ -182,7 +184,7 @@ const getArticleList = async () => {
 	);
 	articleList.value = [...articleList.value, ...placeholderList];
 	try {
-		console.log(pagination_info.pageNo, pagination_info.pageSize);
+		//console.log(pagination_info.pageNo, pagination_info.pageSize);
 		const { data, code, pagination } = await getHomeData({
 			tags: [...tagStore.activatedTags],
 			pageNo: pagination_info.pageNo,
@@ -201,50 +203,59 @@ const getArticleList = async () => {
 					imgLoaded: false, // 新增图片加载状态标记
 				};
 			});
-			console.log(newRealData);
+			//console.log(newRealData);
 
 			// 3. 更新列表：旧真实数据 + 新真实数据
 			articleList.value = [...realExistingData, ...newRealData];
-			console.log(articleList.value.length, pagination.total);
+			//console.log(articleList.value.length, pagination.total);
 			if (articleList.value.length >= pagination.total) {
 				hasMore.value = false;
 			} else {
 				pagination_info.pageNo++; // 页码+1，为下一页请求准备
 			}
-			console.log(pagination_info.pageNo);
+			//console.log(pagination_info.pageNo);
 		}
 	} catch (error) {
 		console.error("文章列表请求失败：", error);
 		articleList.value = articleList.value.filter((item) => !item.isLoading);
 	} finally {
+		console.log(555555);
 		loadingMore.value = false; // 重置请求状态
 	}
 };
+const goRoute = (id) => {
+	router.push({ path: "/article", query: { id } });
+};
+
 const initObserver = () => {
-	const loaderEl = document.getElementById("loader-footer");
-	console.log(loaderEl);
-	if (!loaderEl) return;
+	console.log("初始化监听窗口滚动");
+	if (!loaderFooterDom.value) return;
 	observer.value = new IntersectionObserver(
 		(entries) => {
 			entries.forEach((entry) => {
 				// 元素进入视口（含提前200px）时触发加载
 				if (entry.isIntersecting) {
+					console.log(3333333333);
 					getArticleList();
 				}
 			});
 		},
 		{ rootMargin: "0px 0px 200px 0px" } // 提前200px加载，优化体验
 	);
-	observer.value.observe(loaderEl);
+	observer.value.observe(loaderFooterDom.value);
 };
 onMounted(() => {
-	getArticleList();
+	loaderFooterDom.value = document.getElementById("loader-footer");
+	// getArticleList();
 	initObserver();
 });
-
-const goRoute = (id) => {
-	router.push({ path: "/article", query: { id } });
-};
+onUnmounted(() => {
+	loaderFooterDom.value = null;
+	if (observer.value) {
+		observer.value.disconnect(); // 停止所有观察
+		observer.value = null; // 清空引用
+	}
+});
 </script>
 
 <style lang="scss" scoped>

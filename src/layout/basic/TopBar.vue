@@ -8,7 +8,7 @@
 	>
 		<div
 			class="left flex-center"
-			@click="backHome"
+			@click="goRoute('/')"
 		>
 			<img
 				class="top-icon"
@@ -82,7 +82,7 @@
 					<div>友情链接</div>
 				</div>
 				<div
-					@click="mention"
+					@click="goRoute('/about')"
 					class="flex-center func"
 				>
 					<SvgComponent
@@ -130,7 +130,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, onUnmounted } from "vue";
+import { onMounted, ref, onUnmounted, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
@@ -144,8 +144,14 @@ const drawer = ref(false);
 const inputValue = ref("");
 const wrapperRef = ref(null);
 
-const backHome = () => {
-	router.push("/");
+const goRoute = (path) => {
+	router.push(path);
+	// TopScreenShow
+	const commentPanel = document.getElementById("comment-panel");
+	if (commentPanel) {
+		commentPanel.scrollIntoView({ behavior: "smooth" });
+	}
+	nextTick(() => {});
 };
 function showOrHide(e) {
 	// 下滑
@@ -174,7 +180,7 @@ const mouseenter = (e) => {
 //在初屏位置就t关闭滤镜
 //不在就隐藏顶部栏并关闭滤镜
 const mouseLeave = () => {
-	console.log(window.scrollY);
+	//console.log(window.scrollY);
 	if (window.scrollY > 80) {
 		// 触发隐藏动画
 		wrapperRef.value?.classList.add("hide");

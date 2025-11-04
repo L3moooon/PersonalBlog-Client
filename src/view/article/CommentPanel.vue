@@ -126,7 +126,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive, watch } from "vue";
+import { onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
 import CommentContent from "@/view/article/CommentContent.vue";
 import { useCommentStore } from "@/store/comment";
@@ -180,7 +180,6 @@ function processCommentList(comments) {
 }
 //发表评论
 const pubComment = async (content) => {
-	//BUG info有可能为空
 	const { status } = await comment({
 		article_id: Number(route.query.id),
 		user_id: visitorInfo.value.id,
@@ -213,6 +212,9 @@ const getArticleComments = async () => {
 onMounted(() => {
 	visitorInfo.value = JSON.parse(localStorage.getItem("visitor"));
 	getArticleComments();
+});
+onMounted(() => {
+	commentList.value = [];
 });
 </script>
 
@@ -274,32 +276,7 @@ onMounted(() => {
 					gap: 20px;
 					.like {
 						cursor: pointer;
-						// .like-img {
-						// 	width: 20px;
-						// 	height: 20px;
-						// 	margin-right: 10px;
-						// 	background-image: url("@/assets/icons/like.png");
-						// 	background-repeat: no-repeat;
-						// 	background-size: cover;
-						// 	&:hover {
-						// 		background-image: url("@/assets/icons/like-hover.png");
-						// 	}
-						// }
 					}
-					// .unlike {
-					// 	cursor: pointer;
-					// 	.unlike-img {
-					// 		width: 20px;
-					// 		height: 20px;
-					// 		margin-right: 10px;
-					// 		background-image: url("@/assets/icons/unlike.png");
-					// 		background-repeat: no-repeat;
-					// 		background-size: cover;
-					// 		&:hover {
-					// 			background-image: url("@/assets/icons/unlike-hover.png");
-					// 		}
-					// 	}
-					// }
 					.reply {
 						cursor: pointer;
 						&:hover {

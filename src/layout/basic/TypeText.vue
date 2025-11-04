@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 const text = ref([
 	"若待上林花似锦，出门俱是开花人",
 	"去年今日此门中，人面桃花相映红",
@@ -23,11 +23,15 @@ const text = ref([
 	"夜鹭望流目不瞬，大鱼兴左视不觉",
 ]);
 const containerElement = ref(null);
-const blinkLine = ref("false");
+const blinkLine = ref(false);
+
+const isUnmounted = ref(false); // 标记组件是否已卸载
+const timeoutTimer = ref(null);
+const intervalTimer = ref(null);
 
 async function typePoem(poemArr) {
 	let i = 0;
-	while (i < poemArr.length) {
+	while (i < poemArr.length && !isUnmounted.value) {
 		//光标动画间隔0.75s，waitBegin的间隔时间最好是750ms的整数倍
 		await waitBegin(2250);
 		await typeText(poemArr[i], 350);
@@ -38,44 +42,61 @@ async function typePoem(poemArr) {
 		if (i == poemArr.length) i = 0;
 	}
 	function waitBegin(delay) {
+		//console.log("等待开始");
 		blinkLine.value = true;
-		return new Promise((resolve, reject) => {
-			setTimeout(() => {
-				resolve();
-			}, delay);
+		return new Promise((resolve) => {
+			timeoutTimer.value = setTimeout(resolve, delay);
 		});
 	}
 	function typeText(poem, delay) {
+		//console.log("开始type");
 		let pointer = 0;
 		blinkLine.value = false;
-		return new Promise((resolve, reject) => {
-			let timer = setInterval(() => {
+		return new Promise((resolve) => {
+			intervalTimer.value = setInterval(() => {
+				if (isUnmounted.value) {
+					// 组件卸载时终止循环
+					clearInterval(intervalTimer.value);
+					return;
+				}
 				containerElement.value.textContent += poem[pointer++];
 			}, delay);
-			setTimeout(() => {
-				clearInterval(timer);
+			timeoutTimer.value = setTimeout(() => {
+				clearInterval(intervalTimer.value);
 				resolve();
 			}, delay * poem.length);
 		});
 	}
 	function delText(poem, delay) {
+		//console.log("开始del");
 		blinkLine.value = false;
 		let pointer = poem.length - 1;
 		return new Promise((resolve, reject) => {
-			let timer = setInterval(() => {
+			intervalTimer.value = setInterval(() => {
+				if (isUnmounted.value) {
+					// 组件卸载时终止循环
+					clearInterval(intervalTimer.value);
+					return;
+				}
 				containerElement.value.textContent = poem.slice(0, pointer);
 				pointer--;
 			}, delay);
-			setTimeout(() => {
-				clearInterval(timer);
+			timeoutTimer.value = setTimeout(() => {
+				clearInterval(intervalTimer.value);
 				resolve();
 			}, delay * poem.length);
 		});
 	}
 }
 onMounted(() => {
-	typePoem(text.value);
 	containerElement.value = document.getElementById("type-list");
+	typePoem(text.value);
+});
+onUnmounted(() => {
+	isUnmounted.value = true; // 标记组件已卸载
+	containerElement.value = null;
+	clearInterval(intervalTimer.value); // 清理 setInterval
+	clearTimeout(timeoutTimer.value); // 清理 setTimeout
 });
 </script>
 

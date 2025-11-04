@@ -6,27 +6,40 @@
 	>
 		<div class="text-container">
 			<Editor
-				v-model="article.content"
-				:defaultConfig="editorConfig"
 				mode="default"
+				v-model="article.content"
+				@onCreated="handleCreated"
+				:defaultConfig="editorConfig"
 			/>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { onUnmounted, ref, shallowRef, onBeforeUnmount } from "vue";
 import { Editor } from "@wangeditor/editor-for-vue";
-
+const editorRef = shallowRef();
 const props = defineProps({
 	article: {
 		type: Object,
 		required: true,
 	},
 });
-
+// const valueHtml = ref("<p>hello</p>");
 const editorConfig = {
 	readOnly: true,
+	EXTEND_CONF: {},
 };
+const handleCreated = (editor) => {
+	//console.log("创建实例");
+	editorRef.value = editor;
+};
+onBeforeUnmount(() => {
+	const editor = editorRef.value;
+	if (editor == null) return;
+	editor.destroy();
+	console.log("销毁销毁销毁销毁销毁");
+});
 </script>
 
 <style lang="scss" scoped>

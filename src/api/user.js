@@ -15,3 +15,20 @@ export const sendTrackInfo = (data) => {
 		data,
 	});
 };
+
+export const upload = (data, onUploadProgress) => {
+	return request({
+		url: "/public/upload",
+		method: "post",
+		data,
+		onUploadProgress,
+	});
+};
+
+export const modifyInfo = (data) => {
+	return request({
+		url: "/web/user/modifyInfo",
+		method: "post",
+		data,
+	});
+};

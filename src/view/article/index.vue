@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive, watch } from "vue";
+import { onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { getArticle, updateViewCount } from "@/api/article";
 import { StarFilled } from "@element-plus/icons-vue";
 import { useRoute } from "vue-router";
@@ -30,6 +30,7 @@ const timer = ref(null); //访问量计时器
 
 //获取文章内容
 const getArticleContent = async () => {
+	//console.log(article);
 	const { data, status } = await getArticle({ id: route.query.id });
 	if (status == 1) {
 		Object.assign(article, data);
@@ -67,6 +68,13 @@ onMounted(() => {
 			}
 		}
 	}, 3000);
+});
+onUnmounted(() => {
+	Object.assign(article, {});
+	if (timer.value) {
+		clearTimeout(timer.value);
+		timer.value = null; // 清空引用
+	}
 });
 </script>
 <style lang="scss" scoped>

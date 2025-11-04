@@ -62,7 +62,7 @@ export default class Tracker {
 
 	// 按钮级埋点：记录元素点击
 	trackElementClick(eventName, info) {
-		console.log("eeeeee", eventName, info);
+		//console.log("eeeeee", eventName, info);
 		this.report({
 			type: "element_click",
 			eventName,
