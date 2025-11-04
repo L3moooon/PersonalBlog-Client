@@ -6,8 +6,8 @@
 		<div class="top">
 			<TopBar />
 			<div
+				v-if="themeStore.TopScreenShow && route.path == '/home'"
 				class="main"
-				v-if="themeStore.TopScreenShow && route.path != '/article'"
 			>
 				<div class="name">欢迎来访</div>
 				<TypeText v-if="isFocus"></TypeText>

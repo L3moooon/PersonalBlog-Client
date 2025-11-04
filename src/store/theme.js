@@ -1,14 +1,13 @@
 import { defineStore } from "pinia";
 import { debounce } from "lodash";
+
+const topFlag = JSON.parse(sessionStorage.getItem("TopScreenShow"));
+const TopScreenShow = topFlag == undefined ? true : topFlag;
+
 export const useThemeStore = defineStore("Theme", {
 	state: () => {
 		return {
-			// nickname: "",
-			// portrait: "",
-			// saying: [],
-			// url: [],
-			// themeData: {},
-			TopScreenShow: true, // 顶部屏幕显示
+			TopScreenShow, // 顶部屏幕显示
 			screenWidth: window.innerWidth,
 			breakpoints: {
 				mobile: 768,
@@ -19,10 +18,8 @@ export const useThemeStore = defineStore("Theme", {
 	actions: {
 		setTopStatus(status) {
 			this.TopScreenShow = status;
+			sessionStorage.setItem("TopScreenShow", status);
 		},
-		// setThemeData(data) {
-		//   this.themeData = data;
-		// },
 		// 是否为移动端
 		isMobile() {
 			return this.screenWidth < this.breakpoints.mobile;
@@ -31,7 +28,6 @@ export const useThemeStore = defineStore("Theme", {
 		isDesktop() {
 			return this.screenWidth >= this.breakpoints.mobile;
 		},
-
 		updateScreenWidth() {
 			this.screenWidth = window.innerWidth;
 		},

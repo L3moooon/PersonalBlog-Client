@@ -1,3 +1,4 @@
+import request from "@/utils/request";
 //外部-获取github贡献日历
 export const getGitCalendar = (user) => {
 	return request({

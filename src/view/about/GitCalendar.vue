@@ -1,81 +1,84 @@
 <template>
 	<div class="slideshow">
-		<div class="top-title">GitHub贡献日历</div>
-		<div class="content">
-			<div class="month">
-				<span
-					v-for="i in 12"
-					:key="i"
-					>{{ gitMounth[(i + commitRecord.startMonth - 1) % 12] }}</span
-				>
-			</div>
-			<div class="middle">
-				<div class="week">
-					<span>日</span>
-					<span>二</span>
-					<span>四</span>
-					<span>六</span>
-				</div>
-				<div id="git-calendar">
-					<div
-						v-for="item in gitContributions"
-						:key="item.date"
-						class="block"
-						:style="{ backgroundColor: gitColor[item.intensity] }"
-						@mouseover="moveInBlock($event, item)"
-						@mouseleave="visible = false"
-					></div>
-					<el-tooltip
-						placement="top"
-						ref="tooltipRef"
-						:visible="visible"
-						:popper-options="tooltipOptions"
-						:virtual-ref="blockRef"
-						virtual-triggering
-					>
-						<template #content>
-							<span
-								>{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}
-								{{
-									tooltipContent.count > 1 ? "contributions" : "contribution"
-								}}
-							</span>
-						</template>
-					</el-tooltip>
-				</div>
-			</div>
-		</div>
-		<div class="bottom">
-			<div class="example">
-				<span style="margin-right: 0.2rem">Less</span>
-				<span
-					v-for="i in 5"
-					:key="i"
-					:style="{ backgroundColor: gitColor[i - 1] }"
-					class="example-block"
-				></span>
-				<span style="margin-left: 0.2rem">More</span>
-			</div>
-			<div class="commit-record">
-				<div class="last-year">
-					<span> 最近一年提交</span>
-					<span>{{ commitRecord.LastYearCommit }}</span>
-					<span>{{ commitRecord.YearTimeRange }}</span>
-				</div>
-				<div class="line"></div>
-				<div class="last-month">
-					<span>最近一月提交</span>
-					<span>{{ commitRecord.LastMonthCommit }}</span>
-					<span>{{ commitRecord.MonthTimeRange }}</span>
-				</div>
-				<div class="line"></div>
-				<div class="last-week">
-					<span>最近一周提交</span>
-					<span>{{ commitRecord.LastWeekCommit }}</span>
-					<span>{{ commitRecord.WeekTimeRange }}</span>
+		<el-scrollbar width="100%">
+			<div class="top-title">GitHub贡献日历</div>
+			<div class="content">
+				<div class="middle">
+					<div class="week">
+						<span>日</span>
+						<span>二</span>
+						<span>四</span>
+						<span>六</span>
+					</div>
+					<div id="git-calendar">
+						<div
+							v-for="item in gitContributions"
+							:key="item.date"
+							class="block"
+							:style="{ backgroundColor: gitColor[item.intensity] }"
+							@mouseover="moveInBlock($event, item)"
+							@mouseleave="visible = false"
+						>
+							<div
+								class="month"
+								v-if="item.date.includes('-15')"
+							>
+								<span>{{ item.date.slice(5, 7) }}月</span>
+							</div>
+						</div>
+
+						<el-tooltip
+							placement="top"
+							ref="tooltipRef"
+							:visible="visible"
+							:popper-options="tooltipOptions"
+							:virtual-ref="blockRef"
+							virtual-triggering
+						>
+							<template #content>
+								<span
+									>{{ tooltipContent.date }}&nbsp;{{ tooltipContent.count }}
+									{{
+										tooltipContent.count > 1 ? "contributions" : "contribution"
+									}}
+								</span>
+							</template>
+						</el-tooltip>
+					</div>
 				</div>
 			</div>
-		</div>
+			<div class="bottom">
+				<div class="example">
+					<span style="margin-right: 0.2rem">Less</span>
+					<span
+						v-for="i in 5"
+						:key="i"
+						:style="{ backgroundColor: gitColor[i - 1] }"
+						class="example-block"
+					></span>
+					<span style="margin-left: 0.2rem; margin-right: 1rem">More</span>
+				</div>
+				<div class="commit-record">
+					<div class="last-year">
+						<span> 最近一年提交</span>
+						<span>{{ commitRecord.LastYearCommit }}</span>
+						<span>{{ commitRecord.YearTimeRange }}</span>
+					</div>
+					<div class="line"></div>
+					<div class="last-month">
+						<span>最近一月提交</span>
+						<span>{{ commitRecord.LastMonthCommit }}</span>
+						<span>{{ commitRecord.MonthTimeRange }}</span>
+					</div>
+					<div class="line"></div>
+					<div class="last-week">
+						<span>最近一周提交</span>
+						<span>{{ commitRecord.LastWeekCommit }}</span>
+						<span>{{ commitRecord.WeekTimeRange }}</span>
+					</div>
+				</div>
+			</div>
+		</el-scrollbar>
 	</div>
 </template>
 
@@ -118,24 +121,10 @@ const commitRecord = reactive({
 	LastWeekCommit: Number,
 	WeekTimeRange: String,
 });
-const gitMounth = [
-	"十二月",
-	"一月",
-	"二月",
-	"三月",
-	"四月",
-	"五月",
-	"六月",
-	"七月",
-	"八月",
-	"九月",
-	"十月",
-	"十一月",
-];
 const getCommitData = async () => {
 	const data = await getGitCalendar("L3moooon");
-	console.log(3333);
 	gitContributions.value = data.contributions.flat();
+	console.log(gitContributions.value);
 	commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7)); //月
 	commitRecord.startDay = Number(gitContributions.value[0].date.slice(8, 10)); //日
 	commitRecord.LastYearCommit = data.total;
@@ -159,7 +148,6 @@ const getCommitData = async () => {
 		count += item.count;
 	});
 	commitRecord.LastWeekCommit = count;
-	// //console.log(commitRecord);
 };
 
 //移入block时记录相关信息，然后在tooltip展示
@@ -168,26 +156,26 @@ const moveInBlock = (e, item) => {
 	visible.value = true;
 	tooltipContent.value = { ...item };
 };
-onMounted(async () => {
-	await getCommitData();
-	const degree = commitRecord.startDay / 30;
-	const month = document.getElementsByClassName("month")[0];
-	month.style.marginLeft = 4.5 - 4.5 * degree + "rem";
+onMounted(() => {
+	getCommitData();
 });
 </script>
 
 <style lang="scss" scoped>
 .slideshow {
-	height: 250px;
-	overflow: hidden;
+	width: 100%;
 	background-color: wheat;
-	padding: 10px;
+	box-sizing: border-box;
 	border-radius: 10px;
 	position: relative;
+	overflow-x: scroll;
+	overflow-y: hidden;
+
 	.top-title {
 		color: #555555;
 		font-weight: 700;
-		margin: 8px auto;
+		margin: 8px 20px;
+		margin-bottom: 30px;
 		text-align: center;
 	}
 	.content {
@@ -197,14 +185,15 @@ onMounted(async () => {
 		justify-content: center;
 		color: #a0a0a0;
 		font-size: 8px;
+		position: relative;
+
 		.month {
-			text-align: center;
-			width: 700px;
-			margin: 6px 40px 6px 66px;
+			// text-align: center;
+			// width: 700px;
+			// margin: 6px 40px 6px 66px;
 			span {
 				display: inline-block;
 				width: 24px;
-				margin: 0 17px;
 			}
 		}
 		.middle {
@@ -213,7 +202,7 @@ onMounted(async () => {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
-				width: 32px;
+				width: 20px;
 				text-align: center;
 				span:not(:nth-child(1)) {
 					display: block;
@@ -227,19 +216,25 @@ onMounted(async () => {
 				grid-template-rows: repeat(7, 12px);
 				gap: 2px;
 				border-radius: 10px;
+				.month {
+					position: absolute;
+					top: -16px;
+				}
 			}
 		}
 	}
 	.bottom {
 		width: 100%;
-		height: 80px;
+		// height: 80px;
 		.example {
-			position: absolute;
-			right: 32px;
-			bottom: 80px;
+			overflow: hidden;
+			display: flex;
+			justify-content: flex-end;
+			width: 100%;
 			font-size: 8px;
 			color: #a0a0a0;
 			line-height: 16px;
+			margin-top: 10px;
 			.example-block {
 				display: inline-block;
 				width: 12px;
@@ -249,11 +244,10 @@ onMounted(async () => {
 		}
 		.commit-record {
 			width: 100%;
-			height: 90px;
+			height: 70px;
 			display: flex;
 			justify-content: space-evenly;
 			align-items: center;
-			margin-top: 30px;
 			.last-year,
 			.last-month,
 			.last-week {
