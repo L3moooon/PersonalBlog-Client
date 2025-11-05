@@ -20,21 +20,14 @@
 			<template v-if="themeStore.isDesktop()">
 				<!-- <div @click="mention">主题切换</div> -->
 				<div
-					@click="mention"
-					class="flex-center"
+					@click="searchDialogVisible = true"
+					class="flex-center func"
 				>
-					<el-input
-						v-model="inputValue"
-						class="input"
-						placeholder="搜索本站"
-					>
-						<template #prefix>
-							<SvgComponent
-								className="icon search-icon"
-								icon="search"
-							/>
-						</template>
-					</el-input>
+					<SvgComponent
+						className="icon search-icon"
+						icon="search"
+					/>
+					<div>搜索</div>
 				</div>
 				<!-- <el-popover
 					class="box-item"
@@ -60,7 +53,6 @@
 						<div>健身</div>
 					</template>
 				</el-popover> -->
-
 				<div
 					@click="goRoute('/message')"
 					class="flex-center func"
@@ -127,6 +119,74 @@
 		class="wrapper-placeholder"
 		@mouseenter="placeholderMouseenter"
 	></div>
+	<el-dialog
+		v-model="searchDialogVisible"
+		:lock-scroll="false"
+		:show-close="false"
+		class="search-dialog"
+	>
+		<template #title>
+			<div class="title-text">搜索</div>
+			<div class="shortcut-container">
+				<SvgComponent
+					className="search-icon shortcut"
+					icon="shortcut"
+				/>
+				CTRL+K
+			</div>
+		</template>
+		<el-input
+			v-model="inputValue"
+			@input="throttleHandleSearch"
+			class="input"
+			:autofocus="true"
+			placeholder="搜索本站"
+		>
+			<template #prefix>
+				<SvgComponent
+					className="icon search-icon"
+					icon="search"
+				/>
+			</template>
+		</el-input>
+		<el-scrollbar
+			height="400"
+			v-loading="loading"
+			v-if="searchList.length"
+			class="scroll"
+		>
+			<div class="result-area">
+				<el-card
+					class="item flex"
+					v-for="item in searchList"
+					@click="handleSearchClick(item.id)"
+				>
+					<div class="circle flex-center">
+						<div class="inner"></div>
+					</div>
+
+					<div class="content">
+						<div class="top flex-between">
+							<div class="title">{{ item.title }}</div>
+							<div
+								class="time"
+								v-timeFormatter="item.publish_date"
+							></div>
+						</div>
+						<div class="bottom">
+							{{ item.abstract }}
+							<div v-html="item.content"></div>
+						</div>
+					</div>
+				</el-card>
+			</div>
+		</el-scrollbar>
+
+		<el-empty
+			v-else
+			description="暂无内容"
+		/>
+	</el-dialog>
 </template>
 
 <script setup>
@@ -135,6 +195,7 @@ import { useRouter } from "vue-router";
 import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
 import { useThemeStore } from "@/store/theme";
+import { getSearchData } from "@/api/home";
 
 let removeResizeListener;
 
@@ -144,14 +205,16 @@ const drawer = ref(false);
 const inputValue = ref("");
 const wrapperRef = ref(null);
 
+const searchDialogVisible = ref(false);
+const loading = ref(false);
+
 const goRoute = (path) => {
 	router.push(path);
-	// TopScreenShow
-	const commentPanel = document.getElementById("comment-panel");
-	if (commentPanel) {
-		commentPanel.scrollIntoView({ behavior: "smooth" });
-	}
-	nextTick(() => {});
+	// const commentPanel = document.getElementById("comment-panel");
+	// if (commentPanel) {
+	// 	commentPanel.scrollIntoView({ behavior: "smooth" });
+	// }
+	// nextTick(() => {});
 };
 function showOrHide(e) {
 	// 下滑
@@ -196,12 +259,42 @@ const placeholderMouseenter = () => {
 const mention = () => {
 	ElMessage.info("敬请期待");
 };
+
+const handleOpenSearch = (event) => {
+	if (event.ctrlKey && event.key.toLowerCase() === "k") {
+		event.preventDefault();
+		searchDialogVisible.value = !searchDialogVisible.value;
+	}
+};
+const searchList = ref([]);
+
+const handleSearch = async () => {
+	if (!inputValue.value) {
+		searchList.value = [];
+		return;
+	}
+	loading.value = true;
+	const { data, code } = await getSearchData({ keyword: inputValue.value });
+	console.log(data);
+	if (code == 1) {
+		searchList.value = data;
+	}
+	loading.value = false;
+};
+const throttleHandleSearch = throttle(handleSearch, 300);
+const handleSearchClick = (id) => {
+	goRoute(`/article?id=${id}`);
+	searchDialogVisible.value = false;
+};
+
 onMounted(() => {
 	window.addEventListener("wheel", throttledShowOrHide);
+	window.addEventListener("keydown", handleOpenSearch);
 	removeResizeListener = themeStore.listenResize();
 });
 onUnmounted(() => {
 	window.removeEventListener("wheel", throttledShowOrHide);
+	window.removeEventListener("keydown", handleOpenSearch);
 	if (removeResizeListener) removeResizeListener();
 });
 </script>
@@ -285,6 +378,48 @@ onUnmounted(() => {
 		}
 	}
 }
+.scroll {
+	width: calc(100% + 10px);
+	margin-top: 10px;
+}
+.result-area {
+	width: calc(100% - 10px);
+	overflow: hidden;
+	margin: 5px 0;
+}
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #49b1f5;
+	.inner {
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		background-color: #fff;
+	}
+}
+.item:not(:last-child) {
+	margin-bottom: 10px;
+}
+.item {
+	cursor: pointer;
+}
+.content {
+	width: calc(100% - 20px);
+	margin-left: 15px;
+	.top {
+		width: 100%;
+		font-size: 16px;
+		margin-bottom: 10px;
+		.title {
+			// font-weight: bold;
+		}
+		.time {
+			color: #a8abb2;
+		}
+	}
+}
 
 @media (max-width: 768px) {
 	.wrapper {
@@ -365,6 +500,41 @@ onUnmounted(() => {
 	to {
 		opacity: 1;
 		transform: translateY(0);
+	}
+}
+</style>
+<style>
+.el-dialog.search-dialog {
+	width: 600px;
+	.el-dialog__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.title-text {
+			font-size: 20px;
+			font-weight: bold;
+		}
+		.shortcut-container {
+			color: #a8abb2;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			.shortcut {
+				width: 15px;
+				height: 15px;
+				margin-right: 5px;
+			}
+		}
+	}
+	.el-card {
+		/* margin-top: 10px; */
+		.el-card__body {
+			padding: 10px;
+			display: flex;
+		}
+		em {
+			color: red;
+		}
 	}
 }
 </style>

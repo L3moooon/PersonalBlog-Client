@@ -170,7 +170,6 @@ watch(
 	}
 );
 const getArticleList = async () => {
-	console.log("获取文章列表", loadingMore.value, !hasMore.value);
 	if (loadingMore.value || !hasMore.value) return;
 	loadingMore.value = true;
 	// 插入占位数据：数量=每页条数，标记isLoading=true
@@ -219,7 +218,6 @@ const getArticleList = async () => {
 		console.error("文章列表请求失败：", error);
 		articleList.value = articleList.value.filter((item) => !item.isLoading);
 	} finally {
-		console.log(555555);
 		loadingMore.value = false; // 重置请求状态
 	}
 };
@@ -235,7 +233,6 @@ const initObserver = () => {
 			entries.forEach((entry) => {
 				// 元素进入视口（含提前200px）时触发加载
 				if (entry.isIntersecting) {
-					console.log(3333333333);
 					getArticleList();
 				}
 			});

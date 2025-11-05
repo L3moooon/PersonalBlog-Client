@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { countVisited, modifyInfo } from "@/api/user";
 import { generateFingerprint } from "@/utils/generateFinger";
+import { ElMessage } from "element-plus";
+
 const ONEHOUR = 60 * 60 * 1000;
 const nickname = JSON.parse(localStorage.getItem("user"))?.name;
 const portrait = JSON.parse(localStorage.getItem("user"))?.portrait;

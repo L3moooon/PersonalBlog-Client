@@ -4,13 +4,14 @@ import ElementPlus from "element-plus";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Tracker from "./utils/tracker";
 import WebSocketService from "./utils/webSocket";
-import directives from "./directives"; // 导入所有指令
+import directives from "./directives";
 
 import SvgComponent from "@/components/SvgComponent.vue";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { throttledSetRem } from "./utils/rem";
+import { checkAndCleanLocalStorage } from "./utils/checkVersion";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -26,11 +27,14 @@ wsService.connect();
 //改变窗口大小时重新设置 rem
 window.onresize = throttledSetRem;
 
+//检查版本并清除无用的本地缓存
+checkAndCleanLocalStorage();
+
 // 自动导入所有svg文件，生成雪碧图
 const allSvg = require.context("@/assets/svg", true, /\.svg$/);
 allSvg.keys().forEach(allSvg);
 
-//注册全局指令
+//集中注册全局指令
 Object.keys(directives).forEach((key) => {
 	app.directive(key, directives[key]);
 });

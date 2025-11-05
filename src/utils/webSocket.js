@@ -1,8 +1,8 @@
-import { io } from "socket.io-client"; // 导入 socket.io 客户端
+import { io } from "socket.io-client";
 
 export default class WebSocketService {
 	constructor() {
-		this.socket = null; // 存储 socket.io 实例（不再是原生 WebSocket）
+		this.socket = null; // 存储 socket.io 实例
 		this.url = "/webWS";
 		this.isConnected = false;
 		this.callbacks = new Map(); // 存储事件回调
@@ -16,13 +16,26 @@ export default class WebSocketService {
 		this.socket = io(this.url, {
 			reconnection: true, // 自动重连
 			reconnectionAttempts: 5, // 重连次数
-			reconnectionDelay: 1000, // 重连间隔（毫秒）
+			reconnectionDelay: 1000, // 重连间隔
+			reconnectionDelayMax: 5000, // 最大重连间隔
+			timeout: 20000, // 连接超时时间
 		});
 		// 连接成功
 		this.socket.on("connect", () => {
 			console.log("Socket.io 连接成功（ID：", this.socket.id, "）");
 			this.isConnected = true;
 			this.trigger("open");
+		});
+		// 连接断开
+		this.socket.on("disconnect", (reason) => {
+			console.log("Socket.io 连接断开：", reason);
+			this.isConnected = false;
+			this.trigger("close", reason);
+		});
+		// 错误处理
+		this.socket.on("error", (error) => {
+			console.error("Socket.io 错误：", error);
+			this.trigger("error", error);
 		});
 
 		// 接收消息（通用事件监听，转发给回调）
@@ -32,28 +45,6 @@ export default class WebSocketService {
 				console.log(`收到事件 ${eventType}：`, data);
 				this.trigger(eventType, data); // 触发对应事件的回调
 			}
-		});
-
-		// 连接断开
-		this.socket.on("disconnect", (reason) => {
-			console.log("Socket.io 连接断开：", reason);
-			this.isConnected = false;
-			this.trigger("close", reason);
-		});
-
-		// 错误处理
-		this.socket.on("error", (error) => {
-			console.error("Socket.io 错误：", error);
-			this.trigger("error", error);
-		});
-
-		// 前端 connect() 方法中
-		this.socket.on("upgrade", () => {
-			console.log("Socket.io 已成功升级为 WebSocket 协议！");
-		});
-
-		this.socket.on("connect_error", (err) => {
-			console.error("连接失败的根本原因：", err);
 		});
 	}
 
@@ -75,7 +66,7 @@ export default class WebSocketService {
 		}
 	}
 
-	// 注册事件回调（如 on('web_notify', callback)）
+	// 注册事件回调
 	on(eventType, callback) {
 		this.callbacks.set(eventType, callback);
 	}

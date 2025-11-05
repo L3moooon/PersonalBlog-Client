@@ -28,3 +28,11 @@ export const getRecommendArticle = () => {
 		method: "post",
 	});
 };
+//全局搜索
+export const getSearchData = (params) => {
+	return request({
+		url: "/web/home/search",
+		method: "get",
+		params,
+	});
+};

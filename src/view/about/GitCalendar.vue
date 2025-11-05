@@ -1,5 +1,8 @@
 <template>
-	<div class="slideshow">
+	<div
+		class="slideshow"
+		v-loading="loading"
+	>
 		<el-scrollbar width="100%">
 			<div class="top-title">GitHub贡献日历</div>
 			<div class="content">
@@ -85,6 +88,7 @@
 <script setup>
 import { ref, reactive, watch, onMounted } from "vue";
 import { getGitCalendar } from "@/api/external";
+const loading = ref(true);
 
 //tootip单例模式触发
 const blockRef = ref();
@@ -123,6 +127,7 @@ const commitRecord = reactive({
 });
 const getCommitData = async () => {
 	const data = await getGitCalendar("L3moooon");
+	loading.value = false;
 	gitContributions.value = data.contributions.flat();
 	console.log(gitContributions.value);
 	commitRecord.startMonth = Number(gitContributions.value[0].date.slice(5, 7)); //月
@@ -166,7 +171,6 @@ onMounted(() => {
 	width: 100%;
 	background-color: wheat;
 	box-sizing: border-box;
-	border-radius: 10px;
 	position: relative;
 	overflow-x: scroll;
 	overflow-y: hidden;
@@ -188,9 +192,6 @@ onMounted(() => {
 		position: relative;
 
 		.month {
-			// text-align: center;
-			// width: 700px;
-			// margin: 6px 40px 6px 66px;
 			span {
 				display: inline-block;
 				width: 24px;
