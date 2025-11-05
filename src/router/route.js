@@ -17,6 +17,10 @@ export const routes = [
 				path: "/about",
 				component: () => import("@/view/about/index.vue"),
 			},
+			{
+				path: "/message",
+				component: () => import("@/view/message/index.vue"),
+			},
 		],
 	},
 	{

@@ -3,6 +3,7 @@ import router from "@/router/index";
 import ElementPlus from "element-plus";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Tracker from "./utils/tracker";
+import WebSocketService from "./utils/webSocket";
 import directives from "./directives"; // 导入所有指令
 
 import SvgComponent from "@/components/SvgComponent.vue";
@@ -11,11 +12,16 @@ import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { throttledSetRem } from "./utils/rem";
 
-const pinia = createPinia();
 const app = createApp(App);
+const pinia = createPinia();
 
 // 初始化监控（全局生效）
 export const tracker = new Tracker();
+
+//初始化webSocket
+const wsService = new WebSocketService();
+app.config.globalProperties.$ws = wsService;
+wsService.connect();
 
 //改变窗口大小时重新设置 rem
 window.onresize = throttledSetRem;

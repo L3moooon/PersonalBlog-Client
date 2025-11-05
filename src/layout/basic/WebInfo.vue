@@ -5,7 +5,8 @@
 				icon="fengche"
 				className="icon"
 			/>
-			<div>网站信息</div>
+			<div class="panel-title">网站信息</div>
+			<div class="online">当前在线：{{ onlineCount }}</div>
 		</div>
 		<div class="detail">
 			<div class="column">
@@ -39,6 +40,7 @@
 <script setup>
 import { onMounted, reactive } from "vue";
 import { getWebsiteInfo } from "@/api/home";
+const props = defineProps(["onlineCount"]);
 const websiteData = reactive({
 	run_days: Number,
 	today_visits: Number,
@@ -68,13 +70,22 @@ onMounted(async () => {
 	margin-bottom: 16px;
 	.title {
 		margin: 8px 8px 8px 0;
-		font-size: 16px;
-		font-weight: bold;
+		.panel-title {
+			font-size: 16px;
+			font-weight: bold;
+		}
 		.icon {
 			animation: rotate 3s linear infinite;
 			width: 20px;
 			height: 20px;
 			margin: 0 8px;
+		}
+		.online {
+			// align-self: flex-end;
+			// font-size: 14px;
+			opacity: 0.85;
+			font-weight: bold;
+			margin-left: auto;
 		}
 	}
 	.detail {

@@ -36,7 +36,7 @@
 						</template>
 					</el-input>
 				</div>
-				<el-popover
+				<!-- <el-popover
 					class="box-item"
 					:offset="20"
 					placement="top-start"
@@ -59,10 +59,10 @@
 						<div>游戏</div>
 						<div>健身</div>
 					</template>
-				</el-popover>
+				</el-popover> -->
 
 				<div
-					@click="mention"
+					@click="goRoute('/message')"
 					class="flex-center func"
 				>
 					<SvgComponent

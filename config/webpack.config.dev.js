@@ -24,6 +24,13 @@ module.exports = {
 				target,
 				changeOrigin: true,
 			},
+			//webSocket
+			{
+				context: "/socket.io",
+				target,
+				changeOrigin: true,
+				ws: true, // 开启 WebSocket 代理
+			},
 			//本地开发环境显示oss图片
 			{
 				context: "/images",

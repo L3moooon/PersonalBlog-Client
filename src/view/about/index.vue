@@ -23,7 +23,8 @@
 			>
 		</div>
 		<div class="description">
-			<strong>后台技术栈</strong>：Vue3/TS/Vite/TailwindCSS/ShadCN/Echarts
+			<strong>后台技术栈</strong
+			>：Vue3/TypeScript/Vite/TailwindCSS/ShadCN/Echarts
 			<br />
 			主要功能是前台的站点监控、文章发布、用户管理以及一些信息统计和展示
 			<br />
@@ -32,12 +33,12 @@
 			目前后端的知识还比较浅薄，只掌握了使用Node编写基本的接口以及数据库和Redis的基本使用，后续我会尝试学习JAVA，再对整个项目的后端进行重构
 		</div>
 		<div class="subtitle">3.关于作者</div>
-		<div>
+		<div class="description">
 			有疑问或者建议欢迎联系我1152818861@qq.com或者
 			<a href="/message">留言</a>
 		</div>
 		<div class="subtitle">4.项目依赖</div>
-		以下是根据项目Package.json自动生成的列表
+		<div class="description">以下是根据项目Package.json自动生成的依赖列表</div>
 		<div>
 			<div class="dev-title">生产依赖 (dependencies)</div>
 			<div class="block">
@@ -80,6 +81,8 @@ const devDeps = packageJson.devDependencies || {};
 		font-size: 24px;
 		font-weight: bold;
 		margin: 10px 0 20px 0;
+		margin-top: 10px;
+		margin-bottom: 20px;
 	}
 	.description {
 		// text-indent: 32px;
@@ -102,7 +105,9 @@ strong {
 .dev-title {
 	font-size: 16px;
 	font-weight: bold;
-	margin: 10px 0;
+	// margin: 10px 0;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 .block {
 	display: grid;
@@ -123,5 +128,13 @@ strong {
 			flex: 1;
 		}
 	}
+}
+.t1,
+.description,
+.subtitle,
+.dev-title,
+.block {
+	margin-left: 10px;
+	margin-right: 10px;
 }
 </style>

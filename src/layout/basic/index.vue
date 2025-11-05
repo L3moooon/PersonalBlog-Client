@@ -39,7 +39,7 @@
 				<!-- 其他页通用 -->
 				<template v-else>
 					<VisitorCard />
-					<WebsiteInfo />
+					<WebsiteInfo :onlineCount="onlineCount" />
 					<el-affix :offset="20">
 						<Recommand />
 						<TagPanel />
@@ -52,7 +52,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, getCurrentInstance } from "vue";
 import { useRoute } from "vue-router";
 
 import VisitorCard from "@/layout/basic/Visitor.vue";
@@ -66,9 +66,14 @@ import MusicPlayer from "@/components/MusicPlayer.vue";
 import ScrollTool from "@/components/ScrollTool.vue";
 import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
+import { useUserStore } from "@/store/user";
 
 const themeStore = useThemeStore();
+const userStore = useUserStore();
 const route = useRoute();
+const { proxy } = getCurrentInstance();
+
+const onlineCount = ref(0);
 const isFocus = ref(true); //控制打字机仅在前台时显示
 
 const turnDownPage = () => {
@@ -87,7 +92,6 @@ const handleScroll = () => {
 	// 滚动距离超过top高度时，销毁top
 	if (window.scrollY > topHeight) {
 		setTimeout(() => {
-			// showTop.value = false;
 			themeStore.setTopStatus(false);
 		}, 100);
 		topWrapper.classList.add("bg-white");
@@ -100,10 +104,20 @@ const handleVisibilityChange = () => {
 };
 
 onMounted(() => {
-	// sendInfo();
 	handleScroll(); //先判断一次
 	window.addEventListener("scroll", throttledHandleScroll);
 	document.addEventListener("visibilitychange", handleVisibilityChange);
+
+	proxy.$ws.emit("login", {
+		type: "login",
+		content: `用户:${userStore.nickname}已登录`,
+		extendInfo: {
+			portrait: userStore.portrait,
+		},
+	});
+	proxy.$ws.on("onlineCount", (data) => {
+		onlineCount.value = data.count;
+	});
 });
 onUnmounted(() => {
 	window.removeEventListener("scroll", throttledHandleScroll);
