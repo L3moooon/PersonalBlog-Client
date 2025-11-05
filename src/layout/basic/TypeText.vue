@@ -90,7 +90,9 @@ async function typePoem(poemArr) {
 }
 onMounted(() => {
 	containerElement.value = document.getElementById("type-list");
-	typePoem(text.value);
+	if (containerElement.value) {
+		typePoem(text.value);
+	}
 });
 onUnmounted(() => {
 	isUnmounted.value = true; // 标记组件已卸载

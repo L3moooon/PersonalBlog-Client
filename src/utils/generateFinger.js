@@ -1,4 +1,4 @@
-export async function generateFingerprint() {
+export function generateFingerprint() {
 	let deviceId = localStorage.getItem("deviceId");
 	if (!deviceId) {
 		deviceId = Math.random().toString(36).slice(2, 12);

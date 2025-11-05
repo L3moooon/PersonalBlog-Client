@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import { countVisited, modifyInfo } from "@/api/user";
-
+import { generateFingerprint } from "@/utils/generateFinger";
 const ONEHOUR = 60 * 60 * 1000;
 const nickname = JSON.parse(localStorage.getItem("user"))?.name;
 const portrait = JSON.parse(localStorage.getItem("user"))?.portrait;
 const lastLoginTime = JSON.parse(localStorage.getItem("user"))?.last_login_time;
 const address = JSON.parse(localStorage.getItem("user"))?.address;
-const identify = localStorage.getItem("deviceId");
+const identify = generateFingerprint();
 
 export const useUserStore = defineStore("User", {
 	state: () => {
@@ -22,7 +22,6 @@ export const useUserStore = defineStore("User", {
 		//前端时间验证防止频繁发送请求
 		checkUserInfo() {
 			const now = new Date().getTime();
-			//console.log(this.lastLoginTime);
 			const last = this.lastLoginTime
 				? new Date(this.lastLoginTime).getTime()
 				: 0;
@@ -41,7 +40,7 @@ export const useUserStore = defineStore("User", {
 				this.nickname = data.name;
 				this.portrait = data.portrait;
 				this.lastLoginTime = data.last_login_time;
-				this.location = data.address;
+				this.address = data.address;
 			}
 		},
 		//修改信息

@@ -94,6 +94,7 @@ const newName = ref(null);
 const imgRef = ref(null);
 
 const computedLocation = computed(() => {
+	if (!userStore.address) return "";
 	const { country, province, city } = JSON.parse(userStore.address);
 	if (city == "内网IP") return "，管理员";
 	else if (!country) return;

@@ -1,6 +1,6 @@
 //页面埋点
 import { sendTrackInfo } from "@/api/user";
-
+import { generateFingerprint } from "./generateFinger";
 export default class Tracker {
 	constructor() {
 		this.pageStayTimer = null; // 页面停留计时器
@@ -17,15 +17,8 @@ export default class Tracker {
 			browser: navigator.userAgent,
 			screen: `${window.screen.width}x${window.screen.height}`,
 			userId: localStorage.getItem("userId") || "anonymous",
-			deviceId: localStorage.getItem("deviceId") || this.generateDeviceId(),
+			deviceId: generateFingerprint(),
 		};
-	}
-
-	// 生成设备唯一标识
-	generateDeviceId() {
-		const deviceId = Math.random().toString(36).slice(2, 12);
-		localStorage.setItem("deviceId", deviceId);
-		return deviceId;
 	}
 
 	// 页面级埋点：记录页面进入（开始计时）
