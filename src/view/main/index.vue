@@ -84,7 +84,7 @@
 								/>
 								<span
 									class="text"
-									v-timeFormatter:YYYY-MM-DD="item.last_edit_date"
+									v-time:YYYY-MM-DD="item.last_edit_date"
 								></span>
 							</div>
 							<div class="like flex-center">

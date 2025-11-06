@@ -40,7 +40,6 @@
 		<div class="sub-title">修改头像</div>
 		<el-upload
 			class="avatar-uploader"
-			action=""
 			:show-file-list="false"
 			:http-request="handleUpload"
 			:before-upload="beforeAvatarUpload"

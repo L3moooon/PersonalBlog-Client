@@ -77,7 +77,7 @@
 					<div>留言</div>
 				</div>
 				<div
-					@click="mention"
+					@click="goRoute('/friendship')"
 					class="flex-center func"
 				>
 					<SvgComponent
@@ -183,7 +183,7 @@
 							<div class="title">{{ item.title }}</div>
 							<div
 								class="time"
-								v-timeFormatter="item.publish_date"
+								v-time="item.publish_date"
 							></div>
 						</div>
 						<div class="bottom">

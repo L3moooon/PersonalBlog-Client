@@ -7,6 +7,7 @@ const TopScreenShow = topFlag == undefined ? true : topFlag;
 export const useThemeStore = defineStore("Theme", {
 	state: () => {
 		return {
+			isDark: false, //页面主题
 			TopScreenShow, // 顶部屏幕显示
 			screenWidth: window.innerWidth,
 			breakpoints: {
@@ -16,6 +17,10 @@ export const useThemeStore = defineStore("Theme", {
 		};
 	},
 	actions: {
+		toggleTheme() {
+			this.isDark = !this.isDark;
+			document.documentElement.classList.toggle("dark", this.isDark);
+		},
 		setTopStatus(status) {
 			this.TopScreenShow = status;
 			sessionStorage.setItem("TopScreenShow", status);

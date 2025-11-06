@@ -53,7 +53,7 @@ const scrollToSection = (id) => {
 	.toc-link {
 		display: block;
 		padding: 6px 0;
-		color: #475569;
+		color: #222;
 		text-decoration: none;
 		transition: all 0.2s ease;
 		.toc-text {

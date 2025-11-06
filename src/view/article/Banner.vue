@@ -11,7 +11,7 @@
 						alt=""
 					/>
 					发表于:
-					<span v-timeFormatter="article.publish_date"></span>
+					<span v-time="article.publish_date"></span>
 				</div>
 				<div class="info flex-center">
 					<img
@@ -19,7 +19,7 @@
 						src="@/assets/icons/update.png"
 						alt=""
 					/>更新于:
-					<span v-timeFormatter="article.last_edit_date"></span>
+					<span v-time="article.last_edit_date"></span>
 				</div>
 			</div>
 			<div class="bottom-half flex-center">
@@ -61,11 +61,12 @@ const props = defineProps({
 @media (min-width: 768px) {
 	.banner-content {
 		text-align: center;
+		overflow: hidden;
 		.title {
-			margin: 27px 0;
+			margin: 40px 0;
 			font-family: Alibaba PuHuiTi;
 			font-weight: bold;
-			font-size: 44px;
+			font-size: 40px;
 			span:first-child {
 				color: #d13c31;
 			}

@@ -56,7 +56,7 @@
 						<div class="detail">
 							<div
 								class="time"
-								v-timeFormatter="item.comment_date"
+								v-time="item.comment_date"
 							></div>
 							<div
 								class="like"

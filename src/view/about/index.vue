@@ -69,7 +69,6 @@
 <script setup>
 import GitCalendar from "./GitCalendar.vue";
 import packageJson from "../../../package.json";
-// import GitContribution from "./GitContribution.vue";
 const deps = packageJson.dependencies || {};
 const devDeps = packageJson.devDependencies || {};
 </script>
@@ -78,11 +77,11 @@ const devDeps = packageJson.devDependencies || {};
 .about-container {
 	padding: 10px;
 	.t1 {
-		font-size: 24px;
+		font-size: 40px;
 		font-weight: bold;
-		margin: 10px 0 20px 0;
-		margin-top: 10px;
-		margin-bottom: 20px;
+		// margin: 10px 0 20px 0;
+		margin-top: 30px;
+		margin-bottom: 40px;
 	}
 	.description {
 		// text-indent: 32px;
@@ -112,7 +111,7 @@ strong {
 .block {
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(auto-fill, 70px);
+	grid-template-rows: 70px;
 	gap: 5px;
 	.item {
 		background-color: antiquewhite;

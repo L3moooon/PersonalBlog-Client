@@ -26,15 +26,14 @@
 				<router-view></router-view>
 			</div>
 			<div
-				v-if="themeStore.isDesktop()"
 				class="right-container"
+				v-if="themeStore.isDesktop()"
 			>
 				<!-- 文章页-标签面板和目录面板 -->
 				<template v-if="route.path == '/article'">
 					<el-affix :offset="20">
 						<ArticleCatagory />
 					</el-affix>
-					<ScrollTool />
 				</template>
 				<!-- 其他页通用 -->
 				<template v-else>
@@ -46,6 +45,7 @@
 					</el-affix>
 				</template>
 			</div>
+			<Tool />
 		</div>
 		<MusicPlayer />
 	</div>
@@ -63,7 +63,7 @@ import TagPanel from "@/layout/basic/TagPanel.vue";
 import TypeText from "@/layout/basic/TypeText.vue";
 import TopBar from "@/layout/basic/TopBar.vue";
 import MusicPlayer from "@/components/MusicPlayer.vue";
-import ScrollTool from "@/components/ScrollTool.vue";
+import Tool from "@/components/Tool.vue";
 import { throttle } from "lodash";
 import { useThemeStore } from "@/store/theme";
 import { useUserStore } from "@/store/user";
@@ -98,15 +98,10 @@ const handleScroll = () => {
 	}
 };
 const throttledHandleScroll = throttle(handleScroll, 200);
-// 处理页面可见性变化
-const handleVisibilityChange = () => {
-	isFocus.value = !document.hidden;
-};
 
 onMounted(() => {
 	handleScroll(); //先判断一次
 	window.addEventListener("scroll", throttledHandleScroll);
-	document.addEventListener("visibilitychange", handleVisibilityChange);
 
 	proxy.$ws.emit("login", {
 		type: "login",
@@ -121,7 +116,6 @@ onMounted(() => {
 });
 onUnmounted(() => {
 	window.removeEventListener("scroll", throttledHandleScroll);
-	document.removeEventListener("visibilitychange", handleVisibilityChange);
 });
 </script>
 

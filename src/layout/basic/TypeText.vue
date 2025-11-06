@@ -29,6 +29,24 @@ const isUnmounted = ref(false); // 标记组件是否已卸载
 const timeoutTimer = ref(null);
 const intervalTimer = ref(null);
 
+const isPageVisible = ref(true); // 页面可见性状态
+// 页面隐藏时，清空内容并停止计时器
+function handleVisibilityChange() {
+	isPageVisible.value = !document.hidden;
+	if (!isPageVisible.value) {
+		if (containerElement.value) {
+			containerElement.value.textContent = "";
+		}
+		clearInterval(intervalTimer.value);
+		clearTimeout(timeoutTimer.value);
+	} else {
+		// 页面显示时，重新开始动画
+		if (containerElement.value) {
+			typePoem(text.value);
+		}
+	}
+}
+
 async function typePoem(poemArr) {
 	let i = 0;
 	while (i < poemArr.length && !isUnmounted.value) {
@@ -71,10 +89,9 @@ async function typePoem(poemArr) {
 		//console.log("开始del");
 		blinkLine.value = false;
 		let pointer = poem.length - 1;
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve) => {
 			intervalTimer.value = setInterval(() => {
 				if (isUnmounted.value) {
-					// 组件卸载时终止循环
 					clearInterval(intervalTimer.value);
 					return;
 				}
@@ -89,12 +106,14 @@ async function typePoem(poemArr) {
 	}
 }
 onMounted(() => {
+	document.addEventListener("visibilitychange", handleVisibilityChange);
 	containerElement.value = document.getElementById("type-list");
 	if (containerElement.value) {
 		typePoem(text.value);
 	}
 });
 onUnmounted(() => {
+	document.removeEventListener("visibilitychange", handleVisibilityChange);
 	isUnmounted.value = true; // 标记组件已卸载
 	containerElement.value = null;
 	clearInterval(intervalTimer.value); // 清理 setInterval
@@ -103,77 +122,62 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+//光标闪动动画
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+.text-box {
+	margin: 16px 0;
+	height: 32px;
+	line-height: 32px;
+	user-select: none;
+	.text {
+		display: inline-block;
+		height: 32px;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.line {
+		font-family: Arial, Helvetica, sans-serif;
+		display: inline-block;
+		line-height: 32px;
+		transform: scaleX(0.6);
+		vertical-align: top;
+	}
+	.blink {
+		animation: blink 0.75s ease-in-out 0s infinite;
+	}
+}
+
+// 大屏样式
 @media (min-width: 768px) {
 	.text-box {
-		user-select: none;
-		margin: 16px 0;
-		height: 32px;
-		line-height: 32px;
 		.text {
-			display: inline-block;
-			height: 32px;
-			white-space: nowrap;
 			font-size: 32px;
-			overflow: hidden;
-		}
-		@keyframes blink {
-			0% {
-				opacity: 1;
-			}
-			50% {
-				opacity: 0;
-			}
-			100% {
-				opacity: 1;
-			}
 		}
 		.line {
-			font-family: Arial, Helvetica, sans-serif;
-			display: inline-block;
-			line-height: 32px;
 			font-size: 35px;
-			transform: scaleX(0.6);
-			vertical-align: top;
-		}
-		.blink {
-			animation: blink 0.75s ease-in-out 0s infinite;
 		}
 	}
 }
 
+// 小屏样式
 @media (max-width: 768px) {
 	.text-box {
-		margin: 16px 0;
-		height: 32px;
-		line-height: 32px;
 		.text {
-			display: inline-block;
-			height: 32px;
-			white-space: nowrap;
 			font-size: 24px;
-			overflow: hidden;
-		}
-		@keyframes blink {
-			0% {
-				opacity: 1;
-			}
-			50% {
-				opacity: 0;
-			}
-			100% {
-				opacity: 1;
-			}
 		}
 		.line {
-			font-family: Arial, Helvetica, sans-serif;
-			display: inline-block;
-			line-height: 32px;
 			font-size: 26px;
-			transform: scaleX(0.6);
-			vertical-align: top;
-		}
-		.blink {
-			animation: blink 0.75s ease-in-out 0s infinite;
 		}
 	}
 }

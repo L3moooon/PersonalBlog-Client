@@ -32,6 +32,10 @@
 			v-else
 			class="noCatagory flex-center"
 		>
+			<SvgComponent
+				icon="leaf-maple"
+				className="icon"
+			/>
 			暂无目录
 		</div>
 	</div>
@@ -41,6 +45,7 @@
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import CatagoryContent from "./CatagoryContent.vue";
 import { throttle } from "lodash";
+import SvgComponent from "@/components/SvgComponent.vue";
 // 接收内容区域的选择器作为参数
 
 const observer = ref(null);
@@ -210,7 +215,11 @@ onUnmounted(() => {
 }
 .noCatagory {
 	width: 100%;
-	height: 30px;
+	// height: 30px;
+	margin: 40px 0 30px 0;
+	.icon {
+		margin-right: 10px;
+	}
 }
 .toc-header {
 	display: flex;
@@ -218,7 +227,7 @@ onUnmounted(() => {
 	margin-bottom: 10px;
 
 	.toc-title {
-		font-size: 1.25rem;
+		font-size: 20px;
 		font-weight: 600;
 		color: #1e293b;
 		margin: 0;
@@ -226,7 +235,7 @@ onUnmounted(() => {
 		align-items: center;
 
 		i {
-			margin-right: 0.5rem;
+			margin-right: 8px;
 			color: #3b82f6;
 		}
 	}
@@ -236,7 +245,7 @@ onUnmounted(() => {
 		margin-bottom: 5px;
 		position: relative;
 		.progress-text {
-			font-size: 0.875rem;
+			font-size: 14px;
 			color: #64748b;
 		}
 

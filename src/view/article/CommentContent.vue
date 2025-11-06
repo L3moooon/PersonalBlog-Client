@@ -34,7 +34,7 @@
 				<div class="detail">
 					<div
 						class="time"
-						v-timeFormatter:YYYY-MM-DD
+						v-time:YYYY-MM-DD
 						HH:mm="item.comment_date"
 					></div>
 					<div class="like">

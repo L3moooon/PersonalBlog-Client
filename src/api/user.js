@@ -15,7 +15,7 @@ export const sendTrackInfo = (data) => {
 		data,
 	});
 };
-
+//上传头像
 export const upload = (data, onUploadProgress) => {
 	return request({
 		url: "/public/upload",
@@ -24,7 +24,7 @@ export const upload = (data, onUploadProgress) => {
 		onUploadProgress,
 	});
 };
-
+//更改用户信息
 export const modifyInfo = (data) => {
 	return request({
 		url: "/web/user/modifyInfo",
