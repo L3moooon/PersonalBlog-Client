@@ -7,14 +7,27 @@
 		@mouseleave="mouseLeave"
 	>
 		<div
+			v-if="route.path == '/home'"
 			class="left flex-center"
-			@click="goRoute('/')"
 		>
 			<img
-				class="top-icon"
+				class="top-img"
 				src="@/assets/portrait.jpg"
 			/>
 			<div class="name">宵时雨</div>
+		</div>
+		<div
+			v-else
+			class="left flex-center"
+			@click="goRoute('/')"
+		>
+			<div class="back-icon">
+				<SvgComponent
+					icon="back"
+					className="icon"
+				/>
+			</div>
+			<div class="back-text">返回</div>
 		</div>
 		<div class="right flex-center">
 			<template v-if="themeStore.isDesktop()">
@@ -191,15 +204,17 @@
 
 <script setup>
 import { onMounted, ref, onUnmounted, nextTick } from "vue";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
 import { useThemeStore } from "@/store/theme";
 import { getSearchData } from "@/api/home";
+import SvgComponent from "@/components/SvgComponent.vue";
 
 let removeResizeListener;
 
 const themeStore = useThemeStore();
+const route = useRoute();
 const router = useRouter();
 const drawer = ref(false);
 const inputValue = ref("");
@@ -300,6 +315,94 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+// 公共动画定义（提取到顶部统一管理）
+@keyframes slideDown {
+	from {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+@keyframes slideUp {
+	from {
+		transform: translateY(0);
+		opacity: 1;
+	}
+	to {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+}
+@keyframes fadeInBg {
+	from {
+		background-color: rgba(0, 0, 0, 0);
+	}
+	to {
+		background-color: rgba(0, 0, 0, 0.3);
+	}
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+// 搜索结果区域样式（独立模块）
+.scroll {
+	width: calc(100% + 10px);
+	margin-top: 10px;
+}
+.result-area {
+	width: calc(100% - 10px);
+	overflow: hidden;
+	margin: 5px 0;
+}
+.circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background-color: #49b1f5;
+	.inner {
+		width: 15px;
+		height: 15px;
+		border-radius: 50%;
+		background-color: #fff;
+	}
+}
+.item {
+	cursor: pointer;
+	display: flex;
+	&:not(:last-child) {
+		margin-bottom: 10px;
+	}
+	.content {
+		width: calc(100% - 20px);
+		margin-left: 15px;
+		.top {
+			width: 100%;
+			font-size: 16px;
+			margin-bottom: 10px;
+			display: flex;
+			justify-content: space-between;
+			.title {
+			}
+			.time {
+				color: #a8abb2;
+			}
+		}
+		.bottom {
+		}
+	}
+}
+
+// 桌面端样式（≥768px）
 @media (min-width: 768px) {
 	.wrapper-placeholder {
 		width: 100%;
@@ -321,8 +424,8 @@ onUnmounted(() => {
 		z-index: 999;
 		transition: 0.3s;
 		color: white;
-		animation: slideDown 0.5s ease-out forwards;
 		background-color: rgba(0, 0, 0, 0);
+		animation: slideDown 0.5s ease-out forwards;
 		&.show {
 			animation: slideDown 0.5s ease-out forwards;
 		}
@@ -336,13 +439,17 @@ onUnmounted(() => {
 			display: flex;
 			align-items: center;
 			animation: fadeIn 0.6s ease-out;
-			.top-icon {
+			.top-img {
 				width: 50px;
 				border-radius: 5px;
 			}
+			.back-text {
+				font-size: 20px;
+				margin-left: 10px;
+			}
 			.name {
 				color: white;
-				margin: 5px 12px 0 18px;
+				margin: 0 12px 0 18px;
 			}
 		}
 		.right {
@@ -356,6 +463,8 @@ onUnmounted(() => {
 				padding: 7px 10px;
 				border-radius: 5px;
 				transition: 0.3s;
+				display: flex;
+				align-items: center;
 				&:hover {
 					background-color: #1f5a5c;
 					transition: 0.3s;
@@ -378,49 +487,8 @@ onUnmounted(() => {
 		}
 	}
 }
-.scroll {
-	width: calc(100% + 10px);
-	margin-top: 10px;
-}
-.result-area {
-	width: calc(100% - 10px);
-	overflow: hidden;
-	margin: 5px 0;
-}
-.circle {
-	width: 20px;
-	height: 20px;
-	border-radius: 50%;
-	background-color: #49b1f5;
-	.inner {
-		width: 15px;
-		height: 15px;
-		border-radius: 50%;
-		background-color: #fff;
-	}
-}
-.item:not(:last-child) {
-	margin-bottom: 10px;
-}
-.item {
-	cursor: pointer;
-}
-.content {
-	width: calc(100% - 20px);
-	margin-left: 15px;
-	.top {
-		width: 100%;
-		font-size: 16px;
-		margin-bottom: 10px;
-		.title {
-			// font-weight: bold;
-		}
-		.time {
-			color: #a8abb2;
-		}
-	}
-}
 
+// 移动端样式（≤768px）
 @media (max-width: 768px) {
 	.wrapper {
 		width: 100%;
@@ -429,80 +497,41 @@ onUnmounted(() => {
 		top: 0;
 		z-index: 999;
 		transition: 0.3s;
-	}
-	.right {
-		order: 1;
-		.mobile-menu {
-			width: 25px;
-			margin: 0 10px;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		.right {
+			order: 1;
+			.mobile-menu {
+				width: 25px;
+				margin: 0 10px;
+			}
 		}
-	}
-	.left {
-		order: 2;
-		.top-icon {
-			// order: 2;
-			width: 50px;
-			border-radius: 50%;
-			margin: 5px 10px;
+		.left {
+			order: 2;
+			display: flex;
+			align-items: center;
+			.top-img {
+				width: 50px;
+				border-radius: 50%;
+				margin: 5px 10px;
+			}
+			.name {
+				margin-right: 10px;
+			}
 		}
-		.name {
-			// order: 1;
-			margin-right: 10px;
+		.search-icon {
+			width: 20px;
+			height: 20px;
 		}
-	}
-	.search-icon {
-		width: 20px;
-		height: 20px;
-	}
-	.input {
-		width: 180px;
-		margin-left: 10px;
-	}
-}
-
-// 新增关键帧动画
-@keyframes slideDown {
-	from {
-		transform: translateY(-100%); // 从顶部隐藏位置滑入
-		opacity: 0;
-	}
-	to {
-		transform: translateY(0); // 滑到正常位置
-		opacity: 1;
-	}
-}
-
-@keyframes slideUp {
-	from {
-		transform: translateY(0); // 从正常位置滑出
-		opacity: 1;
-	}
-	to {
-		transform: translateY(-100%); // 滑到顶部隐藏
-		opacity: 0;
-	}
-}
-
-@keyframes fadeInBg {
-	from {
-		background-color: rgba(0, 0, 0, 0); // 完全透明背景
-	}
-	to {
-		background-color: rgba(0, 0, 0, 0.3); // 半透明背景
-	}
-}
-// 补充子元素淡入动画
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(-10px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
+		.input {
+			width: 180px;
+			margin-left: 10px;
+		}
 	}
 }
 </style>
+
 <style>
 .el-dialog.search-dialog {
 	width: 600px;
@@ -527,7 +556,6 @@ onUnmounted(() => {
 		}
 	}
 	.el-card {
-		/* margin-top: 10px; */
 		.el-card__body {
 			padding: 10px;
 			display: flex;

@@ -1,4 +1,3 @@
-// const target = 'http://182.92.105.35:3000'
 const target = "http://127.0.0.1:3000";
 
 module.exports = {
