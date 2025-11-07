@@ -10,7 +10,7 @@
 			>
 				<div class="cover">
 					<img
-						:src="returnCompackUrl(person.cover)"
+						:src="person.cover"
 						alt=""
 					/>
 				</div>
@@ -103,57 +103,8 @@
 
 <script setup>
 import { ref, reactive, onMounted } from "vue";
-import { returnCompackUrl } from "@/utils/url";
 import { getAllLink, applyForLink } from "@/api/friendship";
-const friends = ref([
-	{
-		id: "1",
-		name: "杨间",
-		url: "",
-		introduce: "我要荡平这世间的所有恶鬼",
-		cover: "default-cover.png",
-		email: "",
-	},
-	{
-		id: "2",
-		name: "柳三",
-		url: "",
-		introduce: "这是我的一个纸人",
-		cover: "default-cover.png",
-		email: "",
-	},
-	{
-		id: "3",
-		name: "李军",
-		url: "",
-		introduce: "借个火",
-		cover: "default-cover.png",
-		email: "",
-	},
-	{
-		id: "4",
-		name: "周登",
-		url: "",
-		introduce: "电瓶车不错",
-		cover: "default-cover.png",
-		email: "",
-	},
-	{
-		id: "5",
-		name: "卫景",
-		url: "",
-		introduce: "调停只有一次",
-		cover: "",
-		email: "",
-	},
-	{ id: "6", name: "曹洋", url: "", introduce: "", cover: "", email: "" },
-	{ id: "7", name: "陆志文", url: "", introduce: "", cover: "", email: "" },
-	{ id: "8", name: "沈林", url: "", introduce: "", cover: "", email: "" },
-	{ id: "9", name: "何银儿", url: "", introduce: "", cover: "", email: "" },
-	{ id: "10", name: "王察林", url: "", introduce: "", cover: "", email: "" },
-	{ id: "11", name: "张隼", url: "", introduce: "", cover: "", email: "" },
-	{ id: "12", name: "李乐平", url: "", introduce: "", cover: "", email: "" },
-]);
+const friends = ref([]);
 const formRef = ref(null);
 const form = reactive({
 	siteName: "",
@@ -224,7 +175,6 @@ const submitForm = () => {
 			if (code == 1) {
 				ElMessage.success("提交成功，等待审核");
 			}
-			// 可在此处重置表单：formRef.value.resetFields();
 		} else {
 			ElMessage.error("请完善表单信息后提交");
 			return false;
@@ -261,7 +211,6 @@ onMounted(() => {
 		grid-auto-rows: 100px; /* 后续自动创建的行，均为100px */
 		grid-template-rows: 100px;
 		justify-content: center;
-
 		gap: 10px;
 		.person {
 			border: 1px solid #dcdfe6;

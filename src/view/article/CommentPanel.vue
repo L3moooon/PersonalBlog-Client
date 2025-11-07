@@ -40,8 +40,8 @@
 				<div class="comment-card">
 					<div class="portrait">
 						<img
-							v-if="item.portrait"
-							:src="item.portrait"
+							v-if="item.reply_portrait"
+							:src="item.reply_portrait"
 							alt=""
 						/>
 						<img
@@ -88,8 +88,8 @@
 						>
 							<div class="reply-portrait">
 								<img
-									v-if="visitorInfo.portrait"
-									:src="visitorInfo.portrait"
+									v-if="item.reply_portrait"
+									:src="item.reply_portrait"
 									alt=""
 								/>
 								<img
@@ -128,18 +128,18 @@
 <script setup>
 import { onMounted, onUnmounted, ref, reactive, watch } from "vue";
 import { useRoute } from "vue-router";
-import CommentContent from "@/view/article/CommentContent.vue";
 import { useCommentStore } from "@/store/comment";
-
+import { useUserStore } from "@/store/user";
 import { getComments, comment, delComment } from "@/api/article";
-import SvgComponent from "@/components/SvgComponent.vue";
+import { ElMessage } from "element-plus";
+import CommentContent from "@/view/article/CommentContent.vue";
 
+const userStore = useUserStore();
 const commentStore = useCommentStore();
 const route = useRoute();
 
 const commentList = ref([]);
 const sum = ref(); //评论总数
-const visitorInfo = ref(null);
 
 const commentText = ref(""); //回复文章内容
 const replyText = ref(""); //回复评论内容
@@ -180,22 +180,24 @@ function processCommentList(comments) {
 }
 //发表评论
 const pubComment = async (content) => {
-	const { status } = await comment({
+	const { code } = await comment({
 		article_id: Number(route.query.id),
-		user_id: visitorInfo.value.id,
+		user_id: userStore.identify,
 		content,
 		parent_id: replyId.value,
 	});
-	if (status == 1) {
+	if (code == 1) {
 		ElMessage.success("发布成功");
+		showReplyBox.value = -1;
 		commentText.value = "";
 		replyText.value = "";
-		commentStore.replyFloor = false;
+		commentStore.clear();
 		getArticleComments();
 	}
 };
 //回复楼主
 const reply = (id, name) => {
+	console.log(id, name);
 	showReplyBox.value = id;
 	replyId.value = id;
 	replyTextPlaceholder.value = "回复@" + name;
@@ -210,7 +212,6 @@ const getArticleComments = async () => {
 	}
 };
 onMounted(() => {
-	visitorInfo.value = JSON.parse(localStorage.getItem("visitor"));
 	getArticleComments();
 });
 onMounted(() => {
@@ -247,11 +248,13 @@ onMounted(() => {
 			.portrait {
 				flex-shrink: 0;
 				width: 100px;
+				height: 100px;
 				display: flex;
 				justify-content: center;
 				img {
 					width: 60px;
 					height: 60px;
+					border-radius: 50%;
 					margin: 0;
 				}
 			}
@@ -292,6 +295,7 @@ onMounted(() => {
 						img {
 							width: 60px;
 							height: 60px;
+							border-radius: 50%;
 							margin-right: 15px;
 						}
 					}

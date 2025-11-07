@@ -6,8 +6,8 @@
 		<div class="comment-card">
 			<div class="portrait">
 				<img
-					v-if="item.portrait"
-					:src="item.portrait"
+					v-if="item.reply_portrait"
+					:src="item.reply_portrait"
 					alt=""
 				/>
 				<img
@@ -34,11 +34,10 @@
 				<div class="detail">
 					<div
 						class="time"
-						v-time:YYYY-MM-DD
-						HH:mm="item.comment_date"
+						v-time="item.comment_date"
 					></div>
 					<div class="like">
-						<div class="like-img"></div>
+						<SvgComponent icon="like" />
 						{{ item.like_count > 0 ? item.like_count : "" }}
 					</div>
 					<div
@@ -63,6 +62,7 @@
 import { onMounted, ref } from "vue";
 import CommentContent from "@/view/article/CommentContent.vue";
 import { useCommentStore } from "@/store/comment";
+import SvgComponent from "@/components/SvgComponent.vue";
 
 const commentStore = useCommentStore();
 const props = defineProps({
@@ -98,6 +98,7 @@ onMounted(() => {
 		img {
 			width: 30px;
 			height: 30px;
+			border-radius: 50%;
 			margin-top: 10px;
 		}
 	}
