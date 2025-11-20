@@ -4,46 +4,40 @@
 			class="card"
 			v-for="item in articleList"
 			:key="item.id"
-			@click="goRoute(item.id)"
-		>
+			@click="goRoute(item.id)">
 			<el-skeleton
 				:loading="item.isLoading"
 				animated
-				class="ske"
-			>
+				class="ske">
 				<template #template>
 					<!-- 关键修改：图片骨架加载状态 = 接口未加载完 或 图片未加载完 -->
 					<el-skeleton-item
 						variant="image"
 						class="home-cover"
-						:loading="item.isLoading || !item.imgLoaded"
-					/>
+						:loading="item.isLoading || !item.imgLoaded" />
 					<div class="content">
 						<el-skeleton-item
 							variant="text"
-							class="title-skeleton"
-						/>
+							class="title-skeleton" />
 						<div class="tag">
 							<el-skeleton-item
 								v-for="value in 3"
+								:key="value"
 								variant="text"
-								class="tag-skeleton"
-							/>
+								class="tag-skeleton" />
 						</div>
 						<el-skeleton-item
 							variant="text"
-							class="abstract-skeleton"
-						/>
+							class="abstract-skeleton" />
 						<el-skeleton-item
 							variant="text"
-							class="abstract-skeleton"
-						/>
+							class="abstract-skeleton" />
 						<div class="detail">
 							<el-skeleton-item
 								v-for="value in 3"
+								:key="value"
 								variant="text"
-								class="detail-skeleton"
-							/>
+								class="detail-skeleton" />
 						</div>
 					</div>
 				</template>
@@ -51,27 +45,23 @@
 				<template #default>
 					<div
 						class="home-cover"
-						:class="{ border: !item.cover_img }"
-					>
+						:class="{ border: !item.cover_img }">
 						<img
 							:src="item.cover_img || defaultCover"
 							alt=""
 							@load="item.imgLoaded = true"
-							@error="item.imgLoaded = true"
-						/>
+							@error="item.imgLoaded = true" />
 					</div>
 					<div class="content">
 						<div class="title">{{ item.title }}</div>
 						<div class="tag">
 							<SvgComponent
 								icon="sale"
-								className="icon"
-							/>
+								className="icon" />
 							<div
 								class="tag-item"
 								v-for="(tag, index) in item.tag"
-								:key="index"
-							>
+								:key="index">
 								<div>{{ tag.name }}</div>
 							</div>
 						</div>
@@ -80,32 +70,27 @@
 							<div class="time flex-center">
 								<SvgComponent
 									icon="time"
-									className="detail-icon"
-								/>
+									className="detail-icon" />
 								<span
 									class="text"
-									v-time:YYYY-MM-DD="item.last_edit_date"
-								></span>
+									v-time:YYYY-MM-DD="item.publish_date"></span>
 							</div>
 							<div class="like flex-center">
 								<SvgComponent
 									icon="like"
-									className="detail-icon "
-								/>
+									className="detail-icon " />
 								<span class="text">{{ item.star }}</span>
 							</div>
 							<div class="view flex-center">
 								<SvgComponent
 									icon="view-count"
-									className="detail-icon"
-								/>
+									className="detail-icon" />
 								<span class="text"> {{ item.view }}</span>
 							</div>
 							<div class="comments flex-center">
 								<SvgComponent
 									icon="comment-count"
-									className="detail-icon"
-								/>
+									className="detail-icon" />
 								<span class="text"> {{ item.comment_count }}</span>
 							</div>
 						</div>
@@ -113,8 +98,7 @@
 					<!-- 置顶 -->
 					<div
 						class="top"
-						v-if="item.top"
-					>
+						v-if="item.top">
 						置顶
 					</div>
 				</template>
@@ -123,14 +107,12 @@
 		<div
 			v-show="hasMore"
 			class="bottom-info"
-			id="loader-footer"
-		>
+			id="loader-footer">
 			加载中...
 		</div>
 		<div
 			v-if="!hasMore && articleList.length > 0"
-			class="bottom-info"
-		>
+			class="bottom-info">
 			已经到底啦!
 		</div>
 	</div>
@@ -344,11 +326,12 @@ onUnmounted(() => {
 					color: #a0a0a0;
 					display: flex;
 					align-items: center;
+					margin-right: 20px;
+					text-align: justify;
 				}
 				.detail {
 					height: 30px;
 					width: 90%;
-					// gap: 60px;
 					font-size: 15px;
 					font-weight: 200;
 					color: #a0a0a0;

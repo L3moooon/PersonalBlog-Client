@@ -4,16 +4,30 @@
 		<div class="message-list">
 			<div class="t1">留言板</div>
 			<div
-				class="message-item"
+				class="message-item flex"
 				v-for="(msg, index) in messages"
 				:key="index"
 			>
-				<div class="msg-username">{{ msg.username }}</div>
-				<div class="msg-content">{{ msg.content }}</div>
-				<div
-					class="msg-time"
-					v-time="msg.time"
-				></div>
+				<div class="portrait">
+					<img
+						:src="msg.portrait"
+						alt=""
+					/>
+				</div>
+				<div class="detail">
+					<div class="msg-username">{{ msg.name }}</div>
+
+					<div class="msg-content">{{ msg.content }}</div>
+					<div class="bottom flex">
+						<div
+							class="msg-time flex-center"
+							v-time="msg.create_time"
+						></div>
+						<div class="msg-address flex-center">
+							{{ getLocation(msg.address) }}
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- 无留言提示 -->
 			<div
@@ -50,25 +64,14 @@ import { getAllMessage, addMessage } from "@/api/message";
 import { useUserStore } from "@/store/user";
 const userStore = useUserStore();
 // 模拟留言数据（实际项目中可替换为接口请求）
-const messages = ref([
-	{
-		username: "访客A",
-		content: "这个网站的设计很有特色！",
-		time: new Date("2025-11-01 10:30:00"),
-	},
-	{
-		username: "开发者",
-		content: "欢迎大家留言交流～",
-		time: new Date("2025-11-02 15:20:00"),
-	},
-]);
+const messages = ref([]);
 
 // 新留言表单数据
 const content = ref();
 
 // 提交留言
 const submitMessage = async () => {
-	if (!newMsg.value.username || !newMsg.value.content) {
+	if (!content.value) {
 		ElMessage.error("昵称和内容不能为空");
 		return;
 	}
@@ -77,12 +80,22 @@ const submitMessage = async () => {
 		content: content.value,
 	});
 	if (code == 1) {
+		messages.value = data;
 		getList();
 		ElMessage.success("留言提交成功！");
 	}
 	content.value = "";
 };
+const getLocation = (address) => {
+	if (!address) return;
+	console.log(address);
 
+	const { country, province, city } = JSON.parse(address);
+	if (city == "内网IP") return "湖北";
+	else if (!country) return;
+	else if (country == "中国") return "" + province + city;
+	return country;
+};
 const getList = async () => {
 	const { code, data } = await getAllMessage();
 	if (code == 1) {
@@ -118,6 +131,16 @@ onMounted(() => {
 .message-item {
 	border-bottom: 1px dashed #eee;
 	padding: 10px 0;
+	.portrait {
+		img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+		}
+	}
+	.detail {
+		margin-left: 10px;
+	}
 }
 
 .msg-username {
@@ -130,10 +153,14 @@ onMounted(() => {
 	line-height: 1.5;
 	margin-bottom: 5px;
 }
-
-.msg-time {
-	font-size: 12px;
+.bottom {
+	margin-left: auto;
+	font-size: 14px;
 	color: #999;
+}
+
+.msg-address {
+	margin-left: 10px;
 }
 
 .empty-tip {

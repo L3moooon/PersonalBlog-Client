@@ -7,6 +7,7 @@
 		<div class="pubComment">
 			<el-input
 				v-model="commentText"
+				@focus="clearSelect"
 				type="textarea"
 				maxlength="400"
 				show-word-limit
@@ -88,8 +89,8 @@
 						>
 							<div class="reply-portrait">
 								<img
-									v-if="item.reply_portrait"
-									:src="item.reply_portrait"
+									v-if="userStore.portrait"
+									:src="userStore.portrait"
 									alt=""
 								/>
 								<img
@@ -188,12 +189,16 @@ const pubComment = async (content) => {
 	});
 	if (code == 1) {
 		ElMessage.success("发布成功");
-		showReplyBox.value = -1;
-		commentText.value = "";
-		replyText.value = "";
-		commentStore.clear();
+		clearSelect();
 		getArticleComments();
 	}
+};
+const clearSelect = () => {
+	showReplyBox.value = -1;
+	commentText.value = "";
+	replyText.value = "";
+	replyId.value = null;
+	commentStore.clear();
 };
 //回复楼主
 const reply = (id, name) => {

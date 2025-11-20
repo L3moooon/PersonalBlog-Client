@@ -1,7 +1,7 @@
 // 当前网站版本（根据实际版本号修改）
-const CURRENT_VERSION = "v0.8.0";
+const CURRENT_VERSION = "v0.9.1";
 // 需要清理旧数据的最低版本（例如：v1.x 及以下的旧数据需清理）
-const CLEAN_VERSION_THRESHOLD = "v0.5.0";
+const CLEAN_VERSION_THRESHOLD = "v0.8.0";
 
 // 检查并清理旧 localStorage 数据
 export function checkAndCleanLocalStorage() {
