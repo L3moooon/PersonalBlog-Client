@@ -3,15 +3,13 @@
 		<div class="title flex-vertical-center">
 			<SvgComponent
 				icon="tag"
-				className="icon"
-			/>
+				className="icon" />
 			<div class="title-text">标签云</div>
 			<SvgComponent
 				v-if="tagStore.activatedTags.size > 0"
 				@click="handleClearTags"
 				icon="filter-clear"
-				className="clear-icon"
-			/>
+				className="clear-icon" />
 		</div>
 		<div class="tag-cloud">
 			<div
@@ -20,8 +18,7 @@
 				class="tag-item"
 				:class="tagStore.activatedTags.has(tag.id) ? 'is-active' : ''"
 				type="success"
-				@click="handleShowArticlesByTag(tag.id)"
-			>
+				@click="handleShowArticlesByTag(tag.id)">
 				{{ tag.tag_name }}({{ tag.article_count }})
 			</div>
 		</div>
@@ -29,7 +26,6 @@
 </template>
 
 <script setup>
-import SvgComponent from "@/components/SvgComponent.vue";
 import { ref, onMounted } from "vue";
 import { getTagCloud } from "@/api/article";
 import { useTagStore } from "@/store/tag";

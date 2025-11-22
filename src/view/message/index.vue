@@ -6,13 +6,11 @@
 			<div
 				class="message-item flex"
 				v-for="(msg, index) in messages"
-				:key="index"
-			>
+				:key="index">
 				<div class="portrait">
 					<img
 						:src="msg.portrait"
-						alt=""
-					/>
+						alt="" />
 				</div>
 				<div class="detail">
 					<div class="msg-username">{{ msg.name }}</div>
@@ -21,8 +19,7 @@
 					<div class="bottom flex">
 						<div
 							class="msg-time flex-center"
-							v-time="msg.create_time"
-						></div>
+							v-time="msg.create_time"></div>
 						<div class="msg-address flex-center">
 							{{ getLocation(msg.address) }}
 						</div>
@@ -32,8 +29,7 @@
 			<!-- 无留言提示 -->
 			<div
 				class="empty-tip"
-				v-if="messages.length === 0"
-			>
+				v-if="messages.length === 0">
 				暂无留言，快来成为第一个留言的人吧～
 			</div>
 		</div>
@@ -45,12 +41,10 @@
 				type="textarea"
 				rows="3"
 				placeholder="请输入留言内容"
-				class="input-content"
-			/>
+				class="input-content" />
 			<el-button
 				type="primary"
-				@click="submitMessage"
-			>
+				@click="submitMessage">
 				提交留言
 			</el-button>
 		</div>

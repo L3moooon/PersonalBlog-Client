@@ -45,9 +45,7 @@
 import { ref, onMounted, onUnmounted, watch } from "vue";
 import CatagoryContent from "./CatagoryContent.vue";
 import { throttle } from "lodash";
-import SvgComponent from "@/components/SvgComponent.vue";
 // 接收内容区域的选择器作为参数
-
 const observer = ref(null);
 
 const headingTags = ["h1", "h2", "h3", "h4", "h5", "h6"];

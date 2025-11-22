@@ -4,28 +4,23 @@
 		id="topbar-menu"
 		ref="wrapperRef"
 		@mouseenter="mouseenter"
-		@mouseleave="mouseLeave"
-	>
+		@mouseleave="mouseLeave">
 		<div
 			v-if="route.path == '/home'"
-			class="left flex-center"
-		>
+			class="left flex-center">
 			<img
 				class="top-img"
-				src="@/assets/portrait.jpg"
-			/>
+				src="@/assets/portrait.jpg" />
 			<div class="name">宵时雨</div>
 		</div>
 		<div
 			v-else
 			class="left flex-center"
-			@click="goRoute('/')"
-		>
+			@click="goRoute('/')">
 			<div class="back-icon">
 				<SvgComponent
 					icon="back"
-					className="icon"
-				/>
+					className="icon" />
 			</div>
 			<div class="back-text">返回</div>
 		</div>
@@ -34,12 +29,10 @@
 				<!-- <div @click="mention">主题切换</div> -->
 				<div
 					@click="searchDialogVisible = true"
-					class="flex-center func"
-				>
+					class="flex-center func">
 					<SvgComponent
 						className="icon search-icon"
-						icon="search"
-					/>
+						icon="search" />
 					<div>搜索</div>
 				</div>
 				<!-- <el-popover
@@ -68,32 +61,26 @@
 				</el-popover> -->
 				<div
 					@click="goRoute('/message')"
-					class="flex-center func"
-				>
+					class="flex-center func">
 					<SvgComponent
 						className="icon"
-						icon="send"
-					/>
+						icon="send" />
 					<div>留言</div>
 				</div>
 				<div
 					@click="goRoute('/friendship')"
-					class="flex-center func"
-				>
+					class="flex-center func">
 					<SvgComponent
 						className="icon"
-						icon="link"
-					/>
+						icon="link" />
 					<div>友情链接</div>
 				</div>
 				<div
 					@click="goRoute('/about')"
-					class="flex-center func"
-				>
+					class="flex-center func">
 					<SvgComponent
 						className="icon"
-						icon="document"
-					/>
+						icon="document" />
 					<div>关于</div>
 				</div>
 			</template>
@@ -102,18 +89,15 @@
 					class="mobile-menu"
 					src="@/assets/icons/catalogue.png"
 					alt=""
-					@click="drawer = true"
-				/>
+					@click="drawer = true" />
 				<el-input
 					v-model="inputValue"
 					class="input"
-					placeholder="搜索本站"
-				>
+					placeholder="搜索本站">
 					<template #prefix>
 						<SvgComponent
 							className="icon"
-							icon="search"
-						/>
+							icon="search" />
 					</template>
 				</el-input>
 				<el-drawer
@@ -121,8 +105,7 @@
 					direction="ltr"
 					size="50%"
 					title="I am the title"
-					:lock-scroll="false"
-				>
+					:lock-scroll="false">
 					<span>Hi there!</span>
 				</el-drawer>
 			</template>
@@ -130,21 +113,18 @@
 	</div>
 	<div
 		class="wrapper-placeholder"
-		@mouseenter="placeholderMouseenter"
-	></div>
+		@mouseenter="placeholderMouseenter"></div>
 	<el-dialog
 		v-model="searchDialogVisible"
 		:lock-scroll="false"
 		:show-close="false"
-		class="search-dialog"
-	>
+		class="search-dialog">
 		<template #title>
 			<div class="title-text">搜索</div>
 			<div class="shortcut-container">
 				<SvgComponent
 					className="search-icon shortcut"
-					icon="shortcut"
-				/>
+					icon="shortcut" />
 				CTRL+K
 			</div>
 		</template>
@@ -153,27 +133,24 @@
 			@input="throttleHandleSearch"
 			class="input"
 			:autofocus="true"
-			placeholder="搜索本站"
-		>
+			placeholder="搜索本站">
 			<template #prefix>
 				<SvgComponent
 					className="icon search-icon"
-					icon="search"
-				/>
+					icon="search" />
 			</template>
 		</el-input>
 		<el-scrollbar
 			height="400"
 			v-loading="loading"
 			v-if="searchList.length"
-			class="scroll"
-		>
+			class="scroll">
 			<div class="result-area">
 				<el-card
 					class="item flex"
 					v-for="item in searchList"
-					@click="handleSearchClick(item.id)"
-				>
+					:key="item.id"
+					@click="handleSearchClick(item.id)">
 					<div class="circle flex-center">
 						<div class="inner"></div>
 					</div>
@@ -183,8 +160,7 @@
 							<div class="title">{{ item.title }}</div>
 							<div
 								class="time"
-								v-time="item.publish_date"
-							></div>
+								v-time="item.publish_date"></div>
 						</div>
 						<div class="bottom">
 							{{ item.abstract }}
@@ -197,8 +173,7 @@
 
 		<el-empty
 			v-else
-			description="暂无内容"
-		/>
+			description="暂无内容" />
 	</el-dialog>
 </template>
 
@@ -209,7 +184,6 @@ import { throttle } from "lodash";
 import { ElMessage } from "element-plus";
 import { useThemeStore } from "@/store/theme";
 import { getSearchData } from "@/api/home";
-import SvgComponent from "@/components/SvgComponent.vue";
 
 let removeResizeListener;
 

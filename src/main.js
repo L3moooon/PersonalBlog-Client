@@ -5,7 +5,6 @@ import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import Tracker from "./utils/tracker";
 import WebSocketService from "./utils/webSocket";
 import directives from "./directives";
-
 import SvgComponent from "@/components/SvgComponent.vue";
 
 import { createApp } from "vue";

@@ -3,15 +3,13 @@
 		<div
 			class="info"
 			@mousemove="cardTransform"
-			@mouseleave="resetCardTransform"
-		>
+			@mouseleave="resetCardTransform">
 			<div class="img-container flex-center">
 				<img
 					ref="imgRef"
 					:src="userStore.portrait || anonymous"
 					id="card-img"
-					class="card-img"
-				/>
+					class="card-img" />
 			</div>
 
 			<div class="name flex-center">
@@ -19,8 +17,7 @@
 				<SvgComponent
 					@click="dialogVisible = true"
 					icon="edit"
-					className="icon"
-				></SvgComponent>
+					className="icon"></SvgComponent>
 			</div>
 			<div class="greeting">
 				{{ getGreeting() }}
@@ -35,20 +32,17 @@
 		title="修改个人信息"
 		width="500"
 		append-to-body
-		:lock-scroll="false"
-	>
+		:lock-scroll="false">
 		<div class="sub-title">修改头像</div>
 		<el-upload
 			class="avatar-uploader"
 			:show-file-list="false"
 			:http-request="handleUpload"
-			:before-upload="beforeAvatarUpload"
-		>
+			:before-upload="beforeAvatarUpload">
 			<img
 				class="avatar-uploader-icon"
 				v-if="fileUrl"
-				:src="fileUrl"
-			/>
+				:src="fileUrl" />
 			<el-icon
 				v-else
 				class="avatar-uploader-icon"
@@ -58,16 +52,14 @@
 		<div class="sub-title">修改昵称</div>
 		<el-input
 			placeholder="请输入新昵称"
-			v-model="newName"
-		></el-input>
+			v-model="newName"></el-input>
 		<template #footer>
 			<div class="dialog-footer">
 				<el-button @click="dialogVisible = false">取消</el-button>
 				<el-button
 					:disabled="!newName && !fileUrl"
 					type="primary"
-					@click="handleModifyUserInfo"
-				>
+					@click="handleModifyUserInfo">
 					确认修改
 				</el-button>
 			</div>
@@ -83,7 +75,6 @@ import { ElMessage } from "element-plus";
 import { Plus } from "@element-plus/icons-vue";
 import { upload } from "@/api/user";
 import anonymous from "@/assets/icons/personal.png";
-import SvgComponent from "@/components/SvgComponent.vue";
 
 const userStore = useUserStore();
 const dialogVisible = ref(false);

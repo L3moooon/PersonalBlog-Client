@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import "./styles/reset.scss";
-import "@/styles/public.scss"; //公共样式
+import "@/styles/public.scss";
 import "element-plus/dist/index.css";
 </script>
 

@@ -1,20 +1,17 @@
 <template>
 	<div
 		v-for="item in props.data"
-		:key="item.id"
-	>
+		:key="item.id">
 		<div class="comment-card">
 			<div class="portrait">
 				<img
 					v-if="item.reply_portrait"
 					:src="item.reply_portrait"
-					alt=""
-				/>
+					alt="" />
 				<img
 					v-else
 					src="@/assets/icons/personal.png"
-					alt=""
-				/>
+					alt="" />
 			</div>
 			<div class="info">
 				<div class="content">
@@ -23,8 +20,7 @@
 						回复
 						<span
 							@click="returnPos"
-							class="name parent_name"
-						>
+							class="name parent_name">
 							{{ item.parent_name }}
 						</span>
 					</template>
@@ -34,16 +30,14 @@
 				<div class="detail">
 					<div
 						class="time"
-						v-time="item.comment_date"
-					></div>
+						v-time="item.comment_date"></div>
 					<div class="like">
 						<SvgComponent icon="like" />
 						{{ item.like_count > 0 ? item.like_count : "" }}
 					</div>
 					<div
 						class="reply"
-						@click="reply(item.id, item.reply_name)"
-					>
+						@click="reply(item.id, item.reply_name)">
 						回复
 					</div>
 				</div>
@@ -53,8 +47,7 @@
 			v-if="item.children && item.children.length"
 			:data="item.children"
 			:rootId="props.rootId"
-			:articleId="props.articleId"
-		></CommentContent>
+			:articleId="props.articleId"></CommentContent>
 	</div>
 </template>
 
@@ -62,7 +55,6 @@
 import { onMounted, ref } from "vue";
 import CommentContent from "@/view/article/CommentContent.vue";
 import { useCommentStore } from "@/store/comment";
-import SvgComponent from "@/components/SvgComponent.vue";
 
 const commentStore = useCommentStore();
 const props = defineProps({

@@ -124,7 +124,6 @@ import { getHomeData } from "@/api/home";
 import { useRouter } from "vue-router";
 import { useTagStore } from "@/store/tag";
 import defaultCover from "@/assets/img/default-cover.png";
-import SvgComponent from "@/components/SvgComponent.vue";
 
 const tagStore = useTagStore();
 const router = useRouter();
@@ -165,7 +164,6 @@ const getArticleList = async () => {
 	);
 	articleList.value = [...articleList.value, ...placeholderList];
 	try {
-		//console.log(pagination_info.pageNo, pagination_info.pageSize);
 		const { data, code, pagination } = await getHomeData({
 			tags: [...tagStore.activatedTags],
 			pageNo: pagination_info.pageNo,
