@@ -105,10 +105,16 @@
 			</el-skeleton>
 		</div>
 		<div
-			v-show="hasMore"
+			v-show="hasMore && !isError"
 			class="bottom-info"
 			id="loader-footer">
 			加载中...
+		</div>
+		<div
+			v-if="isError"
+			class="bottom-info"
+			@click="getArticleList">
+			<span style="cursor: pointer; color: #ff4d4f">加载失败，点击重试</span>
 		</div>
 		<div
 			v-if="!hasMore && articleList.length > 0"
@@ -132,6 +138,7 @@ const articleList = ref([]);
 const observer = ref(null);
 const loadingMore = ref(false); // 控制当前是否正在请求（防重复）
 const hasMore = ref(true); // 控制是否还有更多数据
+const isError = ref(false); // 控制请求是否出错
 
 const loaderFooterDom = ref(null);
 
@@ -153,6 +160,7 @@ watch(
 const getArticleList = async () => {
 	if (loadingMore.value || !hasMore.value) return;
 	loadingMore.value = true;
+	isError.value = false;
 	// 插入占位数据：数量=每页条数，标记isLoading=true
 	const placeholderList = Array.from(
 		{ length: pagination_info.pageSize },
@@ -197,6 +205,7 @@ const getArticleList = async () => {
 	} catch (error) {
 		console.error("文章列表请求失败：", error);
 		articleList.value = articleList.value.filter((item) => !item.isLoading);
+		isError.value = true;
 	} finally {
 		loadingMore.value = false; // 重置请求状态
 	}
@@ -212,7 +221,7 @@ const initObserver = () => {
 		(entries) => {
 			entries.forEach((entry) => {
 				// 元素进入视口（含提前200px）时触发加载
-				if (entry.isIntersecting) {
+				if (entry.isIntersecting && !isError.value) {
 					getArticleList();
 				}
 			});

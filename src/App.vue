@@ -2,8 +2,8 @@
 	<router-view></router-view>
 </template>
 <script setup>
-import "./styles/reset.scss";
-import "@/styles/public.scss";
+import "@/style/reset.scss";
+import "@/style/public.scss";
 import "element-plus/dist/index.css";
 </script>
 

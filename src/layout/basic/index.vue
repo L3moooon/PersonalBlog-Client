@@ -1,21 +1,18 @@
 <template>
 	<div
 		class="container"
-		id="home-img-container"
-	>
+		id="home-img-container">
 		<div class="top">
 			<TopBar />
 			<div
 				v-if="themeStore.TopScreenShow && route.path == '/home'"
-				class="main"
-			>
+				class="main">
 				<div class="name">欢迎来访</div>
 				<TypeText v-if="isFocus"></TypeText>
 				<button
 					v-track="{ info: '主页下拉' }"
 					@click="turnDownPage"
-					class="button"
-				>
+					class="button">
 					主页
 				</button>
 			</div>
@@ -27,8 +24,7 @@
 			</div>
 			<div
 				class="right-container"
-				v-if="themeStore.isDesktop()"
-			>
+				v-if="themeStore.isDesktop()">
 				<!-- 文章页-标签面板和目录面板 -->
 				<template v-if="route.path == '/article'">
 					<el-affix :offset="20">
